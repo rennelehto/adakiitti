@@ -1,1 +1,1 @@
-print("MIAU")
+print("MIAU HAU")
