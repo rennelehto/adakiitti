@@ -1,2 +1,2 @@
 print("MIAU HAU")
-print("'ÄLÄ JAKSA")
+print("'ÄLÄ JAKSAA")
