@@ -11,7 +11,7 @@ def kysely():
     tulos = kursori.fetchall()
     if kursori.rowcount > 0:
         for rivi in tulos:
-            lista.append(rivi)
+            lista.append(rivi[0])
     return
 
 yhteys = mysql.connector.connect(
@@ -32,7 +32,7 @@ while määrä < 10:
 print(valitut)
 print(lista)
 
-#Tähän saakka toimii
+#Kivikoodi
 
 kivet = 5
 
