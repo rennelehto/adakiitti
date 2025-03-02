@@ -2,20 +2,31 @@ import random
 
 
 
-def kiviarpa(kiviä):
+def kenttäarpa(kiviä):
     if kivet >0:
-        tulos = int = random.randint(0, 1)
-        if tulos == 1:
-            kiviä = kiviä - 1
-
-    return kiviä
-
+        tulos = random.randint(0, 1)
+    return tulos
+def kiviarpa(määrä):
+    määrä = random.randint(1,6)
+    return määrä
 
 kivet = 5
 kerätyt_kivet=0
-if kivet > 0:
-    kiviarpa(kivet)
-    print(kivet)
-else:
-    print(kivet)
-    print(kerätyt_kivet)
+
+tulos = kenttäarpa(kivet)
+if tulos == 1:
+    kivet = kivet - 1
+    kerätyt_kivet = kerätyt_kivet + kiviarpa(kerätyt_kivet)
+
+
+print(kivet)
+print(kerätyt_kivet)
+
+#if kivet > 0:
+
+#else:
+ #   print(kivet)
+  #  print(kerätyt_kivet)
+
+#kerättyjä = kerättyjä + random.randint(1, 6)
+#print(kerätyt_kivet)
