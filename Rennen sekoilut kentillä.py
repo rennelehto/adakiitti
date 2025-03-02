@@ -43,3 +43,16 @@ while kivet > 0:
         kivet = kivet - 1
     else:
         print('Ei kiviä')
+
+kivet = 5
+kerätyt_kivet=0
+
+def kiviarpa(kivet):
+    if kivet >0:
+        tulos = random.randint(0, 1)
+        if tulos == 1:
+            kerätyt_kivet = kerätyt_kivet + random.randint(1, 6)
+            print(kerätyt_kivet)
+            kivet = kivet - 1
+        else:
+            print('Ei kiviä')

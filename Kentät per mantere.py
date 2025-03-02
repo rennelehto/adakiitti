@@ -134,12 +134,12 @@ while määräSA < 15:
     määräSA=määräSA+1
 
 #print(valitut_kentätEU)
-print(f'✈ Euroopan kenttiä listassa {len(valitut_kentätEU)} kpl.')
-print(f'✈ Afrikan kenttiä listassa {len(valitut_kentätAF)} kpl.')
-print(f'✈ Aasian kenttiä listassa {len(valitut_kentätAS)} kpl.')
-print(f'✈ Oseanian kenttiä listassa {len(valitut_kentätOC)} kpl.')
-print(f'✈ Pohjois-Amerikan kenttiä listassa {len(valitut_kentätNA)} kpl.')
-print(f'✈ Etelä-Amerikan kenttiä listassa {len(valitut_kentätSA)} kpl.')
+print(f'{'✈':6} Euroopan kenttiä listassa {len(valitut_kentätEU)} kpl.')
+print(f'{'✈':6} Afrikan kenttiä listassa {len(valitut_kentätAF)} kpl.')
+print(f'{'✈':6} Aasian kenttiä listassa {len(valitut_kentätAS)} kpl.')
+print(f'{'✈':6} Oseanian kenttiä listassa {len(valitut_kentätOC)} kpl.')
+print(f'{'✈':6} Pohjois-Amerikan kenttiä listassa {len(valitut_kentätNA)} kpl.')
+print(f'{'✈':6} Etelä-Amerikan kenttiä listassa {len(valitut_kentätSA)} kpl.')
 
 pelattavat_kentät=[]
 pelattavat_kentät.extend(valitut_kentätEU)
@@ -148,9 +148,11 @@ pelattavat_kentät.extend(valitut_kentätAS)
 pelattavat_kentät.extend(valitut_kentätOC)
 pelattavat_kentät.extend(valitut_kentätNA)
 pelattavat_kentät.extend(valitut_kentätSA)
-print('✈ ✈ ✈ ✈ ✈')
-print(f'✈ Pelattavia kenttiä {len(pelattavat_kentät)} kpl.')
-print('✈ ✈ ✈ ✈ ✈')
+print()
+print(f'{'✈ ':6}✈      ✈      ✈ {'✈':>6}')
+print(f'✈ Pelattavia kenttiä {len(pelattavat_kentät)} kpl. ✈')
+print(f'{'✈ ':6}✈      ✈      ✈ {'✈':>6}')
+print()
 
 #Tästä eteenpäin kokeilua
 def kenttähaku():
@@ -163,6 +165,8 @@ def kenttähaku():
             print('Airport name: ' + rivi[0] + '.')
             print('Location: ' + rivi[1] + '.')
     return
+
 kenttähaku()
-print('✈ Bon voyage! ✈')
+print()
+print(f'{'✈':6} Bon voyage! {'✈':>6}')
 
