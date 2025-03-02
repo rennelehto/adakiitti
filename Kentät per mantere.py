@@ -1,9 +1,11 @@
 import mysql.connector
 import random
 
-#Tähän listaan tulee kentän "Ident" -tunnus, Euroopassa on 118 suurta kenttää.
-lista_kentistäEU=[]
+#Näihin listoihin tulee kenttien "Ident" -tunnukset.
 
+#Euroopassa on 118 suurta kenttää.
+
+lista_kentistäEU=[]
 def kenttäkyselyEU():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'EU' and airport.type = 'large_airport'"
     #print(sql)
@@ -15,7 +17,7 @@ def kenttäkyselyEU():
             lista_kentistäEU.append(rivi[0])
     return
 
-#Tähän listaan tulee kentän "Ident" -tunnus, Afrikassa on 45 suurta kenttää.
+#Afrikassa on 45 suurta kenttää.
 lista_kentistäAF=[]
 
 def kenttäkyselyAF():
@@ -28,7 +30,7 @@ def kenttäkyselyAF():
         for rivi in tulos:
             lista_kentistäAF.append(rivi[0])
     return
-#Tähän listaan tulee kentän "Ident" -tunnus, Aasiassa on 137 suurta kenttää.
+#Aasiassa on 137 suurta kenttää.
 lista_kentistäAS=[]
 
 def kenttäkyselyAS():
@@ -41,7 +43,7 @@ def kenttäkyselyAS():
         for rivi in tulos:
             lista_kentistäAS.append(rivi[0])
     return
-#Tähän listaan tulee kentän "Ident" -tunnus, Oseaniassa on 17 suurta kenttää.
+#Oseaniassa on 17 suurta kenttää.
 lista_kentistäOC=[]
 def kenttäkyselyOC():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'OC' and airport.type = 'large_airport'"
@@ -54,7 +56,7 @@ def kenttäkyselyOC():
             lista_kentistäOC.append(rivi[0])
     return
 
-#Tähän listaan tulee kentän "Ident" -tunnus, Pohjois-Amerikassa on 112 suurta kenttää.
+#Pohjois-Amerikassa on 112 suurta kenttää.
 lista_kentistäNA=[]
 def kenttäkyselyNA():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'NA' and airport.type = 'large_airport'"
@@ -66,7 +68,7 @@ def kenttäkyselyNA():
         for rivi in tulos:
             lista_kentistäNA.append(rivi[0])
     return
-#Tähän listaan tulee kentän "Ident" -tunnus, Etelä-Amerikassa on 22 suurta kenttää.
+#Etelä-Amerikassa on 22 suurta kenttää.
 lista_kentistäSA=[]
 def kenttäkyselySA():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'SA' and airport.type = 'large_airport'"
