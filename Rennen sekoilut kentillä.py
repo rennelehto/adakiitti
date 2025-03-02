@@ -32,3 +32,14 @@ while määrä < 10:
 print(valitut)
 print(lista)
 
+#Tähän saakka toimii
+
+kivet = 5
+
+while kivet > 0:
+    tulos = random.randint(0,1)
+    if tulos == 1:
+        print(kivet)
+        kivet = kivet - 1
+    else:
+        print('Ei kiviä')
