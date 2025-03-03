@@ -88,7 +88,7 @@ yhteys = mysql.connector.connect(
         user='python',
         password='1232',
         autocommit=True)
-
+#Nämä funktiot tuo kaikki valittujen mantereiden kentät omiksi listoikseen.
 kenttäkyselyEU()
 kenttäkyselyAF()
 kenttäkyselyAS()
@@ -97,6 +97,7 @@ kenttäkyselyNA()
 kenttäkyselySA()
 #print(lista_kentistä)
 
+#Seuraavat pätkät arpoo 15 kenttää per mantere listalle.
 valitut_kentätEU=[]
 määräEU = 0
 while määräEU < 15:
@@ -141,6 +142,7 @@ print(f'{'✈':6} Oseanian kenttiä listassa {len(valitut_kentätOC)} kpl.')
 print(f'{'✈':6} Pohjois-Amerikan kenttiä listassa {len(valitut_kentätNA)} kpl.')
 print(f'{'✈':6} Etelä-Amerikan kenttiä listassa {len(valitut_kentätSA)} kpl.')
 
+#Tässä valitut kentät yhdistyy yhdeksi listaksi kenttiä, joille pelaajalla on pääsy.
 pelattavat_kentät=[]
 pelattavat_kentät.extend(valitut_kentätEU)
 pelattavat_kentät.extend(valitut_kentätAF)
