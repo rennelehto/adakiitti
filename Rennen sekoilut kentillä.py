@@ -1,6 +1,6 @@
 import mysql.connector
 import random
-
+'''
 #Tähän kokeiluun otin Suomen keskikokoiset kentät ja arvoin niistä 10 listalle.
 lista=[]
 def kysely():
@@ -55,4 +55,20 @@ def kiviarpa(kivet):
             print(kerätyt_kivet)
             kivet = kivet - 1
         else:
-            print('Ei kiviä')
+            print('Ei kiviä')'''
+'''
+def pelaajat():
+    nimimerkki = input("Ole hyvä ja syötä nimesi: ")
+    sql = f"insert into peli (nimi) values ('{nimimerkki}')"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    return
+
+yhteys = mysql.connector.connect(
+      #  host='127.0.0.1',
+      #  port=3306,
+        database='flight_game',
+        user='python',
+        password='1232',
+        autocommit=True)
+pelaajat()'''

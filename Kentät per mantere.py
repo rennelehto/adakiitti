@@ -109,15 +109,15 @@ määräAF = 0
 while määräAF < 15:
     maa=lista_kentistäAF[random.randint(0, 44)]
     if maa not in lista_kentistäAF:
-        valitut_kentätAF.append(lista_kentistäAF[random.randint(0, 44)])
+        valitut_kentätAF.append(maa)
         määräAF=määräAF+1
 
 valitut_kentätAS=[]
 määräAS = 0
 while määräAS < 15:
-    maa = lista_kentistäAS[random.randint(0, 44)]
+    maa = lista_kentistäAS[random.randint(0, 36)]
     if maa not in lista_kentistäAS:
-        valitut_kentätAS.append(lista_kentistäAS[random.randint(0, 44)])
+        valitut_kentätAS.append(maa)
         määräAS = määräAS + 1
 
 valitut_kentätOC=[]
@@ -125,23 +125,23 @@ määräOC = 0
 while määräOC < 15:
     maa = lista_kentistäOC[random.randint(0, 44)]
     if maa not in lista_kentistäOC:
-        valitut_kentätOC.append(lista_kentistäOC[random.randint(0, 44)])
+        valitut_kentätOC.append(maa)
         määräOC = määräOC + 1
 
 valitut_kentätNA=[]
 määräNA = 0
 while määräNA < 15:
-    maa = lista_kentistäNA[random.randint(0, 44)]
+    maa = lista_kentistäNA[random.randint(0, 107)]
     if maa not in lista_kentistäNA:
-        valitut_kentätNA.append(lista_kentistäNA[random.randint(0, 44)])
+        valitut_kentätNA.append(maa)
         määräNA = määräNA + 1
 
 valitut_kentätSA=[]
 määräSA = 0
 while määräSA < 15:
-    maa = lista_kentistäSA[random.randint(0, 44)]
+    maa = lista_kentistäSA[random.randint(0, 21)]
     if maa not in lista_kentistäSA:
-        valitut_kentätSA.append(lista_kentistäSA[random.randint(0, 44)])
+        valitut_kentätSA.append(maa)
         määräSA = määräSA + 1
 
 

@@ -26,15 +26,20 @@ yhteys = mysql.connector.connect(
 kenttäkysely()
 
 #Tähän listaan tulee peliin arvotut kentät.
+
 valitut_kentät=[]
 määrä = 0
 while määrä < 10:
-    valitut_kentät.append(lista_kentistä[random.randint(0, 29)])
-    määrä=määrä+1
+    maa = lista_kentistä[random.randint(0, 29)]
+    if maa not in valitut_kentät:
+        valitut_kentät.append(maa)
+        määrä=määrä+1
+
 print(valitut_kentät)
+
 #(k1, k2, k3, k4, k5, k6, k7, k8, k9, k10) = valitut_kentät
 #print(k1)
-
+'''
 def kenttähaku():
     sql = f'SELECT name FROM airport WHERE ident = "{valitut_kentät[0]}"'
     kursori = yhteys.cursor()
@@ -55,7 +60,7 @@ yhteys = mysql.connector.connect(
 
 kenttähaku()
 
-
+'''
 
 
 
