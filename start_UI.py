@@ -171,11 +171,11 @@ kenttähaku()
 print()
 
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
-def pelaajat(nimi):
-    sql = f"insert into peli (nimi) value {pelaajan_nimi}"
+def pelaajat(nimesi):
+    sql = f"insert into peli (nimi) values (peli.nimi)"
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    return pelaajan_nimi
+    return
 
 
 def peli_alkaa():
@@ -286,7 +286,7 @@ def peli_alkaa():
                 numero = numero + 1
         break
 
-#pelaajat(pelaajan_nimi)
+pelaajat(pelaajan_nimi)
 peli_alkaa()
 alkupiste = int(input(": "))
 #if alkupiste in pelattavat_kentät:
