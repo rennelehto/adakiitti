@@ -12,6 +12,7 @@ def kenttäarpa(kiviä):
     return tulos
 
 #Jos on, arvotaan toisella funktiolla sen "arvo", tässä 1-6 (voi muuttaa vielä).
+#"Iso" kivi on kaksi kertaa pientä arvokkaampi, eli nopan tulos kerrotaan kahdella.
 def kiviarpa(määrä):
     määrä = random.randint(1,6)
     return määrä
@@ -30,7 +31,7 @@ if tulos == 6:
     isot_kivet = isot_kivet - 1
     kerätyt_kivet = kerätyt_kivet + kiviarpa(kerätyt_kivet) * 2
     print('Löysit suuren kiven!')
-if tulos in range(1, 5):
+if tulos in range(3, 5):
     kivet = kivet - 1
     pienet_kivet = pienet_kivet - 1
     kerätyt_kivet = kerätyt_kivet + kiviarpa(kerätyt_kivet)
