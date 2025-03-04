@@ -1,6 +1,8 @@
 import mysql.connector
 import random
 
+#                             MUISTAKAA VAIHTAA OMAT TIETOKANTATUNNUKSET!!
+
 #Näihin listoihin tulee nyt kenttien nimet.
 
 #Euroopassa on 118 suurta kenttää.
