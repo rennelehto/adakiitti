@@ -1,7 +1,7 @@
 import mysql.connector
 import random
 
-#Näihin listoihin tulee kenttien nyt kenttien nimet.
+#Näihin listoihin tulee nyt kenttien nimet.
 
 #Euroopassa on 118 suurta kenttää.
 
