@@ -1,6 +1,6 @@
 import random
 
-
+print(" ")
 print("                                                                                         Adakite--Adakiitti")
 print("Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
 Pelin_aloitus = int(input(                          #Vastaus valinta
@@ -79,8 +79,7 @@ Alkupiste = int(input(
                 f"\n5. {kenttä5}"
                 "\n: "))
 
-print(pelattavat_kentät)
-print(pelattavat_kentät2)
+
 
 
 
