@@ -56,7 +56,7 @@ def kenttäkyselyOC():
             lista_kentistäOC.append(rivi[0])
     return
 
-#Pohjois-Amerikassa on 112 suurta kenttää.
+#Pohjois-Amerikassa on 108 suurta kenttää.
 lista_kentistäNA=[]
 def kenttäkyselyNA():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'NA' and airport.type = 'large_airport'"
@@ -107,32 +107,42 @@ while määräEU < 15:
 valitut_kentätAF=[]
 määräAF = 0
 while määräAF < 15:
-    valitut_kentätAF.append(lista_kentistäAF[random.randint(0, 44)])
-    määräAF=määräAF+1
+    maa=lista_kentistäAF[random.randint(0, 44)]
+    if maa not in lista_kentistäAF:
+        valitut_kentätAF.append(lista_kentistäAF[random.randint(0, 44)])
+        määräAF=määräAF+1
 
 valitut_kentätAS=[]
 määräAS = 0
 while määräAS < 15:
-    valitut_kentätAS.append(lista_kentistäAS[random.randint(0, 136)])
-    määräAS=määräAS+1
+    maa = lista_kentistäAS[random.randint(0, 44)]
+    if maa not in lista_kentistäAS:
+        valitut_kentätAS.append(lista_kentistäAS[random.randint(0, 44)])
+        määräAS = määräAS + 1
 
 valitut_kentätOC=[]
 määräOC = 0
 while määräOC < 15:
-    valitut_kentätOC.append(lista_kentistäOC[random.randint(0, 16)])
-    määräOC=määräOC+1
+    maa = lista_kentistäOC[random.randint(0, 44)]
+    if maa not in lista_kentistäOC:
+        valitut_kentätOC.append(lista_kentistäOC[random.randint(0, 44)])
+        määräOC = määräOC + 1
 
 valitut_kentätNA=[]
 määräNA = 0
 while määräNA < 15:
-    valitut_kentätNA.append(lista_kentistäNA[random.randint(0, 111)])
-    määräNA=määräNA+1
+    maa = lista_kentistäNA[random.randint(0, 44)]
+    if maa not in lista_kentistäNA:
+        valitut_kentätNA.append(lista_kentistäNA[random.randint(0, 44)])
+        määräNA = määräNA + 1
 
 valitut_kentätSA=[]
 määräSA = 0
 while määräSA < 15:
-    valitut_kentätSA.append(lista_kentistäNA[random.randint(0, 21)])
-    määräSA=määräSA+1
+    maa = lista_kentistäSA[random.randint(0, 44)]
+    if maa not in lista_kentistäSA:
+        valitut_kentätSA.append(lista_kentistäSA[random.randint(0, 44)])
+        määräSA = määräSA + 1
 
 #print(valitut_kentätEU)
 print(f'{'✈':6} Euroopan kenttiä listassa {len(valitut_kentätEU)} kpl.')
