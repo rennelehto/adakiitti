@@ -82,10 +82,10 @@ def kenttäkyselySA():
     return
 
 yhteys = mysql.connector.connect(
-      #  host='127.0.0.1',
+       # host='127.0.0.1',
       #  port=3306,
         database='flight_game',
-        user='eliell2',
+        user='root',
         password='gr0ups',
         autocommit=True)
 
@@ -170,15 +170,19 @@ def kenttähaku():
 kenttähaku()
 print()
 
+pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
+def pelaajat(nimi):
+    sql = f"insert into peli (nimi) value {pelaajan_nimi}"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    return pelaajan_nimi
+
 
 def peli_alkaa():
     print(" ")
     print("                                                                                         Adakite--Adakiitti")
+    print(" ")
     print("Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
-
-
-
-
 
     Pelin_aloitus = int(input(                          #Vastaus valinta
                     "\n1. Asia selvä. "
@@ -282,6 +286,7 @@ def peli_alkaa():
                 numero = numero + 1
         break
 
+#pelaajat(pelaajan_nimi)
 peli_alkaa()
 alkupiste = int(input(": "))
 #if alkupiste in pelattavat_kentät:
