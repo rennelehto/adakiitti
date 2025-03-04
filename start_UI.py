@@ -170,9 +170,10 @@ def kenttähaku():
 kenttähaku()
 print()
 
-pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
-def pelaajat(nimesi):
-    sql = f"insert into peli (nimi) values (peli.nimi)"
+
+def pelaajat():
+    pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
+    sql = f"insert into peli (nimi) values ('{pelaajan_nimi}')"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     return
@@ -286,7 +287,7 @@ def peli_alkaa():
                 numero = numero + 1
         break
 
-pelaajat(pelaajan_nimi)
+pelaajat()
 peli_alkaa()
 alkupiste = int(input(": "))
 #if alkupiste in pelattavat_kentät:
