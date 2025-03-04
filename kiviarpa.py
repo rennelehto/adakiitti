@@ -1,7 +1,7 @@
 import random
 
 #Tein nyt niin että kentällä ei ole valmiina kiveä, vaan kentälle saavuttaessa arvotaan onko se siellä.
-#Ei vaikuta pelimekaniikkaan, mut selkeyttää koodia imo ku ei tarvii tehä kentistä vielä sanakirjaa.
+#Ei vaikuta pelimekaniikkaan, mut selkeyttää koodia imo ku ei tarvii tehä kentistä sanakirjaa.
 
 
 
@@ -16,14 +16,33 @@ def kiviarpa(määrä):
     määrä = random.randint(1,6)
     return määrä
 
-kivet = 5
+#Pääkoodi
+kivet = 20
+
+pienet_kivet = 15
+isot_kivet = 5
+
 kerätyt_kivet=0
 
-#Pääkoodi
 tulos = kenttäarpa(kivet)
+if tulos == 6:
+    kivet = kivet - 1
+    isot_kivet = isot_kivet - 1
+    kerätyt_kivet = kerätyt_kivet + kiviarpa(kerätyt_kivet) * 2
+    print('Löysit suuren kiven!')
+if tulos in range(1, 5):
+    kivet = kivet - 1
+    pienet_kivet = pienet_kivet - 1
+    kerätyt_kivet = kerätyt_kivet + kiviarpa(kerätyt_kivet)
+    print('Löysit kiven!')
+else:
+    print('Kentällä ei ole kiveä.')
+
+
+'''tulos = kenttäarpa(kivet)
 if tulos == 1:
     kivet = kivet - 1
-    kerätyt_kivet = kerätyt_kivet + kiviarpa(kerätyt_kivet)
+    kerätyt_kivet = kerätyt_kivet + kiviarpa(kerätyt_kivet)'''
 
 #Koodin testaus
 if kivet > 1:
