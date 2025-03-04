@@ -1,7 +1,7 @@
 import mysql.connector
 import random
 
-#Näihin listoihin tulee kenttien "Ident" -tunnukset.
+#Näihin listoihin tulee kenttien nyt kenttien nimet.
 
 #Euroopassa on 118 suurta kenttää.
 
@@ -226,13 +226,6 @@ def peli_alkaa():
                 "\n5. Etelä-Amerikka"
                 "\n6. Pohjois-Amerikka "
                 "\n: "))
-
-
-
-
-    #pelattavat_kentät=["Helsinki-Vantaa airport", "JFK international airport", "LAX international airport", "Arlanda airport","London Heathrow airport"]
-
-
 
     numero = 1
     while mantere in range (0,7):
