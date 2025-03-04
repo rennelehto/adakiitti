@@ -3,12 +3,12 @@ import random
 
 print("                                                                                         Adakite--Adakiitti")
 print("Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
-Pelin_aloitus = int(input(
+Pelin_aloitus = int(input(                          #Vastaus valinta
                 "\n1. Asia selvä. "
                 "\n2. Okei. "
                 "\n3. En halua. "
                 "\n: "))
-while int(Pelin_aloitus in range(1,4)):
+while int(Pelin_aloitus) == 1 or 2 or 3:
     if Pelin_aloitus == 1:
         print("--------------------------------------------------")
         print("Asia selvä.")
@@ -24,11 +24,16 @@ while int(Pelin_aloitus in range(1,4)):
         print("Valitettavasti et saa jatkaa.")
         print("--------------------------------------------------")
         quit()
-    else:
+    if Pelin_aloitus != 1 or 2 or 3:
         print("--------------------------------------------------")
         print("Error,please try again")
         print("--------------------------------------------------")
-        break
+        Pelin_aloitus = int(input(  # Vastaus valinta
+            "\n1. Asia selvä. "
+            "\n2. Okei. "
+            "\n3. En halua. "
+            "\n: "))
+
 print("Onnea matkaan, ja käytä voimiasi hyvään.")
 print("--------------------------------------------------")
 print("Ole hyvä ja valitse lentokenttä josta haluat aloittaa pelin seuraavasta listasta. ")
