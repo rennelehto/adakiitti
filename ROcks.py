@@ -1,4 +1,4 @@
-
+import random
 
 
 print("                                                                                         Adakite--Adakiitti")
@@ -36,21 +36,46 @@ print("Ole hyvä ja valitse lentokenttä josta haluat aloittaa pelin seuraavasta
 
 
 
+pelattavat_kentät=["Helsinki-Vantaa airport", "JFK international airport", "LAX international airport", "Arlanda airport","London Heathrow airport"]
+pelattavat_kentät2 = ["Helsinki-Vantaa airport", "JFK international airport", "LAX international airport", "Arlanda airport","London Heathrow airport"]
+kenttä1 = []
+kenttä2 = []
+kenttä3 = []
+kenttä4 = []
+kenttä5 = []
+
+for n in range(1):
+    choice = random.choice(pelattavat_kentät2)  # Pick a random element
+    kenttä1.append(choice)
+    pelattavat_kentät2.remove(choice)
+
+    choice = random.choice(pelattavat_kentät2)  # Pick a random element
+    kenttä2.append(choice)
+    pelattavat_kentät2.remove(choice)
+
+    choice = random.choice(pelattavat_kentät2)  # Pick a random element
+    kenttä3.append(choice)
+    pelattavat_kentät2.remove(choice)
+
+    choice = random.choice(pelattavat_kentät2)  # Pick a random element
+    kenttä4.append(choice)
+    pelattavat_kentät2.remove(choice)
+
+    choice = random.choice(pelattavat_kentät2)  # Pick a random element
+    kenttä5.append(choice)
+    pelattavat_kentät2.remove(choice)
+
 
 Alkupiste = int(input(
-                "\n1. Kenttä 1 "
-                "\n2. Kenttä 2 "
-                "\n3. Kenttä 2 "
-                "\n3. Kenttä 2 "
-                "\n3. Kenttä 2 "
-                "\n3. Kenttä 2 "
-                "\n3. Kenttä 2 "
-                "\n3. Kenttä 2 "
-                "\n3. Kenttä 2 "
-                "\n3. Kenttä 2 "
-                "\n3. Kenttä 2 "
+                f"\n1. {kenttä1}"
+                f"\n2. {kenttä2}"
+                f"\n3. {kenttä3}"
+                f"\n4. {kenttä4}"
+                f"\n5. {kenttä5}"
                 "\n: "))
 
+print(pelattavat_kentät)
+print(pelattavat_kentät2)
 
 
 
