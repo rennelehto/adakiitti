@@ -144,6 +144,7 @@ while määräSA < 15:
         valitut_kentätSA.append(lista_kentistäSA[random.randint(0, 44)])
         määräSA = määräSA + 1
 
+
 #print(valitut_kentätEU)
 print(f'{'✈':6} Euroopan kenttiä listassa {len(valitut_kentätEU)} kpl.')
 print(f'{'✈':6} Afrikan kenttiä listassa {len(valitut_kentätAF)} kpl.')
