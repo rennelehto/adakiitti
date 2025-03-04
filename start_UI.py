@@ -170,112 +170,119 @@ def kenttähaku():
 kenttähaku()
 print()
 
-print(" ")
-print("                                                                                         Adakite--Adakiitti")
-print("Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
-Pelin_aloitus = int(input(                          #Vastaus valinta
+
+def peli_alkaa():
+    print(" ")
+    print("                                                                                         Adakite--Adakiitti")
+    print("Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
+
+
+
+
+
+    Pelin_aloitus = int(input(                          #Vastaus valinta
+                    "\n1. Asia selvä. "
+                    "\n2. Okei. "
+                    "\n3. En halua. "
+                    "\n: "))
+    while int(Pelin_aloitus) == 1 or 2 or 3:
+        if Pelin_aloitus == 1:
+            print("--------------------------------------------------")
+            print("Asia selvä.")
+            print("--------------------------------------------------")
+            break
+        if Pelin_aloitus == 2 :
+            print("--------------------------------------------------")
+            print("Okei.")
+            print("--------------------------------------------------")
+            break
+        if Pelin_aloitus == 3:
+            print("--------------------------------------------------")
+            print("Valitettavasti et saa jatkaa.")
+            print("--------------------------------------------------")
+            quit()
+        if Pelin_aloitus != 1 or 2 or 3:
+            print("--------------------------------------------------")
+            print("Error,please try again")
+            print("--------------------------------------------------")
+            Pelin_aloitus = int(input(  # Vastaus valinta
                 "\n1. Asia selvä. "
                 "\n2. Okei. "
                 "\n3. En halua. "
                 "\n: "))
-while int(Pelin_aloitus) == 1 or 2 or 3:
-    if Pelin_aloitus == 1:
-        print("--------------------------------------------------")
-        print("Asia selvä.")
-        print("--------------------------------------------------")
+
+    print("Onnea matkaan, ja käytä voimiasi hyvään.")
+    print("--------------------------------------------------")
+    print(" ")
+    print("Ole hyvä ja valitse mantere josta haluat valita lentokentän josta aloittaa pelin: ")
+    mantere = int(input(                # mantereen valinta
+                "\n1. Eurooppa "
+                "\n2. Aasia"
+                "\n3. Oseania "
+                "\n4. Afrikka "
+                "\n5. Etelä-Amerikka"
+                "\n6. Pohjois-Amerikka "
+                "\n: "))
+
+
+
+
+    #pelattavat_kentät=["Helsinki-Vantaa airport", "JFK international airport", "LAX international airport", "Arlanda airport","London Heathrow airport"]
+
+
+
+    numero = 1
+    while mantere in range (0,7):
+        if mantere == 1:
+            print("")
+            print("Euroopan kentät: ")
+            print(" ")
+            for kenttä in valitut_kentätEU:
+                print(f"{numero}. {kenttä}.")
+                numero = numero + 1
+            break
+        if mantere == 2:
+            print("")
+            print("Aasian kentät: ")
+            print(" ")
+            for kenttä in valitut_kentätAS:
+                print(f"{numero}. {kenttä}.")
+                numero = numero + 1
+            break
+        if mantere == 3:
+            print("")
+            print("Oseanian kentät: ")
+            print(" ")
+            for kenttä in valitut_kentätOC:
+                print(f"{numero}. {kenttä}.")
+                numero = numero + 1
+            break
+        if mantere == 4:
+            print("")
+            print("Afrikan kentät: ")
+            print(" ")
+            for kenttä in valitut_kentätAF:
+                print(f"{numero}. {kenttä}.")
+                numero = numero + 1
+            break
+        if mantere == 5:
+            print("")
+            print("Etelä-Amerikan kentät: ")
+            print("")
+            for kenttä in valitut_kentätSA:
+                print(f"{numero}. {kenttä}.")
+                numero = numero + 1
+            break
+        if mantere == 6:
+            print("")
+            print("Pohjois-Amerikan kentät: ")
+            print("")
+            for kenttä in valitut_kentätNA:
+                print(f"{numero}. {kenttä}.")
+                numero = numero + 1
         break
-    if Pelin_aloitus == 2 :
-        print("--------------------------------------------------")
-        print("Okei.")
-        print("--------------------------------------------------")
-        break
-    if Pelin_aloitus == 3:
-        print("--------------------------------------------------")
-        print("Valitettavasti et saa jatkaa.")
-        print("--------------------------------------------------")
-        quit()
-    if Pelin_aloitus != 1 or 2 or 3:
-        print("--------------------------------------------------")
-        print("Error,please try again")
-        print("--------------------------------------------------")
-        Pelin_aloitus = int(input(  # Vastaus valinta
-            "\n1. Asia selvä. "
-            "\n2. Okei. "
-            "\n3. En halua. "
-            "\n: "))
 
-print("Onnea matkaan, ja käytä voimiasi hyvään.")
-print("--------------------------------------------------")
-print(" ")
-print("Ole hyvä ja valitse mantere josta haluat valita lentokentän josta aloittaa pelin: ")
-mantere = int(input(                # mantereen valinta
-            "\n1. Eurooppa "
-            "\n2. Aasia"
-            "\n3. Oseania "
-            "\n4. Afrikka "
-            "\n5. Etelä-Amerikka"
-            "\n6. Pohjois-Amerikka "
-            "\n: "))
-
-
-
-
-#pelattavat_kentät=["Helsinki-Vantaa airport", "JFK international airport", "LAX international airport", "Arlanda airport","London Heathrow airport"]
-
-
-
-numero = 1
-while mantere in range (0,5):
-    if mantere == 1:
-        print("")
-        print("Euroopan kentät: ")
-        print(" ")
-        for kenttä in valitut_kentätEU:
-            print(f"{numero}. {kenttä}.")
-            numero = numero + 1
-        break
-    if mantere == 2:
-        print("")
-        print("Aasian kentät: ")
-        print(" ")
-        for kenttä in valitut_kentätAS:
-            print(f"{numero}. {kenttä}.")
-            numero = numero + 1
-        break
-    if mantere == 3:
-        print("")
-        print("Oseanian kentät: ")
-        print(" ")
-        for kenttä in valitut_kentätOC:
-            print(f"{numero}. {kenttä}.")
-            numero = numero + 1
-        break
-    if mantere == 4:
-        print("")
-        print("Afrikan kentät: ")
-        print(" ")
-        for kenttä in valitut_kentätAF:
-            print(f"{numero}. {kenttä}.")
-            numero = numero + 1
-        break
-    if mantere == 5:
-        print("")
-        print("Etelä-Amerikan kentät: ")
-        print("")
-        for kenttä in valitut_kentätSA:
-            print(f"{numero}. {kenttä}.")
-            numero = numero + 1
-        break
-    if mantere == 6:
-        print("")
-        print("Pohjois-Amerikan kentät: ")
-        print("")
-        for kenttä in valitut_kentätNA:
-            print(f"{numero}. {kenttä}.")
-            numero = numero + 1
-    break
-
-
+peli_alkaa()
 alkupiste = int(input(": "))
 #if alkupiste in pelattavat_kentät:
 
