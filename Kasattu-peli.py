@@ -23,7 +23,7 @@ def kenttäkyselyEU():
 lista_kentistäAF=[]
 
 def kenttäkyselyAF():
-    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'AF' and airport.type = 'large_airport'"
+    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'AF' and airport.type = 'large_airport'"
     #print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
@@ -36,7 +36,7 @@ def kenttäkyselyAF():
 lista_kentistäAS=[]
 
 def kenttäkyselyAS():
-    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'AS' and airport.type = 'large_airport'"
+    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'AS' and airport.type = 'large_airport'"
     #print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
@@ -48,7 +48,7 @@ def kenttäkyselyAS():
 #Oseaniassa on 17 suurta kenttää.
 lista_kentistäOC=[]
 def kenttäkyselyOC():
-    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'OC' and airport.type = 'large_airport'"
+    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'OC' and airport.type = 'large_airport'"
     #print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
@@ -61,7 +61,7 @@ def kenttäkyselyOC():
 #Pohjois-Amerikassa on 108 suurta kenttää.
 lista_kentistäNA=[]
 def kenttäkyselyNA():
-    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'NA' and airport.type = 'large_airport'"
+    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'NA' and airport.type = 'large_airport'"
     #print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
@@ -73,7 +73,7 @@ def kenttäkyselyNA():
 #Etelä-Amerikassa on 22 suurta kenttää.
 lista_kentistäSA=[]
 def kenttäkyselySA():
-    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'SA' and airport.type = 'large_airport'"
+    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'SA' and airport.type = 'large_airport'"
     #print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
