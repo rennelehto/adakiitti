@@ -32,6 +32,7 @@ def kenttäkyselyAF():
         for rivi in tulos:
             lista_kentistäAF.append(rivi[0])
     return
+
 #Aasiassa on 137 suurta kenttää.
 lista_kentistäAS=[]
 
@@ -45,6 +46,7 @@ def kenttäkyselyAS():
         for rivi in tulos:
             lista_kentistäAS.append(rivi[0])
     return
+
 #Oseaniassa on 17 suurta kenttää.
 lista_kentistäOC=[]
 def kenttäkyselyOC():
@@ -70,6 +72,7 @@ def kenttäkyselyNA():
         for rivi in tulos:
             lista_kentistäNA.append(rivi[0])
     return
+
 #Etelä-Amerikassa on 22 suurta kenttää.
 lista_kentistäSA=[]
 def kenttäkyselySA():

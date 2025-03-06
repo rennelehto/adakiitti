@@ -183,3 +183,5 @@ kenttähaku()
 print()
 print(f'{'✈':6} Bon voyage! {'✈':>6}')
 
+
+

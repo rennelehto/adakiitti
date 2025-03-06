@@ -68,7 +68,6 @@ yhteys = mysql.connector.connect(
 
 pelattavat_kentät=[]
 seuraavat_kentät=[]
-
 sijainti = pelaajan_sijainti()
 pelattavat()
 matkustettavat_kentät()
