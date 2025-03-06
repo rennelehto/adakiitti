@@ -11,3 +11,7 @@ def sijainti():
     tulos = kursori.fetchall()
     print(f"Sijaintisi on {tulos}.")
     return
+
+alkupiste = int(input(": "))
+
+print(f"Olet kentällä : {valitut_kentätEU[alkupiste-1]}")
