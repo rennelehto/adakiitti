@@ -171,11 +171,11 @@ kenttähaku()
 print()
 
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
-def pelaajat():
-    sql = f"insert into peli (nimi) values ('{pelaajan_nimi}')"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    return
+#def pelaajat():
+    #sql = f"insert into peli (nimi) values ('{pelaajan_nimi}')"
+    #kursori = yhteys.cursor()
+    #kursori.execute(sql)
+    #return
 
 
 def peli_alkaa():

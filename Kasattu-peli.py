@@ -1,11 +1,20 @@
 import mysql.connector
 import random
+from geopy import distance
 
 #                             MUISTAKAA VAIHTAA OMAT TIETOKANTATUNNUKSET!!
 
 #Näihin listoihin tulee nyt kenttien nimet.
 
 #Euroopassa on 118 suurta kenttää.
+
+yhteys = mysql.connector.connect(
+      #  host='127.0.0.1',
+      #  port=3306,
+        database='flight_game',
+        user='eliell2',
+        password='gr0ups',
+        autocommit=True)
 
 lista_kentistäEU=[]
 def kenttäkyselyEU():
@@ -86,13 +95,7 @@ def kenttäkyselySA():
             lista_kentistäSA.append(rivi[0])
     return
 
-yhteys = mysql.connector.connect(
-      #  host='127.0.0.1',
-      #  port=3306,
-        database='flight_game',
-        user='python',
-        password='1232',
-        autocommit=True)
+
 #Nämä funktiot tuo kaikki valittujen mantereiden kentät omiksi listoikseen.
 kenttäkyselyEU()
 kenttäkyselyAF()
@@ -172,13 +175,7 @@ def pelaajat():
     kursori.execute(sql)
     return
 
-yhteys = mysql.connector.connect(
-      #  host='127.0.0.1',
-      #  port=3306,
-        database='flight_game',
-        user='python',
-        password='1232',
-        autocommit=True)
+
 
 
 
@@ -325,3 +322,80 @@ lentokenttävalinta(mantere)
 lentokenttä_mantere_lista()
 alkupiste = int(input(": "))
 print(f"Olet kentällä : {valittumantere[alkupiste-1]}")
+
+
+#airport.name is in = ('{pelattavat_kentät}')
+
+'''Tässä on mallina vaan väärä kenttälista, saa kokeilla!
+Tähän lisätään kans kertoimena kivien määrä, eli kolme kiveä = 3*500km jne'''
+#TOIMII
+#tekee listan pelattavista kentistä
+def pelattavat():
+    sql = f"select airport.ident from airport, country where airport.iso_country = country.iso_country and airport.name in ('{pelattavat_kentät}') and airport.type = 'large_airport'"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    pelattavat_kentät.append(tulos)
+    if kursori.rowcount > 0:
+        for rivi in tulos:
+            pelattavat_kentät.append(rivi[0])
+    return
+
+#TOIMII
+#hakee pelaajan koordinaatit
+def pelaajan_sijainti():
+    sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE airport.name = ('{valittumantere[alkupiste-1]}')"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if kursori.rowcount > 0:
+        for rivi in tulos:
+            print(f"Pelaajan  koordinaatit: {rivi[0]}, {rivi[1]}.")
+    return tulos
+
+#TOIMII
+#tämä hakee kentän koordinaatit
+def kentän_etäisyys(Pip):
+    sql = f"SELECT latitude_deg, longitude_deg from airport, country where airport.iso_country = country.iso_country and airport.ident = '{Pip}'"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    #if kursori.rowcount > 0:
+       # for rivi in tulos:
+           #print(f"{rivi[0]}, {rivi[1]}.")
+    return tulos
+
+#TOIMII
+#Jostain syystä pelattavien kenttien eka alkio on koko lista, korjaan myöhemmin
+def matkustettavat_kentät():
+    k=1
+    while k <= (len(pelattavat_kentät)-1):
+        h = pelattavat_kentät[k]
+        Pip = h
+        seur = kentän_etäisyys(Pip)
+
+        if distance.distance(sijainti, seur).km <= 500:
+            seuraavat_kentät.append(h)
+        k = k + 1
+    return
+
+
+
+
+pelattavat_kentät=[]
+seuraavat_kentät=[]
+pelattavat()
+sijainti = pelaajan_sijainti()
+matkustettavat_kentät()
+print(f'Pelattavia kenttiä: {len(pelattavat_kentät)}')
+print(f'Matkustettavia kenttiä: {len(seuraavat_kentät)}')
+
+#def kentännimi(Pip):
+ #   sql = f"SELECT airport.name from airport where airport.ident = ('{Pip}')"
+  #  kursori = yhteys.cursor()
+   # kursori.execute(sql)
+    #tulos = kursori.fetchall()
+    #return tulos
