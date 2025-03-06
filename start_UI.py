@@ -170,9 +170,8 @@ def kenttähaku():
 kenttähaku()
 print()
 
-
+pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
 def pelaajat():
-    pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
     sql = f"insert into peli (nimi) values ('{pelaajan_nimi}')"
     kursori = yhteys.cursor()
     kursori.execute(sql)
@@ -183,7 +182,7 @@ def peli_alkaa():
     print(" ")
     print("                                                                                         Adakite--Adakiitti")
     print(" ")
-    print("Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
+    print(f"Hei {pelaajan_nimi}! Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
 
     Pelin_aloitus = int(input(                          #Vastaus valinta
                     "\n1. Asia selvä. "
@@ -220,22 +219,34 @@ def peli_alkaa():
     print("--------------------------------------------------")
     print(" ")
     print("Ole hyvä ja valitse mantere josta haluat valita lentokentän josta aloittaa pelin: ")
-    mantere = int(input(                # mantereen valinta
-                "\n1. Eurooppa "
-                "\n2. Aasia"
-                "\n3. Oseania "
-                "\n4. Afrikka "
-                "\n5. Etelä-Amerikka"
-                "\n6. Pohjois-Amerikka "
-                "\n: "))
+
+
+
+
+
+
+valittumantere = []
+def lentokenttä_mantere_lista():
+    if mantere == 1:
+        valittumantere.extend(valitut_kentätEU)
+    if mantere == 2:
+        valittumantere.extend(valitut_kentätAS)
+    if mantere == 3:
+        valittumantere.extend(valitut_kentätOC)
+    if mantere == 4:
+        valittumantere.extend(valitut_kentätAF)
+    if mantere == 5:
+        valittumantere.extend(valitut_kentätSA)
+    if mantere == 6:
+        valittumantere.extend(valitut_kentätNA)
+    return valittumantere
+
 
 
 
 
     #pelattavat_kentät=["Helsinki-Vantaa airport", "JFK international airport", "LAX international airport", "Arlanda airport","London Heathrow airport"]
-
-
-
+def lentokenttävalinta(mantere):
     numero = 1
     while mantere in range (0,7):
         if mantere == 1:
@@ -245,7 +256,6 @@ def peli_alkaa():
             for kenttä in valitut_kentätEU:
                 print(f"{numero}. {kenttä}.")
                 numero = numero + 1
-            break
         if mantere == 2:
             print("")
             print("Aasian kentät: ")
@@ -287,9 +297,23 @@ def peli_alkaa():
                 numero = numero + 1
         break
 
-pelaajat()
+
 peli_alkaa()
+
+mantere = int(input(                # mantereen valinta
+                "\n1. Eurooppa "
+                "\n2. Aasia"
+                "\n3. Oseania "
+                "\n4. Afrikka "
+                "\n5. Etelä-Amerikka"
+                "\n6. Pohjois-Amerikka "
+                "\n: "))
+#pelaajat()
+lentokenttävalinta(mantere)
+lentokenttä_mantere_lista()
 alkupiste = int(input(": "))
+print(f"Olet kentällä : {valittumantere[alkupiste-1]}")
+
 #if alkupiste in pelattavat_kentät:
 
 
