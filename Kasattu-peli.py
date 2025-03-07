@@ -100,58 +100,64 @@ kenttäkyselyAS()
 kenttäkyselyOC()
 kenttäkyselyNA()
 kenttäkyselySA()
-#print(lista_kentistä)
 
-#Seuraavat pätkät arpoo 15 kenttää per mantere listalle.
+#Seuraava funktio arpoo pelattavat kentät
+
+def pelattavat_kentät():
+    määräEU = 0
+    while määräEU < 15:
+        maa = lista_kentistäEU[random.randint(0, 116)]
+        valitut_kentätEU.append(maa)
+        määräEU = määräEU + 1
+
+    määräAF = 0
+    while määräAF < 15:
+        maa = lista_kentistäAF[random.randint(0, 44)]
+        if maa not in valitut_kentätAF:
+            valitut_kentätAF.append(maa)
+            määräAF = määräAF + 1
+
+    määräAS = 0
+    while määräAS < 15:
+        maa = lista_kentistäAS[random.randint(0, 36)]
+        if maa not in valitut_kentätAS:
+            valitut_kentätAS.append(maa)
+            määräAS = määräAS + 1
+
+    määräOC = 0
+    while määräOC < 15:
+        maa = lista_kentistäOC[random.randint(0, 16)]
+        if maa not in valitut_kentätOC:
+            valitut_kentätOC.append(maa)
+            määräOC = määräOC + 1
+
+    määräNA = 0
+    while määräNA < 15:
+        maa = lista_kentistäNA[random.randint(0, 107)]
+        if maa not in valitut_kentätNA:
+            valitut_kentätNA.append(maa)
+            määräNA = määräNA + 1
+
+    määräSA = 0
+    while määräSA < 15:
+        maa = lista_kentistäSA[random.randint(0, 21)]
+        if maa not in valitut_kentätSA:
+            valitut_kentätSA.append(maa)
+            määräSA = määräSA + 1
+    return
+
+
 valitut_kentätEU=[]
-määräEU = 0
-while määräEU < 15:
-    maa=lista_kentistäEU[random.randint(0, 116)]
-    valitut_kentätEU.append(maa)
-    määräEU=määräEU+1
-
 valitut_kentätAF=[]
-määräAF = 0
-while määräAF < 15:
-    maa=lista_kentistäAF[random.randint(0, 44)]
-    if maa not in valitut_kentätAF:
-        valitut_kentätAF.append(maa)
-        määräAF=määräAF+1
-
 valitut_kentätAS=[]
-määräAS = 0
-while määräAS < 15:
-    maa = lista_kentistäAS[random.randint(0, 36)]
-    if maa not in valitut_kentätAS:
-        valitut_kentätAS.append(maa)
-        määräAS = määräAS + 1
-
 valitut_kentätOC=[]
-määräOC = 0
-while määräOC < 15:
-    maa = lista_kentistäOC[random.randint(0, 16)]
-    if maa not in valitut_kentätOC:
-        valitut_kentätOC.append(maa)
-        määräOC = määräOC + 1
-
 valitut_kentätNA=[]
-määräNA = 0
-while määräNA < 15:
-    maa = lista_kentistäNA[random.randint(0, 107)]
-    if maa not in valitut_kentätNA:
-        valitut_kentätNA.append(maa)
-        määräNA = määräNA + 1
-
 valitut_kentätSA=[]
-määräSA = 0
-while määräSA < 15:
-    maa = lista_kentistäSA[random.randint(0, 21)]
-    if maa not in valitut_kentätSA:
-        valitut_kentätSA.append(maa)
-        määräSA = määräSA + 1
 
-#Tässä valitut kentät yhdistyy yhdeksi listaksi kenttiä, joille pelaajalla on pääsy.
 
+pelattavat_kentät()
+
+#pelattavat kentät samaan listaan
 pelattavat_kentät=[]
 pelattavat_kentät.extend(valitut_kentätEU)
 pelattavat_kentät.extend(valitut_kentätAF)
