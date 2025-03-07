@@ -108,6 +108,7 @@ print()
 kenttäluettelo()
 print()
 print(f'Nimettyjä kenttiä: {len(seuraavien_kenttien_nimet)}')
+print()
 print(f'Matkustettavia kenttiä: {len(seuraavat_kentät)}')
 
 
