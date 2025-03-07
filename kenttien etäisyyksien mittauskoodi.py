@@ -10,11 +10,12 @@ def pelattavat():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    pelattavat_kentät.append(tulos)
+    #pelattavat_kentät.append(tulos)
     if kursori.rowcount > 0:
         for rivi in tulos:
             pelattavat_kentät.append(rivi[0])
-    return
+
+    return tulos
 
 #TOIMII
 #hakee pelaajan koordinaatit
@@ -37,9 +38,6 @@ def kentän_etäisyys(pylly):
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    #if kursori.rowcount > 0:
-       # for rivi in tulos:
-           #print(f"{rivi[0]}, {rivi[1]}.")
     return tulos
 
 #TOIMII
@@ -56,6 +54,24 @@ def matkustettavat_kentät():
         k = k + 1
     return
 
+def koodi_nimeksi(koodi):
+    sql = f"SELECT name FROM airport WHERE ident = '{koodi}'"
+    # print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
+
+def listaus():
+    x = 0
+    while x < len(seuraavat_kentät):
+        for n in seuraavat_kentät:
+            äh = koodi_nimeksi(n)
+            print(x + 1)
+            print(äh[0])
+            x = x+1
+
+
 yhteys = mysql.connector.connect(
         database='flight_game',
         user='python',
@@ -68,11 +84,23 @@ yhteys = mysql.connector.connect(
 
 pelattavat_kentät=[]
 seuraavat_kentät=[]
+
 sijainti = pelaajan_sijainti()
+print('------> Tässä on funktio pelattavat')
 pelattavat()
+print(f'Pelattavat kentät: {pelattavat_kentät}')
+print(f'Pelattavia kenttiä: {len(pelattavat_kentät)}')
+print()
+print('------> Tässä on funktio matkustettavat_kentät')
 matkustettavat_kentät()
+print('seuraavat kentät:')
+print(seuraavat_kentät)
+print('------> Tässä on funktio listaus')
+listaus()
 print(f'Pelattavia kenttiä: {len(pelattavat_kentät)}')
 print(f'Matkustettavia kenttiä: {len(seuraavat_kentät)}')
+
+
 
 
 
