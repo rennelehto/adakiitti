@@ -60,17 +60,27 @@ def koodi_nimeksi(koodi):
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
+    if kursori.rowcount > 0:
+        for rivi in tulos:
+            seuraavien_kenttien_nimet.append(rivi[0])
     return tulos
 
 def listaus():
     x = 0
     while x < len(seuraavat_kentät):
-        for n in seuraavat_kentät:
-            äh = koodi_nimeksi(n)
-            print(x + 1)
-            print(äh[0])
-            x = x+1
+        n = seuraavat_kentät[x]
+        äh = koodi_nimeksi(n)
+        x = x+1
 
+def kenttäluettelo():
+    x=0
+    for k in seuraavien_kenttien_nimet:
+        print(f'{x+1}.  {k}')
+   # while x < len(seuraavien_kenttien_nimet):
+    #    print(f'{x+1}. {seuraavien_kenttien_nimet[x]}')
+        #print(seuraavien_kenttien_nimet[x])
+        x=x+1
+    return
 
 yhteys = mysql.connector.connect(
         database='flight_game',
@@ -84,21 +94,23 @@ yhteys = mysql.connector.connect(
 
 pelattavat_kentät=[]
 seuraavat_kentät=[]
+seuraavien_kenttien_nimet=[]
 
 sijainti = pelaajan_sijainti()
-print('------> Tässä on funktio pelattavat')
-pelattavat()
-print(f'Pelattavat kentät: {pelattavat_kentät}')
-print(f'Pelattavia kenttiä: {len(pelattavat_kentät)}')
 print()
-print('------> Tässä on funktio matkustettavat_kentät')
-matkustettavat_kentät()
-print('seuraavat kentät:')
-print(seuraavat_kentät)
-print('------> Tässä on funktio listaus')
-listaus()
+pelattavat()
 print(f'Pelattavia kenttiä: {len(pelattavat_kentät)}')
+matkustettavat_kentät()
+print()
+listaus()
+print('Tässä kentät joille voit matkustaa:')
+print()
+kenttäluettelo()
+print()
+print(f'Nimettyjä kenttiä: {len(seuraavien_kenttien_nimet)}')
 print(f'Matkustettavia kenttiä: {len(seuraavat_kentät)}')
+
+
 
 
 
