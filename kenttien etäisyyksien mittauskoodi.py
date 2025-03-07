@@ -74,6 +74,8 @@ def listaus():
 
 def kenttäluettelo():
     x=0
+    print('Tässä kentät joille voit matkustaa:')
+    print()
     for k in seuraavien_kenttien_nimet:
         print(f'{x+1}.  {k}')
    # while x < len(seuraavien_kenttien_nimet):
@@ -103,13 +105,36 @@ print(f'Pelattavia kenttiä: {len(pelattavat_kentät)}')
 matkustettavat_kentät()
 print()
 listaus()
-print('Tässä kentät joille voit matkustaa:')
+
 print()
 kenttäluettelo()
 print()
 print(f'Nimettyjä kenttiä: {len(seuraavien_kenttien_nimet)}')
-print()
 print(f'Matkustettavia kenttiä: {len(seuraavat_kentät)}')
+print()
+
+
+
+
+def uusi_kierros():
+    seuraavat_kentät.clear()
+    seuraavien_kenttien_nimet.clear()
+
+    matkustettavat_kentät()
+    listaus()
+    kenttäluettelo()
+
+
+valinta = input('Seuraava kierros? (kyllä/ei) ')
+
+while valinta == 'kyllä':
+    uusi_kierros()
+    print()
+    valinta = input('Seuraava kierros? (kyllä/ei) ')
+else:
+    print()
+    print('Kiitos pelistä!')
+
 
 
 
