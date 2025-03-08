@@ -121,5 +121,6 @@ def pelaa():
         print("Loppupeli päättyi tasapeliin!")
 
 pelaa()
+.....
 
 
