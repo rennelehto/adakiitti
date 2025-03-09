@@ -185,7 +185,7 @@ def matkustettavat_kentät():
         pylly = h
         seur = kentän_etäisyys(pylly)
 
-        if 1000 > distance.distance(pelikoordinaatit, seur).km > 0:
+        if ((liikkeet + kerätyt_kivet) * 500) > distance.distance(pelikoordinaatit, seur).km > 0:
             seuraavat_kentät.append(h)
         k = k + 1
     return
@@ -219,7 +219,13 @@ def kenttäluettelo():
 
 
 def peliluuppi():
+    print()
     print(f'Olet nyt kentällä {sijainti_nimi[0]}')
+    print(f'Kentän koodi: {sijainti_icao}')
+    print()
+    #kivet, kerätyt_kivet = kiviarpa(kivet, kerätyt_kivet)
+    kivet_pelissä(kivet, kerätyt_kivet)
+    sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
     pelaajan_koordinaatit(sijainti_icao)
@@ -229,15 +235,63 @@ def peliluuppi():
 
     kenttäluettelo()
 
-    seuraava_kohde()
+    #seuraava_kohde()
     return
 
 def seuraava_kohde():
+    print()
+    tulos = seuraavat_kentät[int(input('Mille kentälle seuraavaksi? ')) - 1]
+    #kiviarpa(kivet, kerätyt_kivet)
+    #kivet_pelissä(kivet, kerätyt_kivet)
+    return tulos
 
-    sijainti_icao = seuraavat_kentät[int(input('Mille kentälle seuraavaksi? ')) - 1]
+#Eli kun saapuu kentälle, arvotaan ensin löytyykö kivi.
+#def kenttäarpa(kivet):
+ #   if kivet >0:
+ #       tulos = random.randint(0, 1)
+ #   return
+#def kivisekoilu(kivet):
+
+   # kivet_pelissä(kivet, kerätyt_kivet)
+   # return
+#Jos on, arvotaan toisella funktiolla sen "arvo", tässä 1-6 (voi muuttaa vielä).
+
+def kivisekoilu():
+    kiviarpa
+    return
+
+def kiviarpa(kivet, kerätyt_kivet):
+    tulos = random.randint(1,6)
+    if tulos == 6:
+        kivet = kivet - 1
+
+        kerätyt_kivet = kerätyt_kivet + (random.randint(1,6) * 2)
+        print('Löysit suuren kiven!')
+
+    if tulos in range(1, 6):
+        kivet = kivet - 1
+
+        kerätyt_kivet = kerätyt_kivet + random.randint(1,6)
+        print('Löysit kiven!')
+
+    if tulos == 0:
+        print('Kentällä ei ole kiveä.')
+
+    return kivet, kerätyt_kivet
 
 
-    return sijainti_icao
+def kivet_pelissä(kivet, kerätyt_kivet):
+    if kivet > 1:
+        print(f'Pelissä on vielä  {kivet} kiveä.')
+    if kivet == 1:
+        print(f'Pelissä on vielä {kivet} kivi.')
+    if kivet == 0:
+        print('Lol.')
+
+    print(f'Kivien kerätty arvo: {kerätyt_kivet}.')
+    print()
+    return
+
 #    PÄÄOHJELMA
 
 yhteys = mysql.connector.connect(
@@ -276,6 +330,7 @@ pelattavat_kentät.extend(valitut_kentätNA)
 pelattavat_kentät.extend(valitut_kentätSA)
 
 print('Hyvä peli se on.')
+'''
 print('...')
 print(' Ilmasto lämpenee lämpenemistään ja sen estämiseen kykenevät tahot'
 '\n vain tahkoavat rahaa ympäristön kustannuksella. On aika tarttua'
@@ -296,7 +351,7 @@ print(' Pystyt teleporttaamaan tukikohdastasi yhdelle ennalta määrittelemätt�
 '\n Voit käyttää myös adakiitteja matkustamiseen, mutta muista että ne kuormittavat'
 '\n ympäristöä. Harkitse tarkkaan liikkeesi!'
 '\n')
-
+'''
 def alku():
 
     ala = input('Oletko valmis seikkailuun? (k/e) ')
@@ -318,20 +373,42 @@ sijainti_icao = pelattavat_kentät[random.randint(0,89)]
 sijainti_nimi = []
 pelaajan_sijainnin_nimi(sijainti_icao)
 
+#liikkuminen ja kivet
+liikkeet = 4 #alussa
+kivet = 10
+kerätyt_kivet = 0
+kerätyt_pisteet = 0
+
 pelikoordinaatit = pelaajan_koordinaatit(sijainti_icao)
 print()
-print(f'Olet kentällä {sijainti_nimi[0]}.')
+#print(f'Olet kentällä {sijainti_nimi[0]}.')
 print()
 
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
 
-gg = 5
-while gg != 0:
-    peliluuppi()
-    seuraava_kohde()
 
-    gg = gg - 1
+while kivet != 0:
+    peliluuppi()
+    kivet, kerätyt_kivet = kiviarpa(kivet, kerätyt_kivet)
+    #kivet_pelissä(kivet, kerätyt_kivet)
+    sijainti_icao = seuraava_kohde()
+    #print(sijainti_icao)
+    pelaajan_sijainnin_nimi(sijainti_icao)
+    #print(sijainti_nimi[0])
+    pelattavat_kentät.remove(sijainti_icao)
+
+    #kenttäarpa(kivet, kerätyt_kivet)
+
+
+#tulos = kenttäarpa(kivet, kerätyt_kivet)
+
+
+
+
+
+
+
 
 
 
