@@ -83,9 +83,7 @@ def kenttäkyselySA():
             lista_kentistäSA.append(rivi[0])
     return
 
-
 #Nämä funktiot tuo kaikki valittujen mantereiden kentät omiksi listoikseen.
-
 
 #Seuraava funktio arpoo pelattavat kentät
 
@@ -131,9 +129,6 @@ def pelattavat_kentät():
             valitut_kentätSA.append(maa)
             määräSA = määräSA + 1
     return
-
-
-
 
 #tähän loppuu pelattavien kenttien valinta
 
@@ -219,7 +214,7 @@ def peliluuppi2(t2):
     print(f'Kentän koodi: {sijainti_icao}\n')
     t1 = kiviarpa()
     t3 = t1 + t2
-    print(f'Kivien kerätty arvo: {T}.\n')
+    print(f'Kivien kerätty arvo: {t3}.\n')
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -229,10 +224,10 @@ def peliluuppi2(t2):
     kenttäluettelo()
     return t3
 
-def peliluuppi(i):
+def peliluuppi():
     print(f'\nOlet saapunut kentälle: {sijainti_nimi[0]}')
     print(f'Kentän koodi: {sijainti_icao}\n')
-    kiviarpa(i)
+    kiviarpa()
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -258,6 +253,7 @@ def kiviarpa():
         print('\nLöysit kiven!')
 
     if tulos in range(0,3):
+        xy = 0
         print('\nKentällä ei ole kiveä.')
 
     return xy
@@ -271,7 +267,6 @@ yhteys = mysql.connector.connect(
         user='pythonuser',
         password='salasana',
         autocommit=True)
-
 
 kenttäkyselyEU()
 kenttäkyselyAF()
@@ -287,7 +282,6 @@ valitut_kentätOC=[]
 valitut_kentätNA=[]
 valitut_kentätSA=[]
 
-
 pelattavat_kentät()
 
 #pelattavat kentät samaan listaan
@@ -298,8 +292,7 @@ pelattavat_kentät.extend(valitut_kentätAS)
 pelattavat_kentät.extend(valitut_kentätOC)
 pelattavat_kentät.extend(valitut_kentätNA)
 pelattavat_kentät.extend(valitut_kentätSA)
-
-print("\n                                                                                         Adakite--Adakiitti")
+print(f"\n{'Adakite--Adakiitti':>80}")
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
 
 def peli_alkaa():
@@ -339,7 +332,6 @@ def peli_alkaa():
     print("Onnea matkaan, ja käytä voimiasi hyvään.")
     print("--------------------------------------------------\n")
 
-
 sijainti_icao = pelattavat_kentät[random.randint(0,89)]
 
 sijainti_nimi = []
@@ -359,13 +351,13 @@ seuraavien_kenttien_nimet = []
 
 peli_alkaa()
 while kierrokset < 2:
-    kerätyt_kivet = peliluuppi2(kerätyt_kivet)
+    peliluuppi()
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
     pelattavat_kentät.remove(sijainti_icao)
     kierrokset = kierrokset + 1
 while kerätyt_kivet < 40:
-    peliluuppi(kerätyt_kivet)
+    kerätyt_kivet = peliluuppi2(kerätyt_kivet)
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
     pelattavat_kentät.remove(sijainti_icao)
