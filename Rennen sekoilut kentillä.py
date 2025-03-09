@@ -63,6 +63,14 @@ def pelaajat():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     return
+'''
+
+def sijainnin_vaihto():
+    sql = f"ALTER TABLE peli SET sijainti as (select ident from airport where name = '{}') WHERE nimi = 'pelaaja';"
+        # print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    return
 
 yhteys = mysql.connector.connect(
       #  host='127.0.0.1',
@@ -71,4 +79,5 @@ yhteys = mysql.connector.connect(
         user='python',
         password='1232',
         autocommit=True)
-pelaajat()'''
+
+sijainnin_vaihto()
