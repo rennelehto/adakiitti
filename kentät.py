@@ -16,3 +16,18 @@ def sijainti():
 def vihollisvalinta():
     tulos = random.randint(len(seuraavat_kentät - 1))
     return tulos
+
+while kivet != 0:
+    peliluuppi()
+    kivet, kerätyt_kivet = kiviarpa(kivet, kerätyt_kivet)
+    #kivet_pelissä(kivet, kerätyt_kivet)
+    sijainti_icao = seuraava_kohde()
+    #print(sijainti_icao)
+    pelaajan_sijainnin_nimi(sijainti_icao)
+    #print(sijainti_nimi[0])
+    pelattavat_kentät.remove(sijainti_icao)
+    vih_sijainti_icao = vihollisvalinta
+    # print(sijainti_icao)
+    pelaajan_sijainnin_nimi(vih_sijainti_icao)
+    # print(sijainti_nimi[0])
+    pelattavat_kentät.remove(vih_sijainti_icao)
