@@ -289,7 +289,8 @@ pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
 
 def peli_alkaa():
     print(" ")
-    print(f"Hei {pelaajan_nimi}! Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
+    print(f"Hei {pelaajan_nimi}! Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin."
+          "\n Sinun täytyy kerätä kiviä, ja kerätä ilmatopisteitä voidaksesi päihittää velhon. ")
 
     Pelin_aloitus = int(input(                          #Vastaus valinta
                     "\n1. Asia selvä. "
@@ -349,9 +350,10 @@ while kierrokset < 2:
     pelattavat_kentät.remove(sijainti_icao)
     kierrokset = kierrokset + 1
 
+#if kerätyt_kivet >= 40:
+    #quit()
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
-
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
     pelattavat_kentät.remove(sijainti_icao)
