@@ -1,3 +1,5 @@
+from operator import index
+
 import mysql.connector
 import random
 from geopy import distance
@@ -181,6 +183,7 @@ def kenttäluettelo():
     print('Tässä kentät joille voit matkustaa:')
     print()
     for k in seuraavien_kenttien_nimet:
+        #while index(k) < 20:
         print(f'{x + 1}.  {k}')
         x = x + 1
     return
@@ -225,6 +228,7 @@ def kiviarpa():
         pöö = (random.randint(1,6) * 2)
         print("")
         print('Löysit suuren kiven!')
+        print(f"Kivesi arvo on: {pöö}")
 
 
 
@@ -232,6 +236,7 @@ def kiviarpa():
         pöö = random.randint(1,6)
         print("")
         print('Löysit kiven!')
+        print(f"Kivesi arvo on: {pöö}")
 
 
 
