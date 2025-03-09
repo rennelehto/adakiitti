@@ -2,8 +2,6 @@ import mysql.connector
 import random
 from geopy import distance
 
-#Euroopassa on 118 suurta kenttää.
-
 lista_kentistäEU=[]
 def kenttäkyselyEU():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'EU' and airport.type = 'large_airport'"
@@ -15,10 +13,7 @@ def kenttäkyselyEU():
         for rivi in tulos:
             lista_kentistäEU.append(rivi[0])
     return
-
-#Afrikassa on 45 suurta kenttää.
 lista_kentistäAF=[]
-
 def kenttäkyselyAF():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'AF' and airport.type = 'large_airport'"
     #print(sql)
@@ -29,10 +24,7 @@ def kenttäkyselyAF():
         for rivi in tulos:
             lista_kentistäAF.append(rivi[0])
     return
-
-#Aasiassa on 137 suurta kenttää.
 lista_kentistäAS=[]
-
 def kenttäkyselyAS():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'AS' and airport.type = 'large_airport'"
     #print(sql)
@@ -43,8 +35,6 @@ def kenttäkyselyAS():
         for rivi in tulos:
             lista_kentistäAS.append(rivi[0])
     return
-
-#Oseaniassa on 17 suurta kenttää.
 lista_kentistäOC=[]
 def kenttäkyselyOC():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'OC' and airport.type = 'large_airport'"
@@ -56,8 +46,6 @@ def kenttäkyselyOC():
         for rivi in tulos:
             lista_kentistäOC.append(rivi[0])
     return
-
-#Pohjois-Amerikassa on 108 suurta kenttää.
 lista_kentistäNA=[]
 def kenttäkyselyNA():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'NA' and airport.type = 'large_airport'"
@@ -69,8 +57,6 @@ def kenttäkyselyNA():
         for rivi in tulos:
             lista_kentistäNA.append(rivi[0])
     return
-
-#Etelä-Amerikassa on 22 suurta kenttää.
 lista_kentistäSA=[]
 def kenttäkyselySA():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'SA' and airport.type = 'large_airport'"
@@ -82,13 +68,6 @@ def kenttäkyselySA():
         for rivi in tulos:
             lista_kentistäSA.append(rivi[0])
     return
-
-
-#Nämä funktiot tuo kaikki valittujen mantereiden kentät omiksi listoikseen.
-
-
-#Seuraava funktio arpoo pelattavat kentät
-
 def pelattavat_kentät():
     määräEU = 0
     while määräEU < 15:
@@ -131,12 +110,6 @@ def pelattavat_kentät():
             valitut_kentätSA.append(maa)
             määräSA = määräSA + 1
     return
-
-
-
-
-#tähän loppuu pelattavien kenttien valinta
-
 def pelaajan_koordinaatit(sijainti_icao):
     sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{sijainti_icao}'"
     #print(sql)
@@ -147,7 +120,6 @@ def pelaajan_koordinaatit(sijainti_icao):
      #   for rivi in tulos:
      #       print(f"Pelaajan  koordinaatit: {rivi[0]}, {rivi[1]}.")
     return tulos
-
 def pelaajan_sijainnin_nimi(sijainti_icao):
     sql = f"SELECT name FROM airport WHERE ident = '{sijainti_icao}'"
         # print(sql)
@@ -177,7 +149,6 @@ def kentän_etäisyys(py):
     kursori.execute(sql)
     tulos = kursori.fetchall()
     return tulos
-
 def matkustettavat_kentät():
     k = 1
     while k <= len(pelattavat_kentät) - 1:
@@ -189,7 +160,6 @@ def matkustettavat_kentät():
             seuraavat_kentät.append(h)
         k = k + 1
     return
-
 def koodi_nimeksi(koodi):
     sql = f"SELECT name FROM airport WHERE ident = '{koodi}'"
     # print(sql)
@@ -200,14 +170,12 @@ def koodi_nimeksi(koodi):
         for rivi in tulos:
             seuraavien_kenttien_nimet.append(rivi[0])
     return tulos
-
 def listaus():
     x = 0
     while x < len(seuraavat_kentät):
         n = seuraavat_kentät[x]
         äh = koodi_nimeksi(n)
         x = x + 1
-
 def kenttäluettelo():
     x = 0
     print('Tässä kentät joille voit matkustaa:')
@@ -216,7 +184,7 @@ def kenttäluettelo():
         print(f'{x + 1}.  {k}')
         x = x + 1
     return
-def peliluuppi2():
+def peliluuppi1():
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print(f'Kentän koodi: {sijainti_icao}')
@@ -226,79 +194,54 @@ def peliluuppi2():
     seuraavien_kenttien_nimet.clear()
     pelaajan_koordinaatit(sijainti_icao)
     matkustettavat_kentät()
-    # koodi_nimeksi()
     listaus()
     kenttäluettelo()
-
-    # seuraava_kohde()
     return
+def peliluuppi2(eih):
 
-def peliluuppi(kerätyt_kivet):
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print(f'Kentän koodi: {sijainti_icao}')
     print()
-    kerätyt_kivet = kiviarpa(kerätyt_kivet)
+    xx = kiviarpa()
+    xy = eih + xx
+    print(f'Kivien kerätty arvo: {xy}.')
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
     pelaajan_koordinaatit(sijainti_icao)
     matkustettavat_kentät()
-    # koodi_nimeksi()
     listaus()
     kenttäluettelo()
-
-    #seuraava_kohde()
-    return
-
+    return xy
 def seuraava_kohde():
     print()
     tulos = seuraavat_kentät[int(input('Mille kentälle seuraavaksi? ')) - 1]
     return tulos
+def kiviarpa():
 
-#Eli kun saapuu kentälle, arvotaan ensin löytyykö kivi.
-#def kenttäarpa(kivet):
- #   if kivet >0:
- #       tulos = random.randint(0, 1)
- #   return
-#def kivisekoilu(kivet):
-
-   # kivet_pelissä(kivet, kerätyt_kivet)
-   # return
-#Jos on, arvotaan toisella funktiolla sen "arvo", tässä 1-6 (voi muuttaa vielä).
-
-
-def kiviarpa(kerätyt_kivet):
     tulos = random.randint(1,6)
     if tulos == 6:
-        xy = kerätyt_kivet + (random.randint(1,6) * 2)
+        pöö = (random.randint(1,6) * 2)
         print("")
         print('Löysit suuren kiven!')
-        kivet_pelissä(kerätyt_kivet)
-        return xy
 
-    if tulos in range(3,6):
-        xy = kerätyt_kivet + random.randint(1,6)
+
+
+    elif tulos in range(3,6):
+        pöö = random.randint(1,6)
         print("")
         print('Löysit kiven!')
-        kivet_pelissä(kerätyt_kivet)
-        return xy
 
-    if tulos in range(0,3):
+
+
+    elif tulos < 3:
+        pöö = 0
         print("")
         print('Kentällä ei ole kiveä.')
-        kivet_pelissä(kerätyt_kivet)
-
-    return
 
 
-
-
-
-def kivet_pelissä(kerätyt_kivet):
-    print(f'Kivien kerätty arvo: {kerätyt_kivet}.')
-    print()
-    return
+    return pöö
 
 #    PÄÄOHJELMA
 
@@ -325,10 +268,8 @@ valitut_kentätOC=[]
 valitut_kentätNA=[]
 valitut_kentätSA=[]
 
-
 pelattavat_kentät()
 
-#pelattavat kentät samaan listaan
 pelattavat_kentät=[]
 pelattavat_kentät.extend(valitut_kentätEU)
 pelattavat_kentät.extend(valitut_kentätAF)
@@ -380,35 +321,32 @@ def peli_alkaa():
     print("--------------------------------------------------")
     print(" ")
 
-
 sijainti_icao = pelattavat_kentät[random.randint(0,89)]
 
 sijainti_nimi = []
 pelaajan_sijainnin_nimi(sijainti_icao)
 
-#liikkuminen ja kivet
-liikkeet = 4 #alussa
-kivet = 10
+liikkeet = 4
 kerätyt_kivet = 5
-kerätyt_pisteet = 0
 kierrokset = 1
 
 pelikoordinaatit = pelaajan_koordinaatit(sijainti_icao)
+
 print()
-
-
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
 
 peli_alkaa()
 while kierrokset < 2:
-    peliluuppi2()
+    peliluuppi1()
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
     pelattavat_kentät.remove(sijainti_icao)
     kierrokset = kierrokset + 1
+
 while kerätyt_kivet < 40:
-    peliluuppi(kerätyt_kivet)
+    kerätyt_kivet = peliluuppi2(kerätyt_kivet)
+
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
     pelattavat_kentät.remove(sijainti_icao)
