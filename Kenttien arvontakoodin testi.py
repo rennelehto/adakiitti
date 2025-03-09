@@ -5,7 +5,7 @@ import random
 lista_kentistä=[]
 
 def kenttäkysely():
-    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.iso_country = 'FI' and airport.type = 'medium_airport'"
+    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.iso_country = 'FI' and airport.type = 'medium_airport'"
    # print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
@@ -39,7 +39,8 @@ print(valitut_kentät)
 
 #(k1, k2, k3, k4, k5, k6, k7, k8, k9, k10) = valitut_kentät
 #print(k1)
-'''
+
+
 def kenttähaku():
     sql = f'SELECT name FROM airport WHERE ident = "{valitut_kentät[0]}"'
     kursori = yhteys.cursor()
@@ -48,6 +49,13 @@ def kenttähaku():
     if kursori.rowcount > 0:
         for rivi in tulos:
             print('Valitun kentän nimi on ' + rivi[0] + '.')
+    return tulos
+
+def sijainnin_vaihto():
+    sql = f"UPDATE peli SET sijainti = (SELECT ident FROM airport WHERE name = '{tulos}') WHERE nimi = 'pelaaja'"
+    print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
     return
 
 yhteys = mysql.connector.connect(
@@ -58,9 +66,9 @@ yhteys = mysql.connector.connect(
         password='1232',
         autocommit=True)
 
-kenttähaku()
+tulos = kenttähaku()
 
-'''
+sijainnin_vaihto()
 
 
 

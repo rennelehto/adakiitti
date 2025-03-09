@@ -245,16 +245,6 @@ def seuraava_kohde():
     #kivet_pelissä(kivet, kerätyt_kivet)
     return tulos
 
-#Eli kun saapuu kentälle, arvotaan ensin löytyykö kivi.
-#def kenttäarpa(kivet):
- #   if kivet >0:
- #       tulos = random.randint(0, 1)
- #   return
-#def kivisekoilu(kivet):
-
-   # kivet_pelissä(kivet, kerätyt_kivet)
-   # return
-#Jos on, arvotaan toisella funktiolla sen "arvo", tässä 1-6 (voi muuttaa vielä).
 
 def kivisekoilu():
     kiviarpa
@@ -263,30 +253,30 @@ def kivisekoilu():
 def kiviarpa(kivet, kerätyt_kivet):
     tulos = random.randint(1,6)
     if tulos == 6:
-        kivet = kivet - 1
+        #kivet = kivet - 1
 
         kerätyt_kivet = kerätyt_kivet + (random.randint(1,6) * 2)
         print('Löysit suuren kiven!')
 
-    if tulos in range(1, 6):
-        kivet = kivet - 1
+    if tulos in range(3, 6):
+       # kivet = kivet - 1
 
         kerätyt_kivet = kerätyt_kivet + random.randint(1,6)
         print('Löysit kiven!')
 
-    if tulos == 0:
+    if tulos in range(0, 3):
         print('Kentällä ei ole kiveä.')
 
     return kivet, kerätyt_kivet
 
 
 def kivet_pelissä(kivet, kerätyt_kivet):
-    if kivet > 1:
-        print(f'Pelissä on vielä  {kivet} kiveä.')
-    if kivet == 1:
-        print(f'Pelissä on vielä {kivet} kivi.')
-    if kivet == 0:
-        print('Lol.')
+    #if kivet > 1:
+    #    print(f'Pelissä on vielä  {kivet} kiveä.')
+    #if kivet == 1:
+    #    print(f'Pelissä on vielä {kivet} kivi.')
+    #if kivet == 0:
+    #    print('Lol.')
 
     print(f'Kivien kerätty arvo: {kerätyt_kivet}.')
     print()
@@ -369,39 +359,34 @@ alku()
 
 #Pelaajan alkukentän arvonta
 sijainti_icao = pelattavat_kentät[random.randint(0,89)]
-#print(f'Tässä on pelaajan kentän ICAO-koodi: {sijainti_icao}')
+
 sijainti_nimi = []
 pelaajan_sijainnin_nimi(sijainti_icao)
 
 #liikkuminen ja kivet
-liikkeet = 4 #alussa
-kivet = 10
+liikkeet = 4
+#kivet = 10
 kerätyt_kivet = 0
 kerätyt_pisteet = 0
 
 pelikoordinaatit = pelaajan_koordinaatit(sijainti_icao)
-print()
-#print(f'Olet kentällä {sijainti_nimi[0]}.')
-print()
+
 
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
 
 
-while kivet != 0:
+while kerätyt_kivet < 10:
     peliluuppi()
+
     kivet, kerätyt_kivet = kiviarpa(kivet, kerätyt_kivet)
-    #kivet_pelissä(kivet, kerätyt_kivet)
+
     sijainti_icao = seuraava_kohde()
-    #print(sijainti_icao)
+
     pelaajan_sijainnin_nimi(sijainti_icao)
-    #print(sijainti_nimi[0])
+
     pelattavat_kentät.remove(sijainti_icao)
 
-    #kenttäarpa(kivet, kerätyt_kivet)
-
-
-#tulos = kenttäarpa(kivet, kerätyt_kivet)
 
 
 

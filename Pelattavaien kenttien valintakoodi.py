@@ -101,8 +101,10 @@ kenttäkyselySA()
 valitut_kentätEU=[]
 määräEU = 0
 while määräEU < 15:
-    valitut_kentätEU.append(lista_kentistäEU[random.randint(0, 117)])
-    määräEU=määräEU+1
+    maa = lista_kentistäEU[random.randint(0, 117)]
+    if maa not in lista_kentistäEU:
+        valitut_kentätEU.append(maa)
+        määräEU=määräEU+1
 
 valitut_kentätAF=[]
 määräAF = 0

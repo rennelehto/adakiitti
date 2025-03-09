@@ -93,6 +93,7 @@ yhteys = mysql.connector.connect(
         user='python',
         password='1232',
         autocommit=True)
+
 #Nämä funktiot tuo kaikki valittujen mantereiden kentät omiksi listoikseen.
 kenttäkyselyEU()
 kenttäkyselyAF()
