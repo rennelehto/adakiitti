@@ -1,0 +1,23 @@
+drop table goal_reached;
+
+rename table peli to peli1;
+
+rename table game to peli;
+
+alter table peli
+    change screen_name nimi varchar(40) null;
+	
+alter table peli
+    change location sijainti varchar(10) null;
+	
+alter table game
+    drop column co2_consumed;
+	
+alter table game
+    drop column co2_budget;
+	
+update peli set ID = 777 where nimi = 'Heini';
+update peli set ID = 888 where nimi = 'Vesa';
+
+ insert into peli (ID, sijainti, nimi) values ('1', 'EFHK', 'Pelaaja');
+ insert into peli (ID, sijainti, nimi) values ('2', 'EFHK', 'Vihollinen');
