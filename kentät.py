@@ -14,7 +14,18 @@ def sijainti():
     return
 
 def vihollisvalinta():
-    tulos = random.randint(len(seuraavat_kentät - 1))
+    tulos = seuraavat_kentät[random.randint(0, (len(seuraavat_kentät) - 1))]
+    return tulos
+
+def vih_sijainnin_nimi(sijainti_icao):
+    sql = f"SELECT name FROM airport WHERE ident = '{sijainti_icao}'"
+        # print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if kursori.rowcount > 0:
+       for rivi in tulos:
+           vih_sijainti_nimi.append(rivi[0])
     return tulos
 
 while kivet != 0:
@@ -26,8 +37,8 @@ while kivet != 0:
     pelaajan_sijainnin_nimi(sijainti_icao)
     #print(sijainti_nimi[0])
     pelattavat_kentät.remove(sijainti_icao)
-    vih_sijainti_icao = vihollisvalinta
-    # print(sijainti_icao)
-    pelaajan_sijainnin_nimi(vih_sijainti_icao)
-    # print(sijainti_nimi[0])
+    vih_sijainti_icao = vihollisvalinta()
+    #print(vih_sijainti_icao)
+    vih_sijainnin_nimi(vih_sijainti_icao)
+    #print(vih_sijainti_nimi[0])
     pelattavat_kentät.remove(vih_sijainti_icao)
