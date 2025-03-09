@@ -352,5 +352,3 @@ while kerätyt_kivet < 40:
     pelaajan_sijainnin_nimi(sijainti_icao)
     pelattavat_kentät.remove(sijainti_icao)
     kierrokset = kierrokset + 1
-
-
