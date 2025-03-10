@@ -153,7 +153,7 @@ def kentän_etäisyys(py):
     return tulos
 def matkustettavat_kentät():
     k = 1
-    while k <= len(pelattavat_kentät) - 1:
+    while k <= 21:
         h = pelattavat_kentät[k]
         py = h
         seur = kentän_etäisyys(py)
@@ -163,12 +163,12 @@ def matkustettavat_kentät():
         k = k + 1
     return
 def koodi_nimeksi(koodi):
-    sql = f"SELECT name FROM airport WHERE ident = '{koodi}'"
+    sql = f"SELECT distinct name FROM airport WHERE ident = '{koodi}'"
     # print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
+    if kursori.rowcount < 20:
         for rivi in tulos:
             seuraavien_kenttien_nimet.append(rivi[0])
     return tulos
@@ -183,7 +183,6 @@ def kenttäluettelo():
     print('Tässä kentät joille voit matkustaa:')
     print()
     for k in seuraavien_kenttien_nimet:
-        #while index(k) < 20:
         print(f'{x + 1}.  {k}')
         x = x + 1
     return
@@ -201,7 +200,6 @@ def peliluuppi1():
     kenttäluettelo()
     return
 def peliluuppi2(eih):
-
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print(f'Kentän koodi: {sijainti_icao}')
@@ -357,10 +355,13 @@ while kierrokset < 2:
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
     if kerätyt_kivet >= 40: #Lopettaa pelin jos kivien määrä on 40 tai yli
+        kerätyt_kivet = 40
         break
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
     pelattavat_kentät.remove(sijainti_icao)
     kierrokset = kierrokset + 1
+
+
 
 
