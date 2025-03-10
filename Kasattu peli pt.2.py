@@ -206,7 +206,7 @@ def peliluuppi2(eih):
     print()
     xx = kiviarpa()
     xy = eih + xx
-    print(f'Hallussasi olevien kivien arvo: {xy}.')
+    print(f'Hallussasi olevien adakiittien arvo: {xy}.')
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -225,7 +225,7 @@ def kiviarpa():
     if tulos == 6:
         pöö = (random.randint(1,6) * 2)
         print("")
-        print('Löysit suuren kiven!')
+        print('Löysit suuren adakiitin!')
         print(f"Kivesi arvo on: {pöö}")
 
 
@@ -233,7 +233,7 @@ def kiviarpa():
     elif tulos in range(3,6):
         pöö = random.randint(1,6)
         print("")
-        print('Löysit kiven!')
+        print('Löysit adakiitin!')
         print(f"Kivesi arvo on: {pöö}")
 
 
@@ -241,7 +241,7 @@ def kiviarpa():
     elif tulos < 3:
         pöö = 0
         print("")
-        print('Kentällä ei ole kiveä.')
+        print('Kentällä ei ole adakiittiä.')
 
 
     return pöö
