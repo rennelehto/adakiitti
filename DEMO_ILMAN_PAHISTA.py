@@ -141,7 +141,7 @@ def kentän_etäisyys(py):
     return tulos
 def matkustettavat_kentät():
     k = 1
-    while k <= 21: #Hakee vain ensimmäiset 20 kenttää
+    while k <= 20: #Hakee vain ensimmäiset 20 kenttää
         h = pelattavat_kentät[k]
         py = h
         seur = kentän_etäisyys(py)
@@ -167,7 +167,7 @@ def listaus():
         äh = koodi_nimeksi(n)
         x = x + 1
 def kenttäluettelo():
-    x = 0
+    x = 1
     print('Tässä kentät joille voit matkustaa:')
     print()
     for k in seuraavien_kenttien_nimet:
