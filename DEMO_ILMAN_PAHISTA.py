@@ -156,7 +156,7 @@ def koodi_nimeksi(koodi):
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount < 20:
+    if kursori.rowcount < 21:
         for rivi in tulos:
             seuraavien_kenttien_nimet.append(rivi[0])
     return tulos
