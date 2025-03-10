@@ -112,16 +112,6 @@ def pelattavat_kentät():
             valitut_kentätSA.append(maa)
             määräSA = määräSA + 1
     return
-def pelaajan_koordinaatit(sijainti_icao):
-    sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{sijainti_icao}'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    #if kursori.rowcount > 0:
-     #   for rivi in tulos:
-     #       print(f"Pelaajan  koordinaatit: {rivi[0]}, {rivi[1]}.")
-    return tulos
 def pelaajan_sijainnin_nimi(sijainti_icao):
     sql = f"SELECT name FROM airport WHERE ident = '{sijainti_icao}'"
         # print(sql)
@@ -152,7 +142,7 @@ def kentän_etäisyys(py):
     tulos = kursori.fetchall()
     return tulos
 def matkustettavat_kentät():
-    k = 1
+    k = 0
     while k <= 21: #Hakee vain ensimmäiset 20 kenttää
         h = pelattavat_kentät[k]
         py = h
@@ -206,7 +196,7 @@ def peliluuppi2(eih):
     print()
     xx = kiviarpa()
     xy = eih + xx
-    print(f'Hallussasi olevien adakiittien arvo: {xy}.')
+    print(f'Hallussasi olevien kivien arvo: {xy}.')
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -225,7 +215,7 @@ def kiviarpa():
     if tulos == 6:
         pöö = (random.randint(1,6) * 2)
         print("")
-        print('Löysit suuren adakiitin!')
+        print('Löysit suuren kiven!')
         print(f"Kivesi arvo on: {pöö}")
 
 
@@ -233,7 +223,7 @@ def kiviarpa():
     elif tulos in range(3,6):
         pöö = random.randint(1,6)
         print("")
-        print('Löysit adakiitin!')
+        print('Löysit kiven!')
         print(f"Kivesi arvo on: {pöö}")
 
 
@@ -241,7 +231,7 @@ def kiviarpa():
     elif tulos < 3:
         pöö = 0
         print("")
-        print('Kentällä ei ole adakiittiä.')
+        print('Kentällä ei ole kiveä.')
 
 
     return pöö
@@ -283,12 +273,12 @@ pelattavat_kentät.extend(valitut_kentätSA)
 
 print(" ")
 print("                                                                                         Adakite--Adakiitti")
-pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
+pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
 
 def peli_alkaa():
     print(" ")
-    print(f"Hei {pelaajan_nimi}! Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia adakiittiä joilla hän haluaa aiheuttaa ilmastokatastrofin."
-          " \n Sinun täytyy kerätä adakiittiä, ja kerätä ilmatopisteitä voidaksesi päihittää velhon. ")
+    print(f"Hei {pelaajan_nimi}! Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin."
+          "\n Sinun täytyy kerätä kiviä, ja kerätä ilmatopisteitä voidaksesi päihittää velhon. ")
 
     Pelin_aloitus = int(input(                          #Vastaus valinta
                     "\n1. Asia selvä. "
