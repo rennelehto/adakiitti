@@ -208,7 +208,7 @@ def peliluuppi2(eih):
     print()
     xx = kiviarpa()
     xy = eih + xx
-    print(f'Kivien kerätty arvo: {xy}.')
+    print(f'Hallussasi olevien kivien arvo: {xy}.')
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -219,6 +219,8 @@ def peliluuppi2(eih):
     return xy
 def seuraava_kohde():
     print()
+    if kerätyt_kivet >= 40:
+        quit()
     tulos = seuraavat_kentät[int(input('Mille kentälle seuraavaksi? ')) - 1]
     return tulos
 def kiviarpa():
@@ -327,6 +329,7 @@ def peli_alkaa():
     print("--------------------------------------------------")
     print(" ")
 
+
 sijainti_icao = pelattavat_kentät[random.randint(0,89)]
 
 sijainti_nimi = []
@@ -342,6 +345,9 @@ print()
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
 
+
+
+
 peli_alkaa()
 while kierrokset < 2:
     peliluuppi1()
@@ -350,8 +356,6 @@ while kierrokset < 2:
     pelattavat_kentät.remove(sijainti_icao)
     kierrokset = kierrokset + 1
 
-#if kerätyt_kivet >= 40:
-    #quit()
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
     sijainti_icao = seuraava_kohde()
