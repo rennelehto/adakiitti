@@ -153,7 +153,7 @@ def kentän_etäisyys(py):
     return tulos
 def matkustettavat_kentät():
     k = 1
-    while k <= 21:
+    while k <= 21: #Hakee vain ensimmäiset 20 kenttää
         h = pelattavat_kentät[k]
         py = h
         seur = kentän_etäisyys(py)
