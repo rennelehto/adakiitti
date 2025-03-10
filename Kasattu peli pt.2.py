@@ -356,7 +356,7 @@ while kierrokset < 2:
 
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
-    if kerätyt_kivet >= 40:
+    if kerätyt_kivet >= 40: #Lopettaa pelin jos kivien määrä on 40 tai yli
         break
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
