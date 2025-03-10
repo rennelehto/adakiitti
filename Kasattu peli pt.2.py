@@ -219,8 +219,6 @@ def peliluuppi2(eih):
     return xy
 def seuraava_kohde():
     print()
-    if kerätyt_kivet >= 40:
-        quit()
     tulos = seuraavat_kentät[int(input('Mille kentälle seuraavaksi? ')) - 1]
     return tulos
 def kiviarpa():
@@ -358,7 +356,11 @@ while kierrokset < 2:
 
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
+    if kerätyt_kivet >= 40:
+        break
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
     pelattavat_kentät.remove(sijainti_icao)
     kierrokset = kierrokset + 1
+
+
