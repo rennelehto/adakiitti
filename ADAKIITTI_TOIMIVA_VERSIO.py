@@ -347,3 +347,14 @@ while kerätyt_kivet < 40:
 
 
 print("Olet löytänyt 40 adakiittia! Onneksi olkoon, seuraavassa jaksossa loppuhuippennuksena kaksintaistelu vihollisen kanssa!")
+def demoloppu():
+    ö = 0
+    pisteet = 0
+    while ö < kerätyt_kivet:
+        pisteet = pisteet + random.randint(1, 6)
+        ö = ö + 1
+    return pisteet
+
+
+pisteet = demoloppu()
+print(f"Sait {pisteet} pistettä!")
