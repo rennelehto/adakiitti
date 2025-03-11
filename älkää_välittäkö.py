@@ -204,7 +204,6 @@ def peliluuppi2(eih):
     pelaajan_koordinaatit(sijainti_icao)
     matkustettavat_kentät()
     listaus()
-    kenttäluettelo()
     return xy
 def seuraava_kohde():
     while True:
@@ -338,8 +337,11 @@ while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
     if kerätyt_kivet >= 40:
         break
+    kenttäluettelo()
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
     if sijainti_icao in pelattavat_kentät_lista:
         pelattavat_kentät_lista.remove(sijainti_icao)
     kierrokset = kierrokset + 1
+
+    #muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:
