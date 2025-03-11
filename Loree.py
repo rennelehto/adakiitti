@@ -17,9 +17,7 @@ Tästä alkaa kilpajuoksu kivien luo!
 
 Pystyt teleporttaamaan tukikohdastasi yhdelle ennalta määrittelemättömälle
 kentälle, jonka jälkeen sinulla on rajattu määrä energiaa matkustaa portaalien
-välillä. Kerättyäsi adakiitin, et voi enää palata kyseiselle kentälle.
-Voit käyttää myös adakiitteja matkustamiseen, mutta muista että ne kuormittavat
-ympäristöä. Harkitse tarkkaan liikkeesi!
+välillä. Kerättyäsi adakiitin, et voi enää palata kyseiselle kentälle. Harkitse tarkkaan liikkeesi!
 '''
 
 #Peli välissä
