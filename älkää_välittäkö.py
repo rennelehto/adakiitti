@@ -2,6 +2,17 @@ import mysql.connector
 import random
 from geopy import distance
 
+yhteys = mysql.connector.connect(
+      #  host='127.0.0.1',
+      #  port=3306,
+        database='flight_game',
+        user='eliell2',
+        password='gr0ups',
+        autocommit=True)
+
+seuraavat_kentät = []
+seuraavien_kenttien_nimet = []
+
 lista_kentistäEU=[]
 def kenttäkyselyEU():
     sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'EU' and airport.type = 'large_airport'"
@@ -9,7 +20,7 @@ def kenttäkyselyEU():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
+    if tulos:
         for rivi in tulos:
             lista_kentistäEU.append(rivi[0])
     return
@@ -20,7 +31,7 @@ def kenttäkyselyAF():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
+    if tulos:
         for rivi in tulos:
             lista_kentistäAF.append(rivi[0])
     return
@@ -31,7 +42,7 @@ def kenttäkyselyAS():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
+    if tulos:
         for rivi in tulos:
             lista_kentistäAS.append(rivi[0])
     return
@@ -42,7 +53,7 @@ def kenttäkyselyOC():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
+    if tulos:
         for rivi in tulos:
             lista_kentistäOC.append(rivi[0])
     return
@@ -53,7 +64,7 @@ def kenttäkyselyNA():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
+    if tulos:
         for rivi in tulos:
             lista_kentistäNA.append(rivi[0])
     return
@@ -64,83 +75,71 @@ def kenttäkyselySA():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
+    if tulos:
         for rivi in tulos:
             lista_kentistäSA.append(rivi[0])
     return
 def pelattavat_kentät():
     määräEU = 0
     while määräEU < 15:
-        maa = lista_kentistäEU[random.randint(0, 116)]
-        valitut_kentätEU.append(maa)
+        maa = random.choice(lista_kentistäAF)
+        if maa not in valitut_kentätEU:
+            maa = random.choice(lista_kentistäEU)
+        pelattavat_kentät_lista.append(maa)
         määräEU = määräEU + 1
 
     määräAF = 0
     while määräAF < 15:
-        maa = lista_kentistäAF[random.randint(0, 44)]
+        maa = random.choice(lista_kentistäAF)
         if maa not in valitut_kentätAF:
-            valitut_kentätAF.append(maa)
+            pelattavat_kentät_lista.append(maa)
             määräAF = määräAF + 1
 
     määräAS = 0
     while määräAS < 15:
-        maa = lista_kentistäAS[random.randint(0, 36)]
+        maa = random.choice(lista_kentistäAS)
         if maa not in valitut_kentätAS:
-            valitut_kentätAS.append(maa)
+            pelattavat_kentät_lista.append(maa)
             määräAS = määräAS + 1
 
     määräOC = 0
     while määräOC < 15:
-        maa = lista_kentistäOC[random.randint(0, 16)]
+        maa = random.choice(lista_kentistäOC)
         if maa not in valitut_kentätOC:
-            valitut_kentätOC.append(maa)
+            pelattavat_kentät_lista.append(maa)
             määräOC = määräOC + 1
 
     määräNA = 0
     while määräNA < 15:
-        maa = lista_kentistäNA[random.randint(0, 107)]
+        maa = random.choice(lista_kentistäNA)
         if maa not in valitut_kentätNA:
-            valitut_kentätNA.append(maa)
+            pelattavat_kentät_lista.append(maa)
             määräNA = määräNA + 1
 
     määräSA = 0
     while määräSA < 15:
-        maa = lista_kentistäSA[random.randint(0, 21)]
+        maa = random.choice(lista_kentistäSA)
         if maa not in valitut_kentätSA:
-            valitut_kentätSA.append(maa)
+            pelattavat_kentät_lista.append(maa)
             määräSA = määräSA + 1
     return
 def pelaajan_koordinaatit(sijainti_icao):
     sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{sijainti_icao}'"
-    #print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    tulos = kursori.fetchall()
-    #if kursori.rowcount > 0:
-     #   for rivi in tulos:
-     #       print(f"Pelaajan  koordinaatit: {rivi[0]}, {rivi[1]}.")
-    return tulos
+    tulos_kordinaatit = kursori.fetchone()
+    kursori.close()
+    return tulos_kordinaatit if tulos_kordinaatit else (0, 0)
 def pelaajan_sijainnin_nimi(sijainti_icao):
     sql = f"SELECT name FROM airport WHERE ident = '{sijainti_icao}'"
         # print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
-       for rivi in tulos:
+    tulos_nimi = kursori.fetchall()
+    if tulos_nimi:
+       for rivi in tulos_nimi:
            sijainti_nimi.append(rivi[0])
-    return tulos
-def pelaajan_koordinaatit(sijainti_icao):
-    sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE airport.ident = '{sijainti_icao}'"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    #if kursori.rowcount > 0:
-     #  for rivi in tulos:
-      #     pelikoordinaatit.append(rivi[0])
-      #     pelikoordinaatit.append(rivi[1])
-    return tulos
-
+    return tulos_nimi
     # tämä hakee kentän koordinaatit
 def kentän_etäisyys(py):
     sql = f"SELECT latitude_deg, longitude_deg from airport, country where airport.iso_country = country.iso_country and ident = '{py}'"
@@ -150,23 +149,20 @@ def kentän_etäisyys(py):
     tulos = kursori.fetchall()
     return tulos
 def matkustettavat_kentät():
-    k = 1
-    while k <= len(pelattavat_kentät):
-        h = pelattavat_kentät[k]
-        py = h
-        seur = kentän_etäisyys(py)
+    for h in pelattavat_kentät_lista:
+        seur = kentän_etäisyys(h)
+        if seur:
+            seur_lat, seur_lon = seur[0]
 
-        if ((liikkeet + kerätyt_kivet) * 500) > distance.distance(pelikoordinaatit, seur).km > 0:
-            seuraavat_kentät.append(h)
-        k = k + 1
-    return
+            if 0 < distance.distance(pelikoordinaatit, (seur_lat, seur_lon)).km < ((liikkeet + kerätyt_kivet) * 500):
+                seuraavat_kentät.append(h)
 def koodi_nimeksi(koodi):
     sql = f"SELECT name FROM airport WHERE ident = '{koodi}'"
     # print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
+    if tulos:
         for rivi in tulos:
             seuraavien_kenttien_nimet.append(rivi[0])
     return tulos
@@ -189,16 +185,12 @@ def peliluuppi1():
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print(f'Kentän koodi: {sijainti_icao}')
     print()
-    sijainti_nimi.clear()
-    seuraavat_kentät.clear()
-    seuraavien_kenttien_nimet.clear()
     pelaajan_koordinaatit(sijainti_icao)
     matkustettavat_kentät()
     listaus()
     kenttäluettelo()
     return
 def peliluuppi2(eih):
-
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print(f'Kentän koodi: {sijainti_icao}')
@@ -215,13 +207,19 @@ def peliluuppi2(eih):
     kenttäluettelo()
     return xy
 def seuraava_kohde():
-    print()
-    tulos = seuraavat_kentät[int(input('Mille kentälle seuraavaksi? ')) - 1]
-    return tulos
+    while True:
+        try:
+            valinta = int(input('Mille kentälle seuraavaksi? ')) - 1
+            if 0 <= valinta < len(seuraavat_kentät):
+                return seuraavat_kentät[valinta]
+            else:
+                print("Virheellinen valinta, yritä uudelleen.")
+        except ValueError:
+            print("Syötä numero.")
 def kiviarpa():
 
-    tulos = random.randint(1,6)
-    if tulos == 6:
+    tulos_kiviarpa = random.randint(1,6)
+    if tulos_kiviarpa == 6:
         pöö = (random.randint(1,6) * 2)
         print("")
         print('Löysit suuren adakiitin!')
@@ -229,7 +227,7 @@ def kiviarpa():
 
 
 
-    elif tulos in range(3,6):
+    elif tulos_kiviarpa in range(3,6):
         pöö = random.randint(1,6)
         print("")
         print('Löysit adakiitin!')
@@ -237,7 +235,7 @@ def kiviarpa():
 
 
 
-    elif tulos < 3:
+    elif tulos_kiviarpa < 3:
         pöö = 0
         print("")
         print('Kentällä ei ole adakiittiä.')
@@ -246,14 +244,16 @@ def kiviarpa():
     return pöö
 #    PÄÄOHJELMA
 
-yhteys = mysql.connector.connect(
-      #  host='127.0.0.1',
-      #  port=3306,
-        database='flight_game',
-        user='eliell2',
-        password='gr0ups',
-        autocommit=True)
 
+
+pelattavat_kentät_lista=[]
+
+valitut_kentätEU = []
+valitut_kentätAF = []
+valitut_kentätAS = []
+valitut_kentätOC = []
+valitut_kentätNA = []
+valitut_kentätSA = []
 
 kenttäkyselyEU()
 kenttäkyselyAF()
@@ -262,23 +262,8 @@ kenttäkyselyOC()
 kenttäkyselyNA()
 kenttäkyselySA()
 
-valitut_kentätEU=[]
-valitut_kentätAF=[]
-valitut_kentätAS=[]
-valitut_kentätOC=[]
-valitut_kentätNA=[]
-valitut_kentätSA=[]
 
 pelattavat_kentät()
-
-pelattavat_kentät=[]
-pelattavat_kentät.extend(valitut_kentätEU)
-pelattavat_kentät.extend(valitut_kentätAF)
-pelattavat_kentät.extend(valitut_kentätAS)
-pelattavat_kentät.extend(valitut_kentätOC)
-pelattavat_kentät.extend(valitut_kentätNA)
-pelattavat_kentät.extend(valitut_kentätSA)
-
 print(" ")
 print("                                                                                         Adakite--Adakiitti")
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
@@ -292,7 +277,7 @@ def peli_alkaa():
                     "\n2. Okei. "
                     "\n3. En halua. "
                     "\n: "))
-    while int(Pelin_aloitus) == 1 or 2 or 3:
+    while Pelin_aloitus in [1,2,3]:
         if Pelin_aloitus == 1:
             print("--------------------------------------------------")
             print("Asia selvä.")
@@ -308,7 +293,7 @@ def peli_alkaa():
             print("Valitettavasti et saa jatkaa.")
             print("--------------------------------------------------")
             quit()
-        if Pelin_aloitus != [1,2,3]:
+        if Pelin_aloitus not in [1,2,3]:
             print("--------------------------------------------------")
             print("Error,please try again")
             print("--------------------------------------------------")
@@ -322,20 +307,22 @@ def peli_alkaa():
     print("--------------------------------------------------")
     print(" ")
 
-sijainti_icao = pelattavat_kentät[random.randint(0,89)]
+print(f"Playable airports: {len(pelattavat_kentät_lista)}")
+if not pelattavat_kentät_lista:
+    print("Error: No playable airports found!")
+sijainti_icao = random.choice(pelattavat_kentät_lista)
 
 sijainti_nimi = []
 pelaajan_sijainnin_nimi(sijainti_icao)
 
 liikkeet = 4
-kerätyt_kivet = 5
+kerätyt_kivet = int(5)
 kierrokset = 1
 
 pelikoordinaatit = pelaajan_koordinaatit(sijainti_icao)
 
 print()
-seuraavat_kentät = []
-seuraavien_kenttien_nimet = []
+
 
 peli_alkaa()
 
@@ -343,13 +330,16 @@ while kierrokset < 2:
     peliluuppi1()
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
-    pelattavat_kentät.remove(sijainti_icao)
+    if sijainti_icao in pelattavat_kentät_lista:
+        pelattavat_kentät_lista.remove(sijainti_icao)
     kierrokset = kierrokset + 1
 
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
-
+    if kerätyt_kivet >= 40:
+        break
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
-    pelattavat_kentät.remove(sijainti_icao)
+    if sijainti_icao in pelattavat_kentät_lista:
+        pelattavat_kentät_lista.remove(sijainti_icao)
     kierrokset = kierrokset + 1
