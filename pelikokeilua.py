@@ -320,7 +320,7 @@ pelattavat_kentät.extend(valitut_kentätNA)
 pelattavat_kentät.extend(valitut_kentätSA)
 
 print('Hyvä peli se on.')
-'''
+
 print('...')
 print(' Ilmasto lämpenee lämpenemistään ja sen estämiseen kykenevät tahot'
 '\n vain tahkoavat rahaa ympäristön kustannuksella. On aika tarttua'
@@ -341,7 +341,7 @@ print(' Pystyt teleporttaamaan tukikohdastasi yhdelle ennalta määrittelemätt�
 '\n Voit käyttää myös adakiitteja matkustamiseen, mutta muista että ne kuormittavat'
 '\n ympäristöä. Harkitse tarkkaan liikkeesi!'
 '\n')
-'''
+
 def alku():
 
     ala = input('Oletko valmis seikkailuun? (k/e) ')
