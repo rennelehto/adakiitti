@@ -18,12 +18,12 @@ Tästä alkaa kilpajuoksu kivien luo!
 Pystyt teleporttaamaan tukikohdastasi yhdelle ennalta määrittelemättömälle
 kentälle, jonka jälkeen sinulla on rajattu määrä energiaa matkustaa portaalien
 välillä. Kerättyäsi adakiitin, et voi enää palata kyseiselle kentälle. Harkitse tarkkaan liikkeesi!
-'''
+
 
 #Peli välissä
 
 #Tähän vielä selitystä pelimekaniikasta
-'''
+
 Kaikki adakiitit on kerätty ja raivostunut velho Suur-Ruksi teleporttaa 
 portaalin viereen! On totuuden hetki, pystytkö kukistamaan velhon? 
 '''
