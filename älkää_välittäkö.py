@@ -80,49 +80,19 @@ def kenttäkyselySA():
             lista_kentistäSA.append(rivi[0])
     return
 def pelattavat_kentät():
-    määräEU = 0
-    while määräEU < 15:
-        maa = random.choice(lista_kentistäAF)
-        if maa not in valitut_kentätEU:
-            maa = random.choice(lista_kentistäEU)
-        pelattavat_kentät_lista.append(maa)
-        määräEU = määräEU + 1
+    määrä_dict = {"EU": 15, "AF": 15, "AS": 15, "OC": 15, "NA": 15, "SA": 15}
+    kenttä_listat = {
+        "EU": lista_kentistäEU,
+        "AF": lista_kentistäAF,
+        "AS": lista_kentistäAS,
+        "OC": lista_kentistäOC,
+        "NA": lista_kentistäNA,
+        "SA": lista_kentistäSA
+    }
 
-    määräAF = 0
-    while määräAF < 15:
-        maa = random.choice(lista_kentistäAF)
-        if maa not in valitut_kentätAF:
-            pelattavat_kentät_lista.append(maa)
-            määräAF = määräAF + 1
+    for maanosa, määrä in määrä_dict.items():
+        pelattavat_kentät_lista.extend(random.sample(kenttä_listat[maanosa], min(määrä, len(kenttä_listat[maanosa]))))
 
-    määräAS = 0
-    while määräAS < 15:
-        maa = random.choice(lista_kentistäAS)
-        if maa not in valitut_kentätAS:
-            pelattavat_kentät_lista.append(maa)
-            määräAS = määräAS + 1
-
-    määräOC = 0
-    while määräOC < 15:
-        maa = random.choice(lista_kentistäOC)
-        if maa not in valitut_kentätOC:
-            pelattavat_kentät_lista.append(maa)
-            määräOC = määräOC + 1
-
-    määräNA = 0
-    while määräNA < 15:
-        maa = random.choice(lista_kentistäNA)
-        if maa not in valitut_kentätNA:
-            pelattavat_kentät_lista.append(maa)
-            määräNA = määräNA + 1
-
-    määräSA = 0
-    while määräSA < 15:
-        maa = random.choice(lista_kentistäSA)
-        if maa not in valitut_kentätSA:
-            pelattavat_kentät_lista.append(maa)
-            määräSA = määräSA + 1
-    return
 def pelaajan_koordinaatit(sijainti_icao):
     sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{sijainti_icao}'"
     kursori = yhteys.cursor()
@@ -164,7 +134,8 @@ def koodi_nimeksi(koodi):
     tulos = kursori.fetchall()
     if tulos:
         for rivi in tulos:
-            seuraavien_kenttien_nimet.append(rivi[0])
+            if rivi not in seuraavien_kenttien_nimet:
+                seuraavien_kenttien_nimet.append(rivi[0])
     return tulos
 def listaus():
     x = 0
@@ -247,6 +218,8 @@ def kiviarpa():
 
 
 pelattavat_kentät_lista=[]
+pelattavat_kentät_lista_2 = []
+[pelattavat_kentät_lista_2.append(val) for val in pelattavat_kentät_lista if val not in pelattavat_kentät_lista_2]
 
 valitut_kentätEU = []
 valitut_kentätAF = []
@@ -307,9 +280,7 @@ def peli_alkaa():
     print("--------------------------------------------------")
     print(" ")
 
-print(f"Playable airports: {len(pelattavat_kentät_lista)}")
-if not pelattavat_kentät_lista:
-    print("Error: No playable airports found!")
+
 sijainti_icao = random.choice(pelattavat_kentät_lista)
 
 sijainti_nimi = []
@@ -330,8 +301,8 @@ while kierrokset < 2:
     peliluuppi1()
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
-    if sijainti_icao in pelattavat_kentät_lista:
-        pelattavat_kentät_lista.remove(sijainti_icao)
+    if sijainti_icao in pelattavat_kentät_lista_2:
+        pelattavat_kentät_lista_2.remove(sijainti_icao)
     kierrokset = kierrokset + 1
 
 while kerätyt_kivet < 40:
@@ -342,8 +313,11 @@ while kerätyt_kivet < 40:
     kenttäluettelo()
     sijainti_icao = seuraava_kohde()
     pelaajan_sijainnin_nimi(sijainti_icao)
-    if sijainti_icao in pelattavat_kentät_lista:
-        pelattavat_kentät_lista.remove(sijainti_icao)
+    if sijainti_icao in pelattavat_kentät_lista_2:
+        pelattavat_kentät_lista_2.remove(sijainti_icao)
     kierrokset = kierrokset + 1
 
     #muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:, ja muokkasin myös seuraava kohde funktiota
+
+
+print("Olet löytänyt 40 adakiittia! Onneksi olkoon, seuraavassa jaksossa loppuhuippennuksena kaksintaistelu vihollisen kanssa!")
