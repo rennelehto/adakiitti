@@ -66,7 +66,7 @@ def pelaajat():
 '''
 
 def sijainnin_vaihto():
-    sql = f"ALTER TABLE peli SET sijainti as (select ident from airport where name = '{}') WHERE nimi = 'pelaaja';"
+    sql = f"ALTER TABLE peli SET sijainti as (select ident from airport where name = '{'h'}') WHERE nimi = 'pelaaja';"
         # print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
