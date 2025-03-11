@@ -170,20 +170,21 @@ def listaus():
     x = 0
     while x < len(seuraavat_kentät):
         n = seuraavat_kentät[x]
-        äh = koodi_nimeksi(n)
+        koodi_nimeksi(n)
         x = x + 1
 def kenttäluettelo():
     x = 0
     print('Tässä kentät joille voit matkustaa:')
     print()
-    for k in seuraavien_kenttien_nimet:
-        print(f'{x + 1}.  {k}')
+    for x in range(min(20, len(seuraavien_kenttien_nimet))):
+        print(f'{x + 1}. {seuraavien_kenttien_nimet[x]}')
         x = x + 1
     return
 def peliluuppi1():
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print(f'Kentän koodi: {sijainti_icao}')
+    print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
     pelaajan_koordinaatit(sijainti_icao)
     matkustettavat_kentät()
@@ -222,7 +223,7 @@ def kiviarpa():
         pöö = (random.randint(1,6) * 2)
         print("")
         print('Löysit suuren adakiitin!')
-        print(f"Kivesi arvo on: {pöö}")
+        print(f"Sen arvo on: {pöö}")
 
 
 
@@ -230,7 +231,7 @@ def kiviarpa():
         pöö = random.randint(1,6)
         print("")
         print('Löysit adakiitin!')
-        print(f"Kivesi arvo on: {pöö}")
+        print(f"Sen arvo on: {pöö}")
 
 
 
@@ -336,6 +337,7 @@ while kierrokset < 2:
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
     if kerätyt_kivet >= 40:
+        kerätyt_kivet = 40
         break
     kenttäluettelo()
     sijainti_icao = seuraava_kohde()
@@ -344,4 +346,4 @@ while kerätyt_kivet < 40:
         pelattavat_kentät_lista.remove(sijainti_icao)
     kierrokset = kierrokset + 1
 
-    #muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:
+    #muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:, ja muokkasin myös seuraava kohde funktiota
