@@ -170,6 +170,9 @@ def peliluuppi2(eih):
     xx = kiviarpa()
     xy = eih + xx
     print(f'Kivien kerätty arvo: {xy}.')
+    vastaus = input("1. Jee!"
+                    "\n2. Voi ei :("
+                    "\n3. Tiesitkö ")
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
