@@ -143,6 +143,9 @@ def listaus():
         n = seuraavat_kentät[x]
         koodi_nimeksi(n)
         x = x + 1
+
+vastausvaihtoehdot_pos = ["Jee!","Hienoa!","Mahtavaa!","Voisin itkeä ilosta :')","Ou jee!","Erinomaista!"]
+vastausvaihtoehdot_neg = ["Voi ei! :(","Höh..","EIIIII!!","Himputti..!!","No onpa kiva","Millon pääsee kotiin..."]
 def kenttäluettelo():
     x = 0
     print('Tässä kentät joille voit matkustaa:')
@@ -170,9 +173,14 @@ def peliluuppi2(eih):
     xx = kiviarpa()
     xy = eih + xx
     print(f'Kivien kerätty arvo: {xy}.')
-    vastaus = input("1. Jee!"
-                    "\n2. Voi ei :("
-                    "\n3. Tiesitkö ")
+    if xx == 0:
+        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg)} "
+                    f"\n2. {random.choice(vastausvaihtoehdot_neg)}"
+                    "\n: ")
+    else:
+        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_pos)} "
+                        f"\n2. {random.choice(vastausvaihtoehdot_pos)}"
+                        "\n: ")
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -250,33 +258,26 @@ def peli_alkaa():
 
     Pelin_aloitus = int(input(                          #Vastaus valinta
                     "\n1. Asia selvä. "
-                    "\n2. Okei. "
-                    "\n3. En halua. "
+                    "\n2. En halua. "
                     "\n: "))
-    while Pelin_aloitus in [1,2,3]:
+    while Pelin_aloitus in [1,2]:
         if Pelin_aloitus == 1:
             print("--------------------------------------------------")
             print("Asia selvä.")
             print("--------------------------------------------------")
             break
-        if Pelin_aloitus == 2 :
-            print("--------------------------------------------------")
-            print("Okei.")
-            print("--------------------------------------------------")
-            break
-        if Pelin_aloitus == 3:
+        if Pelin_aloitus == 2:
             print("--------------------------------------------------")
             print("Valitettavasti et saa jatkaa.")
             print("--------------------------------------------------")
             quit()
-        if Pelin_aloitus not in [1,2,3]:
+        if Pelin_aloitus not in [1,2]:
             print("--------------------------------------------------")
             print("Error,please try again")
             print("--------------------------------------------------")
             Pelin_aloitus = int(input(  # Vastaus valinta
                 "\n1. Asia selvä. "
-                "\n2. Okei. "
-                "\n3. En halua. "
+                "\n2. En halua. "
                 "\n: "))
 
     print("Onnea matkaan, ja käytä voimiasi hyvään.")
