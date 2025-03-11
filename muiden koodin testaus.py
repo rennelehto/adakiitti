@@ -1,401 +1,125 @@
-import mysql.connector
 import random
-from geopy import distance
 
-#                             MUISTAKAA VAIHTAA OMAT TIETOKANTATUNNUKSET!!
+def nopanheitto():
+    return random.randint(1, 6)
 
-#Näihin listoihin tulee nyt kenttien nimet.
+#pelaajan päätökset, jotka vaikuttavat pisteisiin
+def pelaajan_toiminta(matkustaako, ympäristöpisteet, vastustajan_siirrot):
+    if matkustaako:
+        ympäristöpisteet.append(-1)  #matkustaminen vähentää yhden pisteen
+        vastustajan_siirrot += 1  # Vastustaja liikkuu joka vuorolla
+    else:
+        ympäristöpisteet.append(3)  #jos pelaaja ei matkusta, saa hän kolme pistettä
+    return ympäristöpisteet, vastustajan_siirrot
 
-#Euroopassa on 118 suurta kenttää.
+#vastustajan liike
+def vastustajan_liike(ympäristöpisteet, vastustajan_siirrot):
+    for i in range(vastustajan_siirrot):
+        ympäristöpisteet.append(-1)  #vastustaja liikkuu joka vuorolla -1 piste
+    return ympäristöpisteet
 
-yhteys = mysql.connector.connect(
-      #  host='127.0.0.1',
-      #  port=3306,
-        database='flight_game',
-        user='python',
-        password='1232',
-        autocommit=True)
+#Arvotaan löytyykö kentältä kiveä
+def kenttäarpa():
+    return random.randint(0, 6)
 
-lista_kentistäEU=[]
-def kenttäkyselyEU():
-    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'EU' and airport.type = 'large_airport'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
-        for rivi in tulos:
-            lista_kentistäEU.append(rivi[0])
-    return
+#arvotaan kiven arvo
+def kiviarpa():
+    return random.randint(1, 6)
 
-#Afrikassa on 45 suurta kenttää.
-lista_kentistäAF=[]
+#laske loppupisteet
+def laske_loppupisteet(ympäristöpisteet, kivet_yhteensä):
+    return sum(kivet_yhteensä) + sum(ympäristöpisteet)
 
-def kenttäkyselyAF():
-    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'AF' and airport.type = 'large_airport'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
-        for rivi in tulos:
-            lista_kentistäAF.append(rivi[0])
-    return
+#heitetään noppaa
+def heita_nopat(loppupisteet):
+    return sum(nopanheitto() for i in range(loppupisteet))
 
-#Aasiassa on 137 suurta kenttää.
-lista_kentistäAS=[]
+def pelaa():
+    pelaajan_kivet = []
+    vastustajan_kivet = []
+    ympäristöpisteet = [20]  #pelaajalla ja vastustajalla yhteiset ympäristöpisteet
+    vastustajan_siirrot = 0
 
-def kenttäkyselyAS():
-    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'AS' and airport.type = 'large_airport'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
-        for rivi in tulos:
-            lista_kentistäAS.append(rivi[0])
-    return
+    while True:
+        pelaajan_pisteet = laske_loppupisteet(ympäristöpisteet, pelaajan_kivet)
+        vastustajan_pisteet = laske_loppupisteet(ympäristöpisteet, vastustajan_kivet)
 
-#Oseaniassa on 17 suurta kenttää.
-lista_kentistäOC=[]
-def kenttäkyselyOC():
-    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'OC' and airport.type = 'large_airport'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
-        for rivi in tulos:
-            lista_kentistäOC.append(rivi[0])
-    return
+        print(f"Pelaajan kivet: {pelaajan_kivet}")
+        print(f"Vastustajan kivet: {vastustajan_kivet}")
+        print(f"Pelaajan pisteet: {pelaajan_pisteet}")
+        print(f"Vastustajan pisteet: {vastustajan_pisteet}")
+        print(f"Ympäristöpisteet: {sum(ympäristöpisteet)}")
 
-#Pohjois-Amerikassa on 108 suurta kenttää.
-lista_kentistäNA=[]
-def kenttäkyselyNA():
-    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'NA' and airport.type = 'large_airport'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
-        for rivi in tulos:
-            lista_kentistäNA.append(rivi[0])
-    return
-
-#Etelä-Amerikassa on 22 suurta kenttää.
-lista_kentistäSA=[]
-def kenttäkyselySA():
-    sql = f"select airport.name from airport, country where airport.iso_country = country.iso_country and country.continent = 'SA' and airport.type = 'large_airport'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    if kursori.rowcount > 0:
-        for rivi in tulos:
-            lista_kentistäSA.append(rivi[0])
-    return
-
-
-#Nämä funktiot tuo kaikki valittujen mantereiden kentät omiksi listoikseen.
-kenttäkyselyEU()
-kenttäkyselyAF()
-kenttäkyselyAS()
-kenttäkyselyOC()
-kenttäkyselyNA()
-kenttäkyselySA()
-#print(lista_kentistä)
-
-#Seuraavat pätkät arpoo 15 kenttää per mantere listalle.
-valitut_kentätEU=[]
-määräEU = 0
-while määräEU < 15:
-    maa=lista_kentistäEU[random.randint(0, 116)]
-    valitut_kentätEU.append(maa)
-    määräEU=määräEU+1
-
-valitut_kentätAF=[]
-määräAF = 0
-while määräAF < 15:
-    maa=lista_kentistäAF[random.randint(0, 44)]
-    if maa not in valitut_kentätAF:
-        valitut_kentätAF.append(maa)
-        määräAF=määräAF+1
-
-valitut_kentätAS=[]
-määräAS = 0
-while määräAS < 15:
-    maa = lista_kentistäAS[random.randint(0, 36)]
-    if maa not in valitut_kentätAS:
-        valitut_kentätAS.append(maa)
-        määräAS = määräAS + 1
-
-valitut_kentätOC=[]
-määräOC = 0
-while määräOC < 15:
-    maa = lista_kentistäOC[random.randint(0, 16)]
-    if maa not in valitut_kentätOC:
-        valitut_kentätOC.append(maa)
-        määräOC = määräOC + 1
-
-valitut_kentätNA=[]
-määräNA = 0
-while määräNA < 15:
-    maa = lista_kentistäNA[random.randint(0, 107)]
-    if maa not in valitut_kentätNA:
-        valitut_kentätNA.append(maa)
-        määräNA = määräNA + 1
-
-valitut_kentätSA=[]
-määräSA = 0
-while määräSA < 15:
-    maa = lista_kentistäSA[random.randint(0, 21)]
-    if maa not in valitut_kentätSA:
-        valitut_kentätSA.append(maa)
-        määräSA = määräSA + 1
-
-#Tässä valitut kentät yhdistyy yhdeksi listaksi kenttiä, joille pelaajalla on pääsy.
-
-pelattavat_kentät=[]
-pelattavat_kentät.extend(valitut_kentätEU)
-pelattavat_kentät.extend(valitut_kentätAF)
-pelattavat_kentät.extend(valitut_kentätAS)
-pelattavat_kentät.extend(valitut_kentätOC)
-pelattavat_kentät.extend(valitut_kentätNA)
-pelattavat_kentät.extend(valitut_kentätSA)
-
-#tähän loppuu pelattavien kenttien valinta
-
-#pelaaja syöttää nimensä
-
-
-def pelaajat():
-    nimimerkki = input("Ole hyvä ja syötä nimesi: ")
-    sql = f"insert into peli (nimi) values ('{nimimerkki}')"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    return
-
-
-
-
-
-pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ")
-#def pelaajat():
-    #sql = f"insert into peli (nimi) values ('{pelaajan_nimi}')"
-    #kursori = yhteys.cursor()
-    #kursori.execute(sql)
-    #return
-
-
-def peli_alkaa():
-    print(" ")
-    print("                                                                                         Adakite--Adakiitti")
-    print(" ")
-    print(f"Hei {pelaajan_nimi}! Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia kiviä joilla hän haluaa aiheuttaa ilmastokatastrofin.")
-
-    Pelin_aloitus = int(input(                          #Vastaus valinta
-                    "\n1. Asia selvä. "
-                    "\n2. Okei. "
-                    "\n3. En halua. "
-                    "\n: "))
-    while int(Pelin_aloitus) == 1 or 2 or 3:
-        if Pelin_aloitus == 1:
-            print("--------------------------------------------------")
-            print("Asia selvä.")
-            print("--------------------------------------------------")
+        #peli päättyy, jos jompikumpi on kerännyt 40 kiveä
+        if len(pelaajan_kivet) >= 40 or len(vastustajan_kivet) >= 40:
+            if len(vastustajan_kivet) >= 40 and len(pelaajan_kivet) < 40:
+                print("Peli päättyy, vastustaja keräsi 40 kiveä!")
+            elif len(pelaajan_kivet) >= 40 and len(vastustajan_kivet) < 40:
+                print("Hienoa! Sait 40 kiveä talteen, ennen vastustajaa!")
             break
-        if Pelin_aloitus == 2 :
-            print("--------------------------------------------------")
-            print("Okei.")
-            print("--------------------------------------------------")
+
+        #peli päättyy, jos ympäristöpisteet menevät nollaan eli loppuvat
+        if sum(ympäristöpisteet) <= 0:
+            print("Ympäristöpisteet ovat loppuneet. Peli päättyy.")
             break
-        if Pelin_aloitus == 3:
-            print("--------------------------------------------------")
-            print("Valitettavasti et saa jatkaa.")
-            print("--------------------------------------------------")
-            quit()
-        if Pelin_aloitus != 1 or 2 or 3:
-            print("--------------------------------------------------")
-            print("Error,please try again")
-            print("--------------------------------------------------")
-            Pelin_aloitus = int(input(  # Vastaus valinta
-                "\n1. Asia selvä. "
-                "\n2. Okei. "
-                "\n3. En halua. "
-                "\n: "))
 
-    print("Onnea matkaan, ja käytä voimiasi hyvään.")
-    print("--------------------------------------------------")
-    print(" ")
-    print("Ole hyvä ja valitse mantere josta haluat valita lentokentän josta aloittaa pelin: ")
+        valinta = input("Matkustetaanko? (kyllä/ei): ").lower()
+        if valinta not in ["kyllä", "ei"]:
+            print("Virhe, valitse 'kyllä' tai 'ei'.")
+            continue
 
+        matkustaako = valinta == "kyllä"
+        ympäristöpisteet, vastustajan_siirrot = pelaajan_toiminta(matkustaako, ympäristöpisteet, vastustajan_siirrot)
+        ympäristöpisteet = vastustajan_liike(ympäristöpisteet, vastustajan_siirrot)
 
+        tulos = kenttäarpa()
+        if tulos == 6:
+            kivi_arvo = kiviarpa() * 2
+            pelaajan_kivet.append(kivi_arvo)
+            print(f'Löysit suuren kiven! Kiven arvo on: {kivi_arvo}')
+        elif tulos in range(1, 6):
+            kivi_arvo = kiviarpa()
+            pelaajan_kivet.append(kivi_arvo)
+            print(f'Löysit kiven, arvo: {kivi_arvo}')
+        else:
+            print('Kentällä ei ole kiveä.')
 
+        #vastustajan kivien etsintä (satunnaisesti löytää kiven)
+        if kenttäarpa() > 0:
+            kivi = kiviarpa()
+            vastustajan_kivet.append(kivi)
 
+        #päivitetään pelaajan ja vastustajan pisteet
+        pelaajan_pisteet = laske_loppupisteet(ympäristöpisteet, pelaajan_kivet)
+        vastustajan_pisteet = laske_loppupisteet(ympäristöpisteet, vastustajan_kivet)
 
+    print(f"Sinun loppupisteet: {pelaajan_pisteet}")
+    print(f"Velhon loppupisteet: {vastustajan_pisteet}")
+    print(f"Ympäristöpisteet: {sum(ympäristöpisteet)}")
 
-valittumantere = []
-def lentokenttä_mantere_lista():
-    if mantere == 1:
-        valittumantere.extend(valitut_kentätEU)
-    if mantere == 2:
-        valittumantere.extend(valitut_kentätAS)
-    if mantere == 3:
-        valittumantere.extend(valitut_kentätOC)
-    if mantere == 4:
-        valittumantere.extend(valitut_kentätAF)
-    if mantere == 5:
-        valittumantere.extend(valitut_kentätSA)
-    if mantere == 6:
-        valittumantere.extend(valitut_kentätNA)
-    return valittumantere
+    #ilmoitetaan, että on loppupelin vuoro
+    print("\nLoppupeli alkaa! Voittaja selviää nyt...")
 
+    #siirrytään loppupeliin, jossa heitetään noppaa omien pisteiden verran
+    pelaajan_heittopisteet = sum(pelaajan_kivet) + sum(ympäristöpisteet)
+    vastustajan_heittopisteet = sum(vastustajan_kivet) + sum(ympäristöpisteet)
 
+    print(f"Sinun heittopisteesi: {pelaajan_heittopisteet}")
+    print(f"Velhon heittopisteet: {vastustajan_heittopisteet}")
 
+    pelaajan_heittotulos = sum(nopanheitto() for i in range(pelaajan_heittopisteet))
+    vastustajan_heittotulos = sum(nopanheitto() for i in range(vastustajan_heittopisteet))
 
+    print(f"Sinun heittotulos: {pelaajan_heittotulos}")
+    print(f"Velhon heittotulos: {vastustajan_heittotulos}")
 
-    #pelattavat_kentät=["Helsinki-Vantaa airport", "JFK international airport", "LAX international airport", "Arlanda airport","London Heathrow airport"]
-def lentokenttävalinta(mantere):
-    numero = 1
-    while mantere in range (0,7):
-        if mantere == 1:
-            print("")
-            print("Euroopan kentät: ")
-            print(" ")
-            for kenttä in valitut_kentätEU:
-                print(f"{numero}. {kenttä}.")
-                numero = numero + 1
-        if mantere == 2:
-            print("")
-            print("Aasian kentät: ")
-            print(" ")
-            for kenttä in valitut_kentätAS:
-                print(f"{numero}. {kenttä}.")
-                numero = numero + 1
-            break
-        if mantere == 3:
-            print("")
-            print("Oseanian kentät: ")
-            print(" ")
-            for kenttä in valitut_kentätOC:
-                print(f"{numero}. {kenttä}.")
-                numero = numero + 1
-            break
-        if mantere == 4:
-            print("")
-            print("Afrikan kentät: ")
-            print(" ")
-            for kenttä in valitut_kentätAF:
-                print(f"{numero}. {kenttä}.")
-                numero = numero + 1
-            break
-        if mantere == 5:
-            print("")
-            print("Etelä-Amerikan kentät: ")
-            print("")
-            for kenttä in valitut_kentätSA:
-                print(f"{numero}. {kenttä}.")
-                numero = numero + 1
-            break
-        if mantere == 6:
-            print("")
-            print("Pohjois-Amerikan kentät: ")
-            print("")
-            for kenttä in valitut_kentätNA:
-                print(f"{numero}. {kenttä}.")
-                numero = numero + 1
-        break
+    if pelaajan_heittotulos > vastustajan_heittotulos:
+        print("Voitit loppupelissä!")
+    elif pelaajan_heittotulos < vastustajan_heittotulos:
+        print("Velho voitti loppupelissä!")
+    else:
+        print("Loppupeli päättyi tasapeliin!")
 
+pelaa()
+.....
 
-peli_alkaa()
-
-mantere = int(input(                # mantereen valinta
-                "\n1. Eurooppa "
-                "\n2. Aasia"
-                "\n3. Oseania "
-                "\n4. Afrikka "
-                "\n5. Etelä-Amerikka"
-                "\n6. Pohjois-Amerikka "
-                "\n: "))
-#pelaajat()
-lentokenttävalinta(mantere)
-lentokenttä_mantere_lista()
-alkupiste = int(input(": "))
-print(f"Olet kentällä : {valittumantere[alkupiste-1]}")
-
-
-#airport.name is in = ('{pelattavat_kentät}')
-
-'''Tässä on mallina vaan väärä kenttälista, saa kokeilla!
-Tähän lisätään kans kertoimena kivien määrä, eli kolme kiveä = 3*500km jne'''
-#TOIMII
-#tekee listan pelattavista kentistä
-def pelattavat():
-    sql = f"select airport.ident from airport, country where airport.iso_country = country.iso_country and airport.name in ('{pelattavat_kentät}') and airport.type = 'large_airport'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    pelattavat_kentät.append(tulos)
-    if kursori.rowcount > 0:
-        for rivi in tulos:
-            pelattavat_kentät.append(rivi[0])
-    return
-
-#TOIMII
-#hakee pelaajan koordinaatit
-def pelaajan_sijainti():
-    sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE airport.name = ('{valittumantere[alkupiste-1]}')"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    #if kursori.rowcount > 0:
-       # for rivi in tulos:
-       #     print(f"Pelaajan  koordinaatit: {rivi[0]}, {rivi[1]}.")
-    return tulos
-
-#TOIMII
-#tämä hakee kentän koordinaatit
-def kentän_etäisyys(Pip):
-    sql = f"SELECT latitude_deg, longitude_deg from airport, country where airport.iso_country = country.iso_country and airport.ident = '{Pip}'"
-    #print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    #if kursori.rowcount > 0:
-       # for rivi in tulos:
-           #print(f"{rivi[0]}, {rivi[1]}.")
-    return tulos
-
-#TOIMII
-#Jostain syystä pelattavien kenttien eka alkio on koko lista, korjaan myöhemmin
-def matkustettavat_kentät():
-    k=1
-    while k <= (len(pelattavat_kentät)-1):
-        h = pelattavat_kentät[k]
-        Pip = h
-        seur = kentän_etäisyys(Pip)
-
-        if distance.distance(sijainti, seur).km <= 500:
-            seuraavat_kentät.append(h)
-        k = k + 1
-    return
-
-
-
-
-pelattavat_kentät=[]
-seuraavat_kentät=[]
-pelattavat()
-sijainti = pelaajan_sijainti()
-matkustettavat_kentät()
-print(f'Pelattavia kenttiä: {len(pelattavat_kentät)}')
-print(f'Matkustettavia kenttiä: {len(seuraavat_kentät)}')
-
-#def kentännimi(Pip):
- #   sql = f"SELECT airport.name from airport where airport.ident = ('{Pip}')"
-  #  kursori = yhteys.cursor()
-   # kursori.execute(sql)
-    #tulos = kursori.fetchall()
-    #return tulos
