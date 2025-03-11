@@ -91,7 +91,7 @@ def pelattavat_kentät():
     }
 
     for maanosa, määrä in määrä_dict.items():
-        pelattavat_kentät_lista.extend(random.sample(kenttä_listat[maanosa], min(määrä, len(kenttä_listat[maanosa]))))
+        pelattavat_kentät_lista_2.extend(random.sample(kenttä_listat[maanosa], min(määrä, len(kenttä_listat[maanosa]))))
 
 def pelaajan_koordinaatit(sijainti_icao):
     sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{sijainti_icao}'"
@@ -119,7 +119,7 @@ def kentän_etäisyys(py):
     tulos = kursori.fetchall()
     return tulos
 def matkustettavat_kentät():
-    for h in pelattavat_kentät_lista:
+    for h in pelattavat_kentät_lista_2:
         seur = kentän_etäisyys(h)
         if seur:
             seur_lat, seur_lon = seur[0]
@@ -217,9 +217,9 @@ def kiviarpa():
 
 
 
-pelattavat_kentät_lista=[]
-pelattavat_kentät_lista_2 = []
-[pelattavat_kentät_lista_2.append(val) for val in pelattavat_kentät_lista if val not in pelattavat_kentät_lista_2]
+pelattavat_kentät_lista_2=[]
+
+
 
 valitut_kentätEU = []
 valitut_kentätAF = []
@@ -281,7 +281,7 @@ def peli_alkaa():
     print(" ")
 
 
-sijainti_icao = random.choice(pelattavat_kentät_lista)
+sijainti_icao = random.choice(pelattavat_kentät_lista_2)
 
 sijainti_nimi = []
 pelaajan_sijainnin_nimi(sijainti_icao)
@@ -317,7 +317,9 @@ while kerätyt_kivet < 40:
         pelattavat_kentät_lista_2.remove(sijainti_icao)
     kierrokset = kierrokset + 1
 
-    #muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:, ja muokkasin myös seuraava kohde funktiota
+    #muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:,
+    # ja muokkasin myös seuraava kohde funktiota
+    #sekä loin uuden pelattavat kentät funktion luomalla dictionaryn, jolla saimme poistettua kopioita.
 
 
 print("Olet löytänyt 40 adakiittia! Onneksi olkoon, seuraavassa jaksossa loppuhuippennuksena kaksintaistelu vihollisen kanssa!")
