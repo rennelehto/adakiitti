@@ -273,6 +273,7 @@ def peli_alkaa():
         "\n▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒")
+    väli = input(' Press enter to continue: ')
     print(f" Hei {pelaajan_nimi}! Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos,"
     "\n ovat kaavailleet suunnitelman tuodakseen lopun konfliktille:"
     "\n Suur-Velho Kaik-Oo-Koolle on annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta"
@@ -286,29 +287,37 @@ def peli_alkaa():
     "\n käyttämällä maailman lentokenttiä kiintopisteinä ja"
     "\n pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston! ")
 
-    Pelin_aloitus = int(input(                          #Vastaus valinta
+    Pelin_aloitus = input(                          #Vastaus valinta
                 "\n1. Asia selvä. "
                 "\n2. En halua. "
-                "\n: "))
-    while Pelin_aloitus in [1,2]:
-        if Pelin_aloitus == 1:
+                "\n: ")
+    while Pelin_aloitus == (""):
+        print("--------------------------------------------------")
+        print("Error,please try again")
+        print("--------------------------------------------------")
+        Pelin_aloitus = input(  # Vastaus valinta
+            "\n1. Asia selvä. "
+            "\n2. En halua. "
+            "\n: ")
+    while int(Pelin_aloitus) in [1,2]:
+        if int(Pelin_aloitus) == 1:
             print("--------------------------------------------------")
             print("Asia selvä.")
             print("--------------------------------------------------")
             break
-        if Pelin_aloitus == 2:
+        if int(Pelin_aloitus) == 2:
             print("--------------------------------------------------")
             print("Valitettavasti et saa jatkaa.")
             print("--------------------------------------------------")
             quit()
-        if Pelin_aloitus not in [1,2]:
+        if int(Pelin_aloitus) not in [1,2]:
             print("--------------------------------------------------")
             print("Error,please try again")
             print("--------------------------------------------------")
-            Pelin_aloitus = int(input(  # Vastaus valinta
+            Pelin_aloitus = input(  # Vastaus valinta
                 "\n1. Asia selvä. "
                 "\n2. En halua. "
-                "\n: "))
+                "\n: ")
 
     print("Onnea matkaan, ja käytä voimiasi hyvään.")
     print("--------------------------------------------------")
@@ -338,9 +347,15 @@ while kierrokset < 2:
     if sijainti_icao in pelattavat_kentät_lista_2:
         pelattavat_kentät_lista_2.remove(sijainti_icao)
     kierrokset = kierrokset + 1
+if kerätyt_kivet == 20:
+    print(" Olet jo melkein puolessa välissä! Jaksa vielä vähän. ")
+    väli3 = input("")
 
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
+    if kerätyt_kivet in range(20, 30):
+        print(" Olet jo melkein puolessa välissä! Jaksa vielä vähän. ")
+        väli3 = input("")
     if kerätyt_kivet >= 40:
         kerätyt_kivet = 40
         break
