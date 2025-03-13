@@ -153,6 +153,27 @@ def kenttäluettelo():
         print(f'{x + 1}. {seuraavien_kenttien_nimet[x]}')
         x = x + 1
     return
+def kivi_väli_lauseet(xy):
+    if xy == 20 or xy == 21:
+        print("---------------------------------------------------------------------------")
+        print("Olet jo puolessa välissä! Jaksa vielä vähän. ")
+        print("---------------------------------------------------------------------------")
+    if xy == 23 or xy == 24:
+        print("---------------------------------------------------------------------------")
+        print("Tiesitkö että maailmassa on noin 1.5 miljardia lehmää?")
+        print("---------------------------------------------------------------------------")
+    if xy == 25 or xy == 26:
+        print("---------------------------------------------------------------------------")
+        print("Tiesitkö että lehmillä voi olla paras ystävä, ja ne stressaantuvat jos heidät erotetaan toisistaan. ")
+        print("---------------------------------------------------------------------------")
+    if xy == 28 or xy == 29:
+        print("---------------------------------------------------------------------------")
+        print("Tiesitkö että lehmät katsovat auringonlaksua vain sen kauneuden vuoksi? ")
+        print("---------------------------------------------------------------------------")
+    else:
+        return
+    return
+
 def peliluuppi1():
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
@@ -171,7 +192,11 @@ def peliluuppi2(eih):
     print()
     xx = kiviarpa()
     xy = eih + xx
-    print(f'Kivien kerätty arvo: {xy}.')
+    if xy > 40:
+        print("Kivien kerätty arvo on 40!")
+    if xy <= 40:
+        print(f'Kivien kerätty arvo: {xy}.')
+    kivi_väli_lauseet(xy)
     if xx == 0:
         vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg)} "
                     f"\n2. {random.choice(vastausvaihtoehdot_neg)}"
@@ -273,7 +298,7 @@ def peli_alkaa():
         "\n▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒")
-    väli = input(' Press enter to continue: ')
+    väli = input(' Paina mitä vain jatkaaksesi: ')
     print(f" Hei {pelaajan_nimi}! Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos,"
     "\n ovat kaavailleet suunnitelman tuodakseen lopun konfliktille:"
     "\n Suur-Velho Kaik-Oo-Koolle on annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta"
@@ -312,7 +337,7 @@ def peli_alkaa():
             quit()
         if int(Pelin_aloitus) not in [1,2]:
             print("--------------------------------------------------")
-            print("Error,please try again")
+            print("Yritä uudelleen.")
             print("--------------------------------------------------")
             Pelin_aloitus = input(  # Vastaus valinta
                 "\n1. Asia selvä. "
@@ -347,15 +372,9 @@ while kierrokset < 2:
     if sijainti_icao in pelattavat_kentät_lista_2:
         pelattavat_kentät_lista_2.remove(sijainti_icao)
     kierrokset = kierrokset + 1
-if kerätyt_kivet == 20:
-    print(" Olet jo melkein puolessa välissä! Jaksa vielä vähän. ")
-    väli3 = input("")
 
 while kerätyt_kivet < 40:
     kerätyt_kivet = peliluuppi2(kerätyt_kivet)
-    if kerätyt_kivet in range(20, 30):
-        print(" Olet jo melkein puolessa välissä! Jaksa vielä vähän. ")
-        väli3 = input("")
     if kerätyt_kivet >= 40:
         kerätyt_kivet = 40
         break
