@@ -143,8 +143,10 @@ def listaus():
         koodi_nimeksi(n)
         x = x + 1
 
-vastausvaihtoehdot_pos = ["Jee!","Hienoa!","Mahtavaa!","Voisin itkeä ilosta :')","Ou jee!","Erinomaista!"]
-vastausvaihtoehdot_neg = ["Voi ei! :(","Höh..","EIIIII!!","Himputti..!!","No onpa kiva","Millon pääsee kotiin..."]
+vastausvaihtoehdot_pos1 = ["Jee!","Hienoa!","Mahtavaa!","Upeaa!","Oi onnen päivää!"]
+vastausvaihtoehdot_pos2 = ["Voisin itkeä ilosta :')","Ou jee!","Erinomaista!","Hieno homma!",":)"]
+vastausvaihtoehdot_neg1 = ["Voi ei! :(","Höh..","EIIIII!!",":(","Epäreilua..","Ei voi olla totta..."]
+vastausvaihtoehdot_neg2 = ["Himputti..!!","No onpa kiva","Millon pääsee kotiin...","Yhyy...","Taasko.."]
 def kenttäluettelo():
     x = 0
     print("")
@@ -201,12 +203,12 @@ def peliluuppi2(eih):
         print("")
     kivi_väli_lauseet(xy)
     if xx == 0:
-        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg)} "
-                    f"\n2. {random.choice(vastausvaihtoehdot_neg)}"
+        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg1)} "
+                    f"\n2. {random.choice(vastausvaihtoehdot_neg2)}"
                     "\n: ")
     else:
-        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_pos)} "
-                        f"\n2. {random.choice(vastausvaihtoehdot_pos)}"
+        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_pos1)} "
+                        f"\n2. {random.choice(vastausvaihtoehdot_pos2)}"
                         "\n: ")
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
@@ -242,7 +244,6 @@ def kiviarpa():
         pöö = 0
         print("")
         print('Kentällä ei ole adakiittiä.')
-        print("")
     return pöö
 #    PÄÄOHJELMA
 
