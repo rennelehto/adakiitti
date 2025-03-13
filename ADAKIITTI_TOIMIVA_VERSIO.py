@@ -147,8 +147,9 @@ vastausvaihtoehdot_pos = ["Jee!","Hienoa!","Mahtavaa!","Voisin itkeä ilosta :')
 vastausvaihtoehdot_neg = ["Voi ei! :(","Höh..","EIIIII!!","Himputti..!!","No onpa kiva","Millon pääsee kotiin..."]
 def kenttäluettelo():
     x = 0
+    print("")
     print('Tässä kentät joille voit matkustaa:')
-    print()
+    print("")
     for x in range(min(20, len(seuraavien_kenttien_nimet))):
         print(f'{x + 1}. {seuraavien_kenttien_nimet[x]}')
         x = x + 1
@@ -177,7 +178,8 @@ def kivi_väli_lauseet(xy):
 def peliluuppi1():
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
-    print(f'Kentän koodi: {sijainti_icao}')
+    #print(f'Kentän koodi: {sijainti_icao}')
+    print("")
     print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
     pelaajan_koordinaatit(sijainti_icao)
@@ -188,14 +190,16 @@ def peliluuppi1():
 def peliluuppi2(eih):
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
-    print(f'Kentän koodi: {sijainti_icao}')
+    #print(f'Kentän koodi: {sijainti_icao}')
     print()
     xx = kiviarpa()
     xy = eih + xx
     if xy > 40:
         print("Kivien kerätty arvo on 40!")
+        print("")
     if xy <= 40:
         print(f'Kivien kerätty arvo: {xy}.')
+        print("")
     kivi_väli_lauseet(xy)
     if xx == 0:
         vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg)} "
@@ -215,6 +219,7 @@ def peliluuppi2(eih):
 def seuraava_kohde():
     while True:
         try:
+            print("")
             valinta = int(input('Mille kentälle seuraavaksi? ')) - 1
             if 0 <= valinta < len(seuraavat_kentät):
                 return seuraavat_kentät[valinta]
@@ -223,30 +228,22 @@ def seuraava_kohde():
         except ValueError:
             print("Syötä numero.")
 def kiviarpa():
-
     tulos_kiviarpa = random.randint(1,6)
     if tulos_kiviarpa == 6:
         pöö = (random.randint(1,6) * 2)
         print("")
         print('Löysit suuren adakiitin!')
         print(f"Sen arvo on: {pöö}")
-
-
-
     elif tulos_kiviarpa in range(3,6):
         pöö = random.randint(1,6)
         print("")
         print('Löysit adakiitin!')
         print(f"Sen arvo on: {pöö}")
-
-
-
     elif tulos_kiviarpa < 3:
         pöö = 0
         print("")
         print('Kentällä ei ole adakiittiä.')
-
-
+        print("")
     return pöö
 #    PÄÄOHJELMA
 
