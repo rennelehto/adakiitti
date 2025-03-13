@@ -178,7 +178,6 @@ def kivi_väli_lauseet(xy):
 def peliluuppi1():
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
-    #print(f'Kentän koodi: {sijainti_icao}')
     print("")
     print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
@@ -186,11 +185,11 @@ def peliluuppi1():
     matkustettavat_kentät()
     listaus()
     kenttäluettelo()
+    sijainti_nimi.clear()
     return
 def peliluuppi2(eih):
     print()
     print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
-    #print(f'Kentän koodi: {sijainti_icao}')
     print()
     xx = kiviarpa()
     xy = eih + xx
