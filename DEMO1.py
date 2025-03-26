@@ -268,6 +268,7 @@ valitut_kentätOC=[]
 valitut_kentätNA=[]
 valitut_kentätSA=[]
 
+
 pelattavat_kentät()
 
 pelattavat_kentät=[]

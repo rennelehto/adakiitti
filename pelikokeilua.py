@@ -342,6 +342,7 @@ print(' Pystyt teleporttaamaan tukikohdastasi yhdelle ennalta määrittelemätt�
 '\n ympäristöä. Harkitse tarkkaan liikkeesi!'
 '\n')
 
+
 def alku():
 
     ala = input('Oletko valmis seikkailuun? (k/e) ')

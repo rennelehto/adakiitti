@@ -98,6 +98,7 @@ yhteys = mysql.connector.connect(
 
 
 
+
 #lista listoista hehe
 pelattavat_kentät=[]
 seuraavat_kentät=[]

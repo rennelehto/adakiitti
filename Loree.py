@@ -22,6 +22,7 @@ välillä. Kerättyäsi adakiitin, et voi enää palata kyseiselle kentälle. Ha
 
 #Peli välissä
 
+
 #Tähän vielä selitystä pelimekaniikasta
 
 Kaikki adakiitit on kerätty ja raivostunut velho Suur-Ruksi teleporttaa 

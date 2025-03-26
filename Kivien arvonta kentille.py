@@ -39,6 +39,7 @@ if tulos == 0:
     print('Kentällä ei ole kiveä.')
 
 
+
 #Koodin testaus
 if kivet > 1:
     print(f'Pelissä on vielä  {kivet} kiveä.')

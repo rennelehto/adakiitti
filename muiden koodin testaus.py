@@ -1,124 +1,385 @@
+import mysql.connector
 import random
+from geopy import distance
 
-def nopanheitto():
-    return random.randint(1, 6)
+yhteys = mysql.connector.connect(
+      #  host='127.0.0.1',
+      #  port=3306,
+        database='flight_game',
+        user='python',
+        password='1232',
+        autocommit=True)
 
-#pelaajan päätökset, jotka vaikuttavat pisteisiin
-def pelaajan_toiminta(matkustaako, ympäristöpisteet, vastustajan_siirrot):
-    if matkustaako:
-        ympäristöpisteet.append(-1)  #matkustaminen vähentää yhden pisteen
-        vastustajan_siirrot += 1  # Vastustaja liikkuu joka vuorolla
+seuraavat_kentät = []
+seuraavien_kenttien_nimet = []
+
+lista_kentistäEU=[]
+def kenttäkyselyEU():
+    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'EU' and airport.type = 'large_airport'"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            lista_kentistäEU.append(rivi[0])
+    return
+lista_kentistäAF=[]
+def kenttäkyselyAF():
+    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'AF' and airport.type = 'large_airport'"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            lista_kentistäAF.append(rivi[0])
+    return
+lista_kentistäAS=[]
+def kenttäkyselyAS():
+    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'AS' and airport.type = 'large_airport'"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            lista_kentistäAS.append(rivi[0])
+    return
+lista_kentistäOC=[]
+def kenttäkyselyOC():
+    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'OC' and airport.type = 'large_airport'"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            lista_kentistäOC.append(rivi[0])
+    return
+lista_kentistäNA=[]
+def kenttäkyselyNA():
+    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'NA' and airport.type = 'large_airport'"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            lista_kentistäNA.append(rivi[0])
+    return
+lista_kentistäSA=[]
+def kenttäkyselySA():
+    sql = f"select ident from airport, country where airport.iso_country = country.iso_country and country.continent = 'SA' and airport.type = 'large_airport'"
+    #print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            lista_kentistäSA.append(rivi[0])
+    return
+def pelattavat_kentät():
+    määrä_dict = {"EU": 15, "AF": 15, "AS": 15, "OC": 15, "NA": 15, "SA": 15}
+    kenttä_listat = {
+        "EU": lista_kentistäEU,
+        "AF": lista_kentistäAF,
+        "AS": lista_kentistäAS,
+        "OC": lista_kentistäOC,
+        "NA": lista_kentistäNA,
+        "SA": lista_kentistäSA
+    }
+    for maanosa, määrä in määrä_dict.items():
+        pelattavat_kentät_lista_2.extend(random.sample(kenttä_listat[maanosa], min(määrä, len(kenttä_listat[maanosa]))))
+
+def pelaajan_koordinaatit(sijainti_icao):
+    sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{sijainti_icao}'"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos_kordinaatit = kursori.fetchone()
+    kursori.close()
+    return tulos_kordinaatit if tulos_kordinaatit else (0, 0)
+def pelaajan_sijainnin_nimi(sijainti_icao):
+    sql = f"SELECT name FROM airport WHERE ident = '{sijainti_icao}'"
+        # print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos_nimi = kursori.fetchall()
+    if tulos_nimi:
+       for rivi in tulos_nimi:
+           sijainti_nimi.append(rivi[0])
+    return tulos_nimi
+    # tämä hakee kentän koordinaatit
+def kentän_etäisyys(py):
+    sql = f"SELECT latitude_deg, longitude_deg from airport, country where airport.iso_country = country.iso_country and ident = '{py}'"
+    # print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
+def matkustettavat_kentät():
+    for h in pelattavat_kentät_lista_2:
+        seur = kentän_etäisyys(h)
+        if seur:
+            seur_lat, seur_lon = seur[0]
+
+            if 0 < distance.distance(pelikoordinaatit, (seur_lat, seur_lon)).km < ((liikkeet + kerätyt_kivet) * 500):
+                seuraavat_kentät.append(h)
+def koodi_nimeksi(koodi):
+    sql = f"SELECT name FROM airport WHERE ident = '{koodi}'"
+    # print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            if rivi not in seuraavien_kenttien_nimet:
+                seuraavien_kenttien_nimet.append(rivi[0])
+    return tulos
+def listaus():
+    x = 0
+    while x < len(seuraavat_kentät):
+        n = seuraavat_kentät[x]
+        koodi_nimeksi(n)
+        x = x + 1
+
+vastausvaihtoehdot_pos = ["Jee!","Hienoa!","Mahtavaa!","Voisin itkeä ilosta :')","Ou jee!","Erinomaista!"]
+vastausvaihtoehdot_neg = ["Voi ei! :(","Höh..","EIIIII!!","Himputti..!!","No onpa kiva","Millon pääsee kotiin..."]
+def kenttäluettelo():
+    x = 0
+    print('Tässä kentät joille voit matkustaa:')
+    print()
+    for x in range(min(20, len(seuraavien_kenttien_nimet))):
+        print(f'{x + 1}. {seuraavien_kenttien_nimet[x]}')
+        x = x + 1
+    return
+def peliluuppi1():
+    print()
+    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print(f'Kentän koodi: {sijainti_icao}')
+    print("Löysit täältä adakiitin jonka arvo on 5! ")
+    print()
+    pelaajan_koordinaatit(sijainti_icao)
+    matkustettavat_kentät()
+    listaus()
+    kenttäluettelo()
+    return
+def peliluuppi2(eih):
+    print()
+    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print(f'Kentän koodi: {sijainti_icao}')
+    print()
+    xx = kiviarpa()
+    xy = eih + xx
+    print(f'Kivien kerätty arvo: {xy}.')
+    if xx == 0:
+        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg)} "
+                    f"\n2. {random.choice(vastausvaihtoehdot_neg)}"
+                    "\n: ")
     else:
-        ympäristöpisteet.append(3)  #jos pelaaja ei matkusta, saa hän kolme pistettä
-    return ympäristöpisteet, vastustajan_siirrot
-
-#vastustajan liike
-def vastustajan_liike(ympäristöpisteet, vastustajan_siirrot):
-    for i in range(vastustajan_siirrot):
-        ympäristöpisteet.append(-1)  #vastustaja liikkuu joka vuorolla -1 piste
-    return ympäristöpisteet
-
-#Arvotaan löytyykö kentältä kiveä
-def kenttäarpa():
-    return random.randint(0, 6)
-
-#arvotaan kiven arvo
-def kiviarpa():
-    return random.randint(1, 6)
-
-#laske loppupisteet
-def laske_loppupisteet(ympäristöpisteet, kivet_yhteensä):
-    return sum(kivet_yhteensä) + sum(ympäristöpisteet)
-
-#heitetään noppaa
-def heita_nopat(loppupisteet):
-    return sum(nopanheitto() for i in range(loppupisteet))
-
-def pelaa():
-    pelaajan_kivet = []
-    vastustajan_kivet = []
-    ympäristöpisteet = [20]  #pelaajalla ja vastustajalla yhteiset ympäristöpisteet
-    vastustajan_siirrot = 0
-
+        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_pos)} "
+                        f"\n2. {random.choice(vastausvaihtoehdot_pos)}"
+                        "\n: ")
+    sijainti_nimi.clear()
+    seuraavat_kentät.clear()
+    seuraavien_kenttien_nimet.clear()
+    pelaajan_koordinaatit(sijainti_icao)
+    matkustettavat_kentät()
+    listaus()
+    return xy
+def seuraava_kohde():
     while True:
-        pelaajan_pisteet = laske_loppupisteet(ympäristöpisteet, pelaajan_kivet)
-        vastustajan_pisteet = laske_loppupisteet(ympäristöpisteet, vastustajan_kivet)
+        try:
+            valinta = int(input('Mille kentälle seuraavaksi? ')) - 1
+            if 0 <= valinta < len(seuraavat_kentät):
+                return seuraavat_kentät[valinta]
+            else:
+                print("Virheellinen valinta, yritä uudelleen.")
+        except ValueError:
+            print("Syötä numero.")
+def kiviarpa():
 
-        print(f"Pelaajan kivet: {pelaajan_kivet}")
-        print(f"Vastustajan kivet: {vastustajan_kivet}")
-        print(f"Pelaajan pisteet: {pelaajan_pisteet}")
-        print(f"Vastustajan pisteet: {vastustajan_pisteet}")
-        print(f"Ympäristöpisteet: {sum(ympäristöpisteet)}")
+    tulos_kiviarpa = random.randint(1,6)
+    if tulos_kiviarpa == 6:
+        pöö = (random.randint(1,6) * 2)
+        print("")
+        print('Löysit suuren adakiitin!')
+        print(f"Sen arvo on: {pöö}")
 
-        #peli päättyy, jos jompikumpi on kerännyt 40 kiveä
-        if len(pelaajan_kivet) >= 40 or len(vastustajan_kivet) >= 40:
-            if len(vastustajan_kivet) >= 40 and len(pelaajan_kivet) < 40:
-                print("Peli päättyy, vastustaja keräsi 40 kiveä!")
-            elif len(pelaajan_kivet) >= 40 and len(vastustajan_kivet) < 40:
-                print("Hienoa! Sait 40 kiveä talteen, ennen vastustajaa!")
+
+
+    elif tulos_kiviarpa in range(3,6):
+        pöö = random.randint(1,6)
+        print("")
+        print('Löysit adakiitin!')
+        print(f"Sen arvo on: {pöö}")
+
+
+
+    elif tulos_kiviarpa < 3:
+        pöö = 0
+        print("")
+        print('Kentällä ei ole adakiittiä.')
+
+
+    return pöö
+#    PÄÄOHJELMA
+
+
+
+pelattavat_kentät_lista_2=[]
+
+
+
+valitut_kentätEU = []
+valitut_kentätAF = []
+valitut_kentätAS = []
+valitut_kentätOC = []
+valitut_kentätNA = []
+valitut_kentätSA = []
+
+kenttäkyselyEU()
+kenttäkyselyAF()
+kenttäkyselyAS()
+kenttäkyselyOC()
+kenttäkyselyNA()
+kenttäkyselySA()
+
+
+pelattavat_kentät()
+print(" ")
+print("                                                                                         Adakite--Adakiitti")
+pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
+
+def peli_alkaa():
+    print(" ")
+    print("▒▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒█▒▒▒███▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒▒▒▒█████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒█▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒█▒▒▒▒█▒▒▒█▒▒█▒▒█▒▒█▒▒█▒▒█▒▒█▒▒▒█▒█▒█▒█▒█▒█▒█▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒▒██████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒█▒▒▒▒▒▒▒▒▒▒█▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒█▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒███████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒▒██▒▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒███████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒▒▒█▒▒▒▒█▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒▒█▒▒▒█▒▒█▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒█▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒█▒▒█▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒█▒█▒█▒█▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒▒▒██████████▒▒▒▒▒▒▒▒▒▒▒▒▒███▒▒▒██▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒█▒█▒█▒█▒█▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒█▒█▒█▒▒█▒█▒█▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒▒▒▒▒██████▒▒▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒█▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒█▒▒█▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒███▒▒████▒▒███▒▒▒▒▒█████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒█▒▒▒▒▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒█▒▒▒▒█▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒▒█▒▒▒▒██▒▒▒▒█▒▒▒▒███▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒██▒█▒▒▒▒▒█▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒█▒█▒█▒█▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒█▒▒▒▒▒▒▒▒█▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒█▒█▒█▒█▒█▒█▒█▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒████▒▒█▒█▒█▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒▒█▒▒▒█▒█▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+        "\n█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒")
+    väli = input(' Press enter to continue: ')
+    print(f" Hei {pelaajan_nimi}! Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos,"
+    "\n ovat kaavailleet suunnitelman tuodakseen lopun konfliktille:"
+    "\n Suur-Velho Kaik-Oo-Koolle on annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta"
+    "\n voittaakseen velhojen taisto.")
+    väli = input('')
+    print(" Uudet lahkot ovat päättäneet pysäyttää heidän aikeensa"
+    "\n lähettämällä oman valittunsa keräämään kaikki kivet ensin."
+    "\n Toteuttaakseen tämän tehtävän, uudet lahkot valitsivat: sinut!")
+    väli2 = input('')
+    print("\n Nyt, sinun kuuluu kerätä niin paljon adakiittitaikakiviä kuin voit,"
+    "\n käyttämällä maailman lentokenttiä kiintopisteinä ja"
+    "\n pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston! ")
+
+    Pelin_aloitus = input(                          #Vastaus valinta
+                "\n1. Asia selvä. "
+                "\n2. En halua. "
+                "\n: ")
+    while Pelin_aloitus == (""):
+        print("--------------------------------------------------")
+        print("Error,please try again")
+        print("--------------------------------------------------")
+        Pelin_aloitus = input(  # Vastaus valinta
+            "\n1. Asia selvä. "
+            "\n2. En halua. "
+            "\n: ")
+    while int(Pelin_aloitus) in [1,2]:
+        if int(Pelin_aloitus) == 1:
+            print("--------------------------------------------------")
+            print("Asia selvä.")
+            print("--------------------------------------------------")
             break
+        if int(Pelin_aloitus) == 2:
+            print("--------------------------------------------------")
+            print("Valitettavasti et saa jatkaa.")
+            print("--------------------------------------------------")
+            quit()
+        if int(Pelin_aloitus) not in [1,2]:
+            print("--------------------------------------------------")
+            print("Error,please try again")
+            print("--------------------------------------------------")
+            Pelin_aloitus = input(  # Vastaus valinta
+                "\n1. Asia selvä. "
+                "\n2. En halua. "
+                "\n: ")
 
-        #peli päättyy, jos ympäristöpisteet menevät nollaan eli loppuvat
-        if sum(ympäristöpisteet) <= 0:
-            print("Ympäristöpisteet ovat loppuneet. Peli päättyy.")
-            break
+    print("Onnea matkaan, ja käytä voimiasi hyvään.")
+    print("--------------------------------------------------")
+    print(" ")
 
-        valinta = input("Matkustetaanko? (kyllä/ei): ").lower()
-        if valinta not in ["kyllä", "ei"]:
-            print("Virhe, valitse 'kyllä' tai 'ei'.")
-            continue
 
-        matkustaako = valinta == "kyllä"
-        ympäristöpisteet, vastustajan_siirrot = pelaajan_toiminta(matkustaako, ympäristöpisteet, vastustajan_siirrot)
-        ympäristöpisteet = vastustajan_liike(ympäristöpisteet, vastustajan_siirrot)
+sijainti_icao = random.choice(pelattavat_kentät_lista_2)
 
-        tulos = kenttäarpa()
-        if tulos == 6:
-            kivi_arvo = kiviarpa() * 2
-            pelaajan_kivet.append(kivi_arvo)
-            print(f'Löysit suuren kiven! Kiven arvo on: {kivi_arvo}')
-        elif tulos in range(1, 6):
-            kivi_arvo = kiviarpa()
-            pelaajan_kivet.append(kivi_arvo)
-            print(f'Löysit kiven, arvo: {kivi_arvo}')
-        else:
-            print('Kentällä ei ole kiveä.')
+sijainti_nimi = []
+pelaajan_sijainnin_nimi(sijainti_icao)
 
-        #vastustajan kivien etsintä (satunnaisesti löytää kiven)
-        if kenttäarpa() > 0:
-            kivi = kiviarpa()
-            vastustajan_kivet.append(kivi)
+liikkeet = 4
+kerätyt_kivet = int(5)
+kierrokset = 1
 
-        #päivitetään pelaajan ja vastustajan pisteet
-        pelaajan_pisteet = laske_loppupisteet(ympäristöpisteet, pelaajan_kivet)
-        vastustajan_pisteet = laske_loppupisteet(ympäristöpisteet, vastustajan_kivet)
+pelikoordinaatit = pelaajan_koordinaatit(sijainti_icao)
 
-    print(f"Sinun loppupisteet: {pelaajan_pisteet}")
-    print(f"Velhon loppupisteet: {vastustajan_pisteet}")
-    print(f"Ympäristöpisteet: {sum(ympäristöpisteet)}")
+print()
 
-    #ilmoitetaan, että on loppupelin vuoro
-    print("\nLoppupeli alkaa! Voittaja selviää nyt...")
 
-    #siirrytään loppupeliin, jossa heitetään noppaa omien pisteiden verran
-    pelaajan_heittopisteet = sum(pelaajan_kivet) + sum(ympäristöpisteet)
-    vastustajan_heittopisteet = sum(vastustajan_kivet) + sum(ympäristöpisteet)
+peli_alkaa()
 
-    print(f"Sinun heittopisteesi: {pelaajan_heittopisteet}")
-    print(f"Velhon heittopisteet: {vastustajan_heittopisteet}")
+while kierrokset < 2:
+    peliluuppi1()
+    sijainti_icao = seuraava_kohde()
+    pelaajan_sijainnin_nimi(sijainti_icao)
+    if sijainti_icao in pelattavat_kentät_lista_2:
+        pelattavat_kentät_lista_2.remove(sijainti_icao)
+    kierrokset = kierrokset + 1
+if kerätyt_kivet == 20:
+    print(" Olet jo melkein puolessa välissä! Jaksa vielä vähän. ")
+    väli3 = input("")
 
-    pelaajan_heittotulos = sum(nopanheitto() for i in range(pelaajan_heittopisteet))
-    vastustajan_heittotulos = sum(nopanheitto() for i in range(vastustajan_heittopisteet))
+while kerätyt_kivet < 40:
+    kerätyt_kivet = peliluuppi2(kerätyt_kivet)
+    if kerätyt_kivet in range(20, 30):
+        print(" Olet jo melkein puolessa välissä! Jaksa vielä vähän. ")
+        väli3 = input("")
+    if kerätyt_kivet >= 40:
+        kerätyt_kivet = 40
+        break
+    kenttäluettelo()
+    sijainti_icao = seuraava_kohde()
+    pelaajan_sijainnin_nimi(sijainti_icao)
+    if sijainti_icao in pelattavat_kentät_lista_2:
+        pelattavat_kentät_lista_2.remove(sijainti_icao)
+    kierrokset = kierrokset + 1
 
-    print(f"Sinun heittotulos: {pelaajan_heittotulos}")
-    print(f"Velhon heittotulos: {vastustajan_heittotulos}")
+    #muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:,
+    # ja muokkasin myös seuraava kohde funktiota
+    #sekä loin uuden pelattavat kentät funktion luomalla dictionaryn, jolla saimme poistettua kopioita.
 
-    if pelaajan_heittotulos > vastustajan_heittotulos:
-        print("Voitit loppupelissä!")
-    elif pelaajan_heittotulos < vastustajan_heittotulos:
-        print("Velho voitti loppupelissä!")
-    else:
-        print("Loppupeli päättyi tasapeliin!")
 
-pelaa()
+print("Olet löytänyt 40 adakiittia! Onneksi olkoon, seuraavassa jaksossa loppuhuippennuksena kaksintaistelu vihollisen kanssa!")
+def demoloppu():
+    ö = 0
+    pisteet = 0
+    while ö < kerätyt_kivet:
+        pisteet = pisteet + (random.randint(1, 6))
+        ö = ö + 1
+    return pisteet
 
+
+pisteet = demoloppu()
+print(f"Sait {pisteet} pistettä!")

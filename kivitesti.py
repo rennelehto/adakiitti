@@ -47,4 +47,5 @@ if kivet == 1:
 if kivet == 0:
     print('Lol.')
 
+
 print(f'Kivien kerätty arvo: {kerätyt_kivet}.')
