@@ -12,6 +12,7 @@ yhteys = mysql.connector.connect(
 
 
 
+
 pelattavat_kentät=[]
 def kenttäkysely():
     mantereet = 'EU', 'AF', 'AS', 'OC', 'SA', 'NA'
