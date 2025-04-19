@@ -336,3 +336,14 @@ def demoloppu():
 
 pisteet = demoloppu()
 print(f"Sait {pisteet} pistettä!")
+
+def loppu_pisteet(a,b):
+    sql = f"insert into highscore (nimi,score) values ('{a}','{b}')"
+    # print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
+
+
+loppu_pisteet(nimimerkki,pisteet)
