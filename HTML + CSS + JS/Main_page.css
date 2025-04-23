@@ -1,0 +1,27 @@
+main {
+    width: 100vw;
+    display: flex;
+    align-content: center;
+
+}
+body {
+    background-image: linear-gradient(90deg, orangered 0%, red 25%, black 51%, darkslateblue 100%);
+    margin:0;
+    background-size: 130%;
+    opacity: 1;
+}
+
+p {
+    font-size: 2rem;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 100px;
+}
+h1 {
+    font-size: 20rem;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    padding:1rem;
+}

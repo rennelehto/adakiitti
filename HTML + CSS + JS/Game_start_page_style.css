@@ -1,0 +1,27 @@
+main {
+    width: 100vw;
+    display: flex;
+    align-content: center;
+
+}
+body {
+    background-image: url("https://i.postimg.cc/QdPY6ZPY/wp2951423-2025888073.webp") ;
+    margin:0;
+    background-size: 130%;
+    opacity: 1;
+}
+
+button {
+    font-size: 2rem;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 100px;
+}
+h1 {
+    font-size: 20rem;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    padding:1rem;
+}

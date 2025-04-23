@@ -269,11 +269,17 @@ pelattavat_kentät.extend(valitut_kentätSA)
 
 print(" ")
 print("                                                                                         Adakite--Adakiitti")
-pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
+nimimerkki = input("Ole hyvä ja syötä nimesi: ").capitalize()
+def pelaajat():
+    sql = f"insert into peli (nimi) values ('{nimimerkki}')"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    return
+pelaajat()
 
 def peli_alkaa():
     print(" ")
-    print(f"Hei {pelaajan_nimi}! Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia adakiittiä joilla hän haluaa aiheuttaa ilmastokatastrofin."
+    print(f"Hei {nimimerkki}! Tehtäväsi on pelastaa maailma ilkeältä velholta, joka pyrkii keräämään maagisia adakiittiä joilla hän haluaa aiheuttaa ilmastokatastrofin."
           " \n Sinun täytyy kerätä adakiittiä, ja kerätä ilmatopisteitä voidaksesi päihittää velhon. ")
 
     Pelin_aloitus = int(input(                          #Vastaus valinta
