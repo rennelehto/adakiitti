@@ -14,7 +14,7 @@ create table highscore(
   ID int not null auto_increment,
   nimi varchar(40),
   score int(6),
-  primary keyy (ID)
+  primary key (ID)
 );
 
 insert into highscore (nimi, score) values ("nimimerkki", "pisteet");
