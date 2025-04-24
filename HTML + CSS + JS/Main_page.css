@@ -1,27 +1,57 @@
-main {
-    width: 100vw;
-    display: flex;
-    align-content: center;
 
+.leftpane {
+    width: 15%;
+    height: 100vh;
+    background-image: url("https://i.pinimg.com/736x/48/6c/c0/486cc02eba94124e6c1cb599fa284b3c.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
+
+.rightpane {
+    width: 15%;
+    height: 100vh;
+    background-image: url("https://i.pinimg.com/736x/48/6c/c0/486cc02eba94124e6c1cb599fa284b3c.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
 body {
-    background-image: linear-gradient(90deg, orangered 0%, red 25%, black 51%, darkslateblue 100%);
-    margin:0;
-    background-size: 130%;
-    opacity: 1;
+    margin: 0 !important;
 }
 
-p {
-    font-size: 2rem;
-    margin: auto;
-    justify-content: center;
-    text-align: center;
-    padding: 20px 100px;
+.d-flex {
+    display: flex;
 }
-h1 {
-    font-size: 20rem;
-    margin: auto;
-    justify-content: center;
-    text-align: center;
-    padding:1rem;
+
+.middlepane {
+    width: 70%;
+    height: 100vh;
+    background-color: royalblue;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+    border: 15px solid burlywood;
+    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fphotos%2Fvintage-map-of-the-world-1778-picture-id508784327%3Fk%3D6%26m%3D508784327%26s%3D612x612%26w%3D0%26h%3DdyBsiA3GMoARHHf3GobJcGYhraVGnuVeUGufxEg7UkI%3D&f=1&nofb=1&ipt=05906c8431110519d8e30e6874ebf3d374254b23691825f97a504a8cb229dfea");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.textbox {
+    height: 25vh;
+    background-color: burlywood;
+    width: 100%;
+    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
+    background-size: 98% 99%;
+    background-repeat: no-repeat;
+    border: 15px solid burlywood;
+    font-size: 30px;
+    color: white;
+    text-align: justify;
+}
+
+.textbox p {
+    margin:20px;
 }
