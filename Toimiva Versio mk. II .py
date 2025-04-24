@@ -41,7 +41,7 @@ class Pelaaja:
 
     def koordinaatit(self, icao):
         sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{icao}'"
-        print(sql)
+        # print(sql)
         kursori = yhteys.cursor()
         kursori.execute(sql)
         tulos_kordinaatit = kursori.fetchone()
@@ -70,21 +70,50 @@ class Pelaaja:
             except ValueError:
                 print("Syötä numero.")
 
+    def kiviarpa(self):
+        tulos_kiviarpa = random.randint(1, 6)
+        if tulos_kiviarpa == 6:
+            pöö = (random.randint(1, 6) * 2)
+            print("")
+            print('Löysit suuren adakiitin!')
+            print(f"Sen arvo on: {pöö}")
+        elif tulos_kiviarpa in range(3, 6):
+            pöö = random.randint(1, 6)
+            print("")
+            print('Löysit adakiitin!')
+            print(f"Sen arvo on: {pöö}")
+        elif tulos_kiviarpa < 3:
+            pöö = 0
+            print("")
+            print('Kentällä ei ole adakiittiä.')
+        return pöö
+
 class Vihollinen(Pelaaja):
     def __init__(self, sijainti, kivet):
         super().__init__(sijainti, kivet)
 
-    def vihollisen_seuraava_kohde(self):
+    def vihollinen_liikkuu(self):
         while True:
             try:
                 print("")
                 print("Vihollinen liikkuu!")
                 valinta = random.choice(seuraavat_kentät)
-                if 0 <= valinta < len(seuraavat_kentät):
-                    self.sijainti = seuraavat_kentät[valinta]
+                if valinta in seuraavat_kentät:
+                    self.sijainti = valinta
+                    #print(self.sijainti)
                     return
             except ValueError:
                 print("vihollinen ei osaa :(.")
+
+    def vihollisen_arpa(self):
+        tulos_kiviarpa = random.randint(1, 6)
+        if tulos_kiviarpa == 6:
+            pöö = (random.randint(1, 6) * 2)
+        elif tulos_kiviarpa in range(3, 6):
+            pöö = random.randint(1, 6)
+        elif tulos_kiviarpa < 3:
+            pöö = 0
+        return pöö
 
 # tämä hakee kentän koordinaatit
 def kentän_etäisyys(py):
@@ -100,7 +129,7 @@ def matkustettavat_kentät():
         if seur:
             seur_lat, seur_lon = seur[0]
 
-            if 0 < distance.distance(pelikoordinaatit, (seur_lat, seur_lon)).km < ((liikkeet + kerätyt_kivet) * 500):
+            if 0 < distance.distance(pelikoordinaatit, (seur_lat, seur_lon)).km < ((liikkeet + p.kivet) * 500):
                 seuraavat_kentät.append(h)
 def koodi_nimeksi(koodi):
     sql = f"SELECT name FROM airport WHERE ident = '{koodi}'"
@@ -155,8 +184,9 @@ def kivi_väli_lauseet(xy):
     return
 
 def peliluuppi1():
+    paikka = koodi_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print(f'Olet saapunut kentälle: {paikka}')
     print("")
     print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
@@ -167,10 +197,11 @@ def peliluuppi1():
     sijainti_nimi.clear()
     return
 def peliluuppi2(eih):
+    paikka = koodi_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print(f'Olet saapunut kentälle: {paikka}')
     print()
-    xx = kiviarpa()
+    xx = p.kiviarpa()
     xy = eih + xx
     if xy > 40:
         print("Kivien kerätty arvo on 40!")
@@ -194,56 +225,27 @@ def peliluuppi2(eih):
     matkustettavat_kentät()
     listaus()
     return xy
-def vpeliluuppi1():
-    v.koordinaatit(sijainti_icao2)
-    matkustettavat_kentät()
-    listaus()
-    kenttäluettelo()
-    sijainti_nimi.clear()
-    return
-def vpeliluuppi2(eih):
-    xx = kiviarpa()
-    xy = eih + xx
-    kivi_väli_lauseet(xy)
-    sijainti_nimi.clear()
-    seuraavat_kentät.clear()
-    seuraavien_kenttien_nimet.clear()
-    v.koordinaatit(sijainti_icao2)
-    matkustettavat_kentät()
-    listaus()
-    return xy
-def kiviarpa():
-    tulos_kiviarpa = random.randint(1,6)
-    if tulos_kiviarpa == 6:
-        pöö = (random.randint(1,6) * 2)
-        print("")
-        print('Löysit suuren adakiitin!')
-        print(f"Sen arvo on: {pöö}")
-    elif tulos_kiviarpa in range(3,6):
-        pöö = random.randint(1,6)
-        print("")
-        print('Löysit adakiitin!')
-        print(f"Sen arvo on: {pöö}")
-    elif tulos_kiviarpa < 3:
-        pöö = 0
-        print("")
-        print('Kentällä ei ole adakiittiä.')
-    return pöö
-#    PÄÄOHJELMA
+#def vpeliluuppi1():
+#    v.koordinaatit(sijainti_icao2)
+#    matkustettavat_kentät()
+#    listaus()
+#    kenttäluettelo()
+#    sijainti_nimi.clear()
+#    return
+#def vpeliluuppi2(eih):
+#    xx = v.vihollisen_arpa()
+#    xy = eih + xx
+#    kivi_väli_lauseet(xy)
+#    sijainti_nimi.clear()
+#    seuraavat_kentät.clear()
+#    seuraavien_kenttien_nimet.clear()
+#    v.koordinaatit(sijainti_icao2)
+#    matkustettavat_kentät()
+#    listaus()
+#    return xy
 
-
-
-pelattavat_kentät_lista_2=[]
-
-
-
-
-kenttäkysely()
-
-print(" ")
-print("                                                                                         Adakite--Adakiitti")
-pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
-
+def heita_noppaa(maara):
+    return sum(random.randint(1, 6) for i in range(maara))
 def peli_alkaa():
     print(" ")
     print("▒▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
@@ -315,6 +317,22 @@ def peli_alkaa():
     print("Onnea matkaan, ja käytä voimiasi hyvään.")
     print("--------------------------------------------------")
     print(" ")
+def loppu():
+    ö = 0
+    pisteet = 0
+    while ö < p.kivet:
+        pisteet = pisteet + (random.randint(1, 6))
+        ö = ö + 1
+    return pisteet
+#    PÄÄOHJELMA
+
+pelattavat_kentät_lista_2=[]
+
+kenttäkysely()
+
+print(" ")
+print("                                                                                         Adakite--Adakiitti")
+pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
 
 
 sijainti_icao1 = random.choice(pelattavat_kentät_lista_2)
@@ -322,9 +340,10 @@ sijainti_icao2 = random.choice(pelattavat_kentät_lista_2)
 sijainti_nimi = []
 p = Pelaaja(sijainti_icao1, 5)
 v = Vihollinen(sijainti_icao2, 5)
+#pelattavat_kentät_lista_2.remove(sijainti_icao1)
 liikkeet = 4
-kerätyt_kivet = int(5)
 kierrokset = 1
+ympäristöpisteet = 10
 
 pelikoordinaatit = p.koordinaatit(sijainti_icao1)
 p.sijainnin_nimi(sijainti_icao1)
@@ -338,38 +357,65 @@ while kierrokset < 2:
     peliluuppi1()
     sijainti_icao1 = p.seuraava_kohde()
     p.sijainnin_nimi(sijainti_icao1)
-    v.vihollisen_seuraava_kohde()
+    v.vihollinen_liikkuu()
     if sijainti_icao1 in pelattavat_kentät_lista_2:
         pelattavat_kentät_lista_2.remove(sijainti_icao1)
     kierrokset = kierrokset + 1
 
-while p.kivet < 40:
-    p.kivet = peliluuppi2(p.kivet)
-    if p.kivet >= 40:
-        p.kivet = 40
-        break
-    kenttäluettelo()
-    p.seuraava_kohde()
-    p.sijainnin_nimi(sijainti_icao1)
-    v.vihollisen_seuraava_kohde()
+while p.kivet < 50 and v.kivet < 50 and ympäristöpisteet > 0:
+    print(f"\nYmpäristöpisteet: {ympäristöpisteet}")
+    print(f"Pisteesi: {p.kivet}\nVastustaja: {v.kivet}")
+
+    print("\n1. Lennä seuraavalle kentälle")
+    print("2. Jää kentälle (säästät ympäristöä, saat +3 ympäristöpistettä)")
+    valinta = input("Valintasi: ")
+
+    if valinta == '1':
+        ympäristöpisteet -= 1
+        kenttäluettelo()
+        sijainti_icao1 = p.seuraava_kohde()
+        p.kivet = peliluuppi2(p.kivet)
+    elif valinta == '2':
+        print("Päätit jäädä paikalleen. Ympäristö kiittää sinua.")
+        ympäristöpisteet += 3
+    else:
+        print("Virheellinen valinta.")
+        continue
+    v.vihollinen_liikkuu()
+    v.kivet += v.vihollisen_arpa()
     if sijainti_icao1 in pelattavat_kentät_lista_2:
         pelattavat_kentät_lista_2.remove(sijainti_icao1)
-    kierrokset = kierrokset + 1
-
-    #muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:,
-    # ja muokkasin myös seuraava kohde funktiota
-    #sekä loin uuden pelattavat kentät funktion luomalla dictionaryn, jolla saimme poistettua kopioita.
+    ympäristöpisteet -= 1
 
 
-print("Olet löytänyt 40 adakiittia! Onneksi olkoon, seuraavassa jaksossa loppuhuippennuksena kaksintaistelu vihollisen kanssa!")
-def demoloppu():
-    ö = 0
-    pisteet = 0
-    while ö < kerätyt_kivet:
-        pisteet = pisteet + (random.randint(1, 6))
-        ö = ö + 1
-    return pisteet
+print("\n--- PELI PÄÄTTYY ---")
 
+if ympäristöpisteet <= 0:
+    print("")
+    print("Ympäristöpisteet loppuivat! Nyt maailmaa kohtaa ilmastokatastrofi!")
+    quit()
+elif p.kivet >= 50:
+    print("")
+    print("Sait kasaan 50 adakiittipistettä!")
+elif v.kivet >= 50:
+    print("")
+    print("Vastustajasi saavutti 50 pistettä!")
 
-pisteet = demoloppu()
+print(f"\nLopulliset pisteet: {pelaajan_nimi}: {p.kivet}, Vastustaja: {v.kivet}")
+print("Nyt siirrytään loppukohtaamiseen, jossa nopanheitot ratkaisevat kaiken!\n")
+
+pelaajan_heitoista = heita_noppaa(p.kivet)
+vastustajan_heitoista = heita_noppaa(v.kivet)
+
+print(f"{pelaajan_nimi} heitti yhteensä {pelaajan_heitoista} pistettä.")
+print(f"Vastustaja heitti yhteensä {vastustajan_heitoista} pistettä.")
+
+if pelaajan_heitoista > vastustajan_heitoista:
+    print("\nOnneksi olkoon, voitit pelin!!")
+elif pelaajan_heitoista < vastustajan_heitoista:
+    print("\nHävisit pelin. Vastustajasi oli tällä kertaa vahvempi.")
+else:
+    print("\nTasapeli!!")
+
+pisteet = loppu()
 print(f"Sait {pisteet} pistettä!")
