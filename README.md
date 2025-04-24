@@ -1,4 +1,5 @@
 sql muutokset:
+
 Delete from airport where name like "CLICK HERE%";
 create table peli(
   ID int not null auto_increment,
