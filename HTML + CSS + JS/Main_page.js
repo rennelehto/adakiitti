@@ -19,13 +19,17 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-L.marker([60.192059, 24.945831]) // Lisää pisteitä kartalle, käyetään tätä jotta saadaan kaikki pisteet kartalle!
+function add_to_map(x,y,name){
+   const marker = L.marker([x,y])
   .addTo(map)
-  .bindPopup('Helsinki-Vantaa airport')
+  .bindPopup(`${name}`)
+  marker.on('mouseover',function(ev) {
+  marker.openPopup();
+});marker.on('mouseout',function(ev) {
+  marker.closePopup();
+});
+}
 
-
-L.marker([40.7128, -74.0060]) //
-  .addTo(map)
-  .bindPopup('New York JFK airport')
-
-
+// näin lisätään kenttiä!
+add_to_map(40.7128, -74.0060,"New York JFK airport")
+add_to_map(60.192059, 24.945831,"Helsinki-Vantaa airport")
