@@ -31,12 +31,13 @@ body {
     flex-direction: column;
 }
 
-.main-content {
+#map {
     flex: 1;
+    height: 75vh;
+    width: 97.8%;
     border: 15px solid burlywood;
-    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fphotos%2Fvintage-map-of-the-world-1778-picture-id508784327%3Fk%3D6%26m%3D508784327%26s%3D612x612%26w%3D0%26h%3DdyBsiA3GMoARHHf3GobJcGYhraVGnuVeUGufxEg7UkI%3D&f=1&nofb=1&ipt=05906c8431110519d8e30e6874ebf3d374254b23691825f97a504a8cb229dfea");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+
+
 }
 
 .textbox {
