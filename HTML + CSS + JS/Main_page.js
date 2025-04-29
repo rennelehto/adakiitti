@@ -22,7 +22,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: 2,
     maxZoom: 2,
     noWrap: true,               // << Estää kartan looppaamista
-    attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
 const markers = {};  // Antaa nimet pisteille kartalla
@@ -53,6 +52,7 @@ function remove_from_map(name) {
 // näin lisätään kenttiä!
 add_to_map(40.7128, -74.0060,"New York JFK airport")
 add_to_map(60.192059, 24.945831,"Helsinki-Vantaa airport")
+add_to_map(54.192059, 22.945831,"Joku")
 
 
 let name_of_del = document.getElementById("test")
@@ -63,6 +63,15 @@ button.addEventListener("click", function(evt){
     let name_to_del = name_of_del.value
   remove_from_map(`${name_to_del}`)
 })
+
+let ul_li = document.querySelector("ul")
+
+
+for (name in markers){
+    let li = document.createElement("li");
+    li.innerHTML = name
+    document.getElementById("airport_names").appendChild(li);
+}
 
 
 

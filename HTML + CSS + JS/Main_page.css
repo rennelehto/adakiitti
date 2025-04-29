@@ -6,6 +6,31 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
+#stats {
+    margin-left:20px;
+    text-align: center;
+    font-size: xxx-large;
+}
+#right_title {
+     margin-left:10px;
+     margin-bottom: 0;
+     text-align: center;
+     font-size: xxx-large;
+}
+.rightpane li {
+     margin-left:10px;
+     text-align: match-parent;
+     font-size: x-large;
+     padding: 10px;
+}
+#stat_names {
+     margin-left:10px;
+     text-align: center;
+     font-size: xx-large;
+     padding: 10px;
+
+}
+
 
 .rightpane {
     width: 15%;
@@ -26,9 +51,10 @@ body {
 .middlepane {
     width: 70%;
     height: 100vh;
-    background-color: royalblue;
+    background-color: #A4CFDD;
     display: flex;
     flex-direction: column;
+    background-size: cover;
 }
 
 #map {
@@ -36,9 +62,9 @@ body {
     height: 75vh;
     width: 98.2%;
     border: 15px solid burlywood;
+    background-color: #A4CFDD;
 }
 #map {
-    background: #ADD8E6;
     overflow: hidden;
 
 }
