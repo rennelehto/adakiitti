@@ -2,21 +2,27 @@
 let button = document.querySelector("button")
 
 var map = L.map('map', {
-    center: [30, 0],        // näyttää koko kartan(melkeen)
+    center: [40, 0],           // a slightly better center for world view
     zoom: 2,
     minZoom: 2,
     maxZoom: 2,
-    zoomControl: false,     // Ei voi zoomata komentoja
+    zoomControl: false,
     scrollWheelZoom: false,
     doubleClickZoom: false,
     boxZoom: false,
     touchZoom: false,
-    dragging: false          // Kartta ei liiku!
+    dragging: false,
+    maxBounds: [
+        [-85, -180],  // Southwest corner
+        [85, 180]     // Northeast corner
+    ]
 });
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 2,
     minZoom: 2,
+    maxZoom: 2,
+    noWrap: true,               // << prevents wrapping
+    //bounds: [[-85, -180], [85, 180]],  // define visible tile boundaries
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
