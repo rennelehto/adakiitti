@@ -2,7 +2,7 @@
 let button = document.querySelector("button")
 
 var map = L.map('map', {
-    center: [40, 0],           // a slightly better center for world view
+    center: [40, 0],
     zoom: 2,
     minZoom: 2,
     maxZoom: 2,
@@ -13,16 +13,15 @@ var map = L.map('map', {
     touchZoom: false,
     dragging: false,
     maxBounds: [
-        [-85, -180],  // Southwest corner
-        [85, 180]     // Northeast corner
+        [-85, -180],
+        [85, 180]
     ]
 });
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: 2,
     maxZoom: 2,
-    noWrap: true,               // << prevents wrapping
-    //bounds: [[-85, -180], [85, 180]],  // define visible tile boundaries
+    noWrap: true,               // << Estää kartan looppaamista
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
