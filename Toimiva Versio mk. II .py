@@ -184,9 +184,8 @@ def kivi_väli_lauseet(xy):
     return
 
 def peliluuppi1():
-    paikka = koodi_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {paikka}')
+    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print("")
     print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
@@ -197,9 +196,8 @@ def peliluuppi1():
     sijainti_nimi.clear()
     return
 def peliluuppi2(eih):
-    paikka = koodi_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {paikka}')
+    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print()
     xx = p.kiviarpa()
     xy = eih + xx
@@ -335,7 +333,7 @@ print("                                                                         
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
 
 
-sijainti_icao1 = random.choice(pelattavat_kentät_lista_2)
+sijainti_icao1 = str(random.choice(pelattavat_kentät_lista_2))
 sijainti_icao2 = random.choice(pelattavat_kentät_lista_2)
 sijainti_nimi = []
 p = Pelaaja(sijainti_icao1, 5)
