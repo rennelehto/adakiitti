@@ -5,11 +5,17 @@ main {
 
 }
 body {
-    background-image: url("https://i.postimg.cc/QdPY6ZPY/wp2951423-2025888073.webp") ;
+    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fblog.boot.dev%2Fimg%2F800%2Fwizardsfightingoversomething.png.webp&f=1&nofb=1&ipt=6bdd731b9db08c56a598eae30fae0e872764ed2da5ca78460816cbcc95078fad") ;
     margin:0;
-    background-size: 130%;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
     opacity: 1;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    height: 100vh;
 }
+
 
 button {
     font-size: 2rem;
