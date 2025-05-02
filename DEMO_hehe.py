@@ -242,6 +242,7 @@ def peliluuppi2(eih):
     listaus()
     return xy
 
+
 def heita_noppaa(maara, ymp):
     return sum(random.randint(1, 6) for i in range(maara + ymp))
 def peli_alkaa():
