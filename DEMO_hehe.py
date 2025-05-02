@@ -283,6 +283,7 @@ def peli_alkaa():
     "\n pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston! ")
 
 
+
     Pelin_aloitus = input(                          #Vastaus valinta
                 "\n1. Asia selvä. "
                 "\n2. En halua. "
