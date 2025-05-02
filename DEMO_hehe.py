@@ -260,8 +260,8 @@ def peliluuppi2(eih):
 #    listaus()
 #    return xy
 
-def heita_noppaa(maara):
-    return sum(random.randint(1, 6) for i in range(maara))
+def heita_noppaa(maara, ymp):
+    return sum(random.randint(1, 6) for i in range(maara + ymp))
 def peli_alkaa():
     print(" ")
     print("▒▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
@@ -427,7 +427,7 @@ elif v.kivet >= 50:
 print(f"\nLopulliset pisteet: {pelaajan_nimi}: {p.kivet}, Vastustaja: {v.kivet}")
 print("Nyt siirrytään loppukohtaamiseen, jossa nopanheitot ratkaisevat kaiken!\n")
 
-pelaajan_heitoista = heita_noppaa(p.kivet)
+pelaajan_heitoista = heita_noppaa(p.kivet, ympäristöpisteet)
 vastustajan_heitoista = heita_noppaa(v.kivet)
 
 print(f"{pelaajan_nimi} heitti yhteensä {pelaajan_heitoista} pistettä.")
