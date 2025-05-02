@@ -17,5 +17,5 @@ peliluuppi1()
     FETCH seuraavien_kenttien_nimet[0]
    # seuraavien_kenttien_nimet[19] asti
   kenttäluettelo()
-  siajinti_nimi.clear()
+  sijainti_nimi.clear()
 
