@@ -35,6 +35,7 @@ def kenttäkysely():
     return
 
 
+
 def pelaajan_koordinaatit(sijainti_icao):
     sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{sijainti_icao}'"
     kursori = yhteys.cursor()
@@ -202,7 +203,12 @@ kenttäkysely()
 print(" ")
 print("                                                                                         Adakite--Adakiitti")
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
-
+def pelaajat():
+    sql = f"insert into peli (nimi) values ('{pelaajan_nimi}')"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    return
+pelaajat()
 def peli_alkaa():
     print(" ")
     print("▒▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
