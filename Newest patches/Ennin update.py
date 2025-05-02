@@ -12,7 +12,6 @@ yhteys = mysql.connector.connect(
 
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
-kerätyt_kivet = 0
 vastustajan_pisteet = 0
 ympäristöpisteet = 20
 
@@ -156,9 +155,6 @@ def peliluuppi1():
 
 
 def peliluuppi2(eih):
-    print()
-    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
-    print()
     xx = kiviarpa()
     xy = eih + xx
     if xy > 40:
@@ -215,7 +211,15 @@ def kiviarpa():
         print("")
         print('Kentällä ei ole adakiittiä.')
     return pöö
-
+def pahis_kiviarpa():
+    tulos_kiviarpa = random.randint(1, 6)
+    if tulos_kiviarpa == 6:
+        pöö = (random.randint(1, 6) * 2)
+    elif tulos_kiviarpa in range(3, 6):
+        pöö = random.randint(1, 6)
+    elif tulos_kiviarpa < 3:
+        pöö = 0
+    return pöö
 
 #    PÄÄOHJELMA
 
@@ -328,6 +332,9 @@ while kierrokset < 2:
     kierrokset = kierrokset + 1
 
 while kerätyt_kivet < 40 and vastustajan_pisteet < 40 and ympäristöpisteet > 0:
+    print()
+    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print()
     print(f"\nYmpäristöpisteet: {ympäristöpisteet}")
     print(f"Pisteesi: {kerätyt_kivet}\nVastustaja: {vastustajan_pisteet}")
 
@@ -336,33 +343,29 @@ while kerätyt_kivet < 40 and vastustajan_pisteet < 40 and ympäristöpisteet > 
     valinta = input("Valintasi: ")
 
     if valinta == '1':
-        ympäristöpisteet -= 1
-        uusi_kenttä = seuraava_kohde()
-        sijainti_icao = uusi_kenttä
-        pelaajan_sijainnin_nimi(sijainti_icao)
+        if kerätyt_kivet >= 40:
+            kerätyt_kivet = 40
+            break
         kerätyt_kivet = peliluuppi2(kerätyt_kivet)
+        kenttäluettelo()
+        sijainti_icao = seuraava_kohde()
+        pelaajan_sijainnin_nimi(sijainti_icao)
+        if sijainti_icao in pelattavat_kentät_lista_2:
+            pelattavat_kentät_lista_2.remove(sijainti_icao)
+        kierrokset = kierrokset + 1
+        vastustajan_pisteet += pahis_kiviarpa()
+        ympäristöpisteet -= 1
     elif valinta == '2':
         print("Päätit jäädä paikalleen. Ympäristö kiittää sinua.")
+        vastustajan_pisteet += pahis_kiviarpa()
         ympäristöpisteet += 3
+        ympäristöpisteet -= 1
     else:
         print("Virheellinen valinta.")
         continue
 
-    vastustajan_pisteet += kiviarpa()
-    ympäristöpisteet -= 1
 
 
-while kerätyt_kivet < 40:
-    kerätyt_kivet = peliluuppi2(kerätyt_kivet)
-    if kerätyt_kivet >= 40:
-        kerätyt_kivet = 40
-        break
-    kenttäluettelo()
-    sijainti_icao = seuraava_kohde()
-    pelaajan_sijainnin_nimi(sijainti_icao)
-    if sijainti_icao in pelattavat_kentät_lista_2:
-        pelattavat_kentät_lista_2.remove(sijainti_icao)
-    kierrokset = kierrokset + 1
 
     # muutokset peli tulostaa löydetyn kiven arvon, poistin valitutkentät:extend jutut, muokkasin kordinaatti hakuua, sekä sql hakua tekemällä if tulos: eikä if tulos >0:,
     # ja muokkasin myös seuraava kohde funktiota
