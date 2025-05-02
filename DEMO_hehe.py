@@ -41,6 +41,7 @@ class Pelaaja:
         self.sijainti = sijainti
         self.kivet = kivet
 
+
     def koordinaatit(self, icao):
         sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{icao}'"
         # print(sql)
