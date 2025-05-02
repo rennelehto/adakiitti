@@ -241,24 +241,6 @@ def peliluuppi2(eih):
     matkustettavat_kentät()
     listaus()
     return xy
-#def vpeliluuppi1():
-#    v.koordinaatit(sijainti_icao2)
-#    matkustettavat_kentät()
-#    listaus()
-#    kenttäluettelo()
-#    sijainti_nimi.clear()
-#    return
-#def vpeliluuppi2(eih):
-#    xx = v.vihollisen_arpa()
-#    xy = eih + xx
-#    kivi_väli_lauseet(xy)
-#    sijainti_nimi.clear()
-#    seuraavat_kentät.clear()
-#    seuraavien_kenttien_nimet.clear()
-#    v.koordinaatit(sijainti_icao2)
-#    matkustettavat_kentät()
-#    listaus()
-#    return xy
 
 def heita_noppaa(maara, ymp):
     return sum(random.randint(1, 6) for i in range(maara + ymp))
@@ -341,9 +323,6 @@ def loppu():
         ö = ö + 1
     return pisteet
 #    PÄÄOHJELMA
-
-
-
 kenttäkysely()
 
 print(" ")
@@ -377,7 +356,6 @@ peli_alkaa()
 
 while kierrokset < 2:
     peliluuppi1()
-    #sijainti_icao1 = p.seuraava_kohde()
     p.sijainnin_nimi(sijainti_icao1)
     v.vihollinen_liikkuu()
 
@@ -428,7 +406,7 @@ print(f"\nLopulliset pisteet: {pelaajan_nimi}: {p.kivet}, Vastustaja: {v.kivet}"
 print("Nyt siirrytään loppukohtaamiseen, jossa nopanheitot ratkaisevat kaiken!\n")
 
 pelaajan_heitoista = heita_noppaa(p.kivet, ympäristöpisteet)
-vastustajan_heitoista = heita_noppaa(v.kivet)
+vastustajan_heitoista = heita_noppaa(v.kivet, 0)
 
 print(f"{pelaajan_nimi} heitti yhteensä {pelaajan_heitoista} pistettä.")
 print(f"Vastustaja heitti yhteensä {vastustajan_heitoista} pistettä.")
@@ -471,5 +449,15 @@ pisteet_tauluun(pelaajan_nimi, pisteet)
 
 print(f"Sait {pisteet} pistettä!")
 
-#SQL-haku huippupistetaulukkoon
-#select peli.nimi, highscore.pisteet from peli, highscore where peli.id = highscore.id;
+def highscore():
+    sql = f"select peli.nimi, highscore.pisteet from peli, highscore where highscore.id = peli.id group by peli.nimi order by highscore.pisteet desc, pisteet asc limit 10"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            print(f'Pelaaja: {rivi[0]} Pisteet: {rivi[1]}')
+    return
+
+print()
+highscore()
