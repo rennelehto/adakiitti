@@ -447,4 +447,5 @@ pisteet_tauluun(pelaajan_nimi, pisteet)
 print(f"Sait {pisteet} pistettä!")
 
 #SQL-haku huippupistetaulukkoon
+
 #select peli.nimi, highscore.pisteet from peli, highscore where peli.id = highscore.id;
