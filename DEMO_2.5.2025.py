@@ -6,10 +6,9 @@ yhteys = mysql.connector.connect(
       #  host='127.0.0.1',
       #  port=3306,
         database='flight_game',
-        user='python',
-        password='1232',
+        user='pythonuser',
+        password='salasana',
         autocommit=True)
-
 
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
@@ -102,7 +101,6 @@ class Vihollinen(Pelaaja):
                 if valinta in seuraavat_kentät:
                     self.sijainti = valinta
                     #print(self.sijainti)
-                    pelattavat_kentät_lista_2.remove(valinta)
                     return
             except ValueError:
                 print("vihollinen ei osaa :(.")
@@ -116,7 +114,6 @@ class Vihollinen(Pelaaja):
         elif tulos_kiviarpa < 3:
             pöö = 0
         return pöö
-
 
 # tämä hakee kentän koordinaatit
 def kentän_etäisyys(py):
@@ -187,13 +184,11 @@ def kivi_väli_lauseet(xy):
     return
 
 def peliluuppi1():
-    paikka = koodi_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {paikka}')
+    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print("")
     print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
-    pelattavat_kentät_lista_2.remove(p.sijainti)
     p.koordinaatit(sijainti_icao1)
     matkustettavat_kentät()
     listaus()
@@ -201,11 +196,9 @@ def peliluuppi1():
     sijainti_nimi.clear()
     return
 def peliluuppi2(eih):
-    paikka = koodi_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {paikka}')
+    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
     print()
-    pelattavat_kentät_lista_2.remove(p.sijainti)
     xx = p.kiviarpa()
     xy = eih + xx
     if xy > 40:
@@ -216,13 +209,13 @@ def peliluuppi2(eih):
         print("")
     kivi_väli_lauseet(xy)
     if xx == 0:
-        input(f"1. {random.choice(vastausvaihtoehdot_neg1)} "
-                f"\n2. {random.choice(vastausvaihtoehdot_neg2)}"
-                "\n: ")
-    else:
-        input(f"1. {random.choice(vastausvaihtoehdot_pos1)} "
-                    f"\n2. {random.choice(vastausvaihtoehdot_pos2)}"
+        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg1)} "
+                    f"\n2. {random.choice(vastausvaihtoehdot_neg2)}"
                     "\n: ")
+    else:
+        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_pos1)} "
+                        f"\n2. {random.choice(vastausvaihtoehdot_pos2)}"
+                        "\n: ")
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -273,16 +266,16 @@ def peli_alkaa():
         "\n▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒")
-    input(' Paina mitä vain jatkaaksesi: ')
+    väli = input(' Paina mitä vain jatkaaksesi: ')
     print(f" Hei {pelaajan_nimi}! Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos,"
     "\n ovat kaavailleet suunnitelman tuodakseen lopun konfliktille:"
     "\n Suur-Velho Kaik-Oo-Koolle on annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta"
     "\n voittaakseen velhojen taisto.")
-    input('')
+    väli = input('')
     print(" Uudet lahkot ovat päättäneet pysäyttää heidän aikeensa"
     "\n lähettämällä oman valittunsa keräämään kaikki kivet ensin."
     "\n Toteuttaakseen tämän tehtävän, uudet lahkot valitsivat: sinut!")
-    input('')
+    väli2 = input('')
     print("\n Nyt, sinun kuuluu kerätä niin paljon adakiittitaikakiviä kuin voit,"
     "\n käyttämällä maailman lentokenttiä kiintopisteinä ja"
     "\n pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston! ")
@@ -338,15 +331,9 @@ kenttäkysely()
 print(" ")
 print("                                                                                         Adakite--Adakiitti")
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
-def pelaajat():
-    sql = f"insert into peli (nimi) values ('{pelaajan_nimi}')"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    return
 
-pelaajat()
 
-sijainti_icao1 = random.choice(pelattavat_kentät_lista_2)
+sijainti_icao1 = str(random.choice(pelattavat_kentät_lista_2))
 sijainti_icao2 = random.choice(pelattavat_kentät_lista_2)
 sijainti_nimi = []
 p = Pelaaja(sijainti_icao1, 5)
@@ -354,7 +341,7 @@ v = Vihollinen(sijainti_icao2, 5)
 #pelattavat_kentät_lista_2.remove(sijainti_icao1)
 liikkeet = 4
 kierrokset = 1
-ympäristöpisteet = 30
+ympäristöpisteet = 10
 
 pelikoordinaatit = p.koordinaatit(sijainti_icao1)
 p.sijainnin_nimi(sijainti_icao1)
@@ -369,6 +356,8 @@ while kierrokset < 2:
     sijainti_icao1 = p.seuraava_kohde()
     p.sijainnin_nimi(sijainti_icao1)
     v.vihollinen_liikkuu()
+    if sijainti_icao1 in pelattavat_kentät_lista_2:
+        pelattavat_kentät_lista_2.remove(sijainti_icao1)
     kierrokset = kierrokset + 1
 
 while p.kivet < 50 and v.kivet < 50 and ympäristöpisteet > 0:
@@ -448,8 +437,8 @@ def id_tauluun(id):
     return
 id_tauluun(highscore_id)
 
-def pisteet_tauluun(nimi, p):
-    sql = f"update highscore set pisteet = '{p}' where id = (select id from peli where nimi = '{nimi}')"
+def pisteet_tauluun(id, p):
+    sql = f"update highscore set pisteet = '{p}' where id = (select id from peli where nimi = '{id}')"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     return
