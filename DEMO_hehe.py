@@ -239,25 +239,6 @@ def peliluuppi2(eih):
     matkustettavat_kentät()
     listaus()
     return xy
-#def vpeliluuppi1():
-#    v.koordinaatit(sijainti_icao2)
-#    matkustettavat_kentät()
-#    listaus()
-#    kenttäluettelo()
-#    sijainti_nimi.clear()
-#    return
-#def vpeliluuppi2(eih):
-#    xx = v.vihollisen_arpa()
-#    xy = eih + xx
-#    kivi_väli_lauseet(xy)
-#    sijainti_nimi.clear()
-#    seuraavat_kentät.clear()
-#    seuraavien_kenttien_nimet.clear()
-#    v.koordinaatit(sijainti_icao2)
-#    matkustettavat_kentät()
-#    listaus()
-#    return xy
-
 
 def heita_noppaa(maara):
     return sum(random.randint(1, 6) for i in range(maara))
