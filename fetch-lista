@@ -11,8 +11,11 @@ peli alkaa()
 peliluuppi1()
   FETCH {sijainti_nimi[0]
   p.koordinaatit(sijainti_icao1)
+    FETCH p.koordinaatit
   matkustettavat_kentät()
   listaus()
+    FETCH seuraavien_kenttien_nimet[0]
+   # seuraavien_kenttien_nimet[19] asti
   kenttäluettelo()
   siajinti_nimi.clear()
 
