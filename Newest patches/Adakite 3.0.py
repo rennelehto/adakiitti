@@ -207,7 +207,6 @@ def peliluuppi1():
     p.koordinaatit(sijainti_icao1)
     matkustettavat_kentät()
     listaus()
-    kenttäluettelo()
     sijainti_nimi.clear()
     return
 def peliluuppi2(eih):
