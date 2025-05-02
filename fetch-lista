@@ -1,8 +1,18 @@
 kenttäkysely()
-pelaajan nimi (input)
-
+(syötä nimi)
 peli alkaa()
--väli 
-- alkulore (pelaajan nimi)(kolmeen osaan)
-- pelin aloitus (input)
+  (paina mitä vain jatkaaksesi)
+  FETCH lore1 (sisältaa pelaajan nimen)
+  (paina)
+  FETCH lore2
+  (paina)
+  FETCH lore3
+
+peliluuppi1()
+  FETCH {sijainti_nimi[0]
+  p.koordinaatit(sijainti_icao1)
+  matkustettavat_kentät()
+  listaus()
+  kenttäluettelo()
+  siajinti_nimi.clear()
 
