@@ -117,6 +117,7 @@ class Vihollinen(Pelaaja):
             pöö = 0
         return pöö
 
+
 # tämä hakee kentän koordinaatit
 def kentän_etäisyys(py):
     sql = f"SELECT latitude_deg, longitude_deg from airport, country where airport.iso_country = country.iso_country and ident = '{py}'"
