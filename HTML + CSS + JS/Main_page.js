@@ -64,7 +64,7 @@ let all_airports = {
 }
 async function fetchData (){
   try {
-    const response = await fetch('http://127.0.0.1:3000/airport/EFHK')
+    const response = await fetch('http://127.0.0.1:3000/airport/')
     const data = await response.json()
     console.log(data)
   } catch(error) {
