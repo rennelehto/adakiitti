@@ -10,6 +10,7 @@ yhteys = mysql.connector.connect(
         password='1232',
         autocommit=True)
 
+
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
 def kenttäkysely():
