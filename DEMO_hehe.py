@@ -428,7 +428,7 @@ print(f"\nLopulliset pisteet: {pelaajan_nimi}: {p.kivet}, Vastustaja: {v.kivet}"
 print("Nyt siirrytään loppukohtaamiseen, jossa nopanheitot ratkaisevat kaiken!\n")
 
 pelaajan_heitoista = heita_noppaa(p.kivet, ympäristöpisteet)
-vastustajan_heitoista = heita_noppaa(v.kivet)
+vastustajan_heitoista = heita_noppaa(v.kivet, 0)
 
 print(f"{pelaajan_nimi} heitti yhteensä {pelaajan_heitoista} pistettä.")
 print(f"Vastustaja heitti yhteensä {vastustajan_heitoista} pistettä.")
@@ -471,5 +471,14 @@ pisteet_tauluun(pelaajan_nimi, pisteet)
 
 print(f"Sait {pisteet} pistettä!")
 
-#SQL-haku huippupistetaulukkoon
-#select peli.nimi, highscore.pisteet from peli, highscore where peli.id = highscore.id;
+def highscore():
+    sql = f"select peli.nimi, highscore.pisteet from peli, highscore where highscore.id = peli.id group by peli.nimi order by highscore.pisteet desc, pisteet asc limit 10"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            print(f'Pelaaja: {rivi[0]} Pisteet: {rivi[1]}')
+    return
+
+highscore()
