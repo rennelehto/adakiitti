@@ -481,4 +481,5 @@ def highscore():
             print(f'Pelaaja: {rivi[0]} Pisteet: {rivi[1]}')
     return
 
+
 highscore()
