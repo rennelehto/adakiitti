@@ -1,0 +1,8 @@
+kenttäkysely()
+pelaajan nimi (input)
+
+peli alkaa()
+-väli 
+- alkulore (pelaajan nimi)(kolmeen osaan)
+- pelin aloitus (input)
+
