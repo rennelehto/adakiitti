@@ -241,25 +241,6 @@ def peliluuppi2(eih):
     matkustettavat_kentät()
     listaus()
     return xy
-#def vpeliluuppi1():
-#    v.koordinaatit(sijainti_icao2)
-#    matkustettavat_kentät()
-#    listaus()
-#    kenttäluettelo()
-#    sijainti_nimi.clear()
-#    return
-#def vpeliluuppi2(eih):
-#    xx = v.vihollisen_arpa()
-#    xy = eih + xx
-#    kivi_väli_lauseet(xy)
-#    sijainti_nimi.clear()
-#    seuraavat_kentät.clear()
-#    seuraavien_kenttien_nimet.clear()
-#    v.koordinaatit(sijainti_icao2)
-#    matkustettavat_kentät()
-#    listaus()
-#    return xy
-
 def heita_noppaa(maara, ymp):
     return sum(random.randint(1, 6) for i in range(maara + ymp))
 def peli_alkaa():
@@ -341,9 +322,6 @@ def loppu():
         ö = ö + 1
     return pisteet
 #    PÄÄOHJELMA
-
-
-
 kenttäkysely()
 
 print(" ")
@@ -377,7 +355,6 @@ peli_alkaa()
 
 while kierrokset < 2:
     peliluuppi1()
-    #sijainti_icao1 = p.seuraava_kohde()
     p.sijainnin_nimi(sijainti_icao1)
     v.vihollinen_liikkuu()
 
@@ -481,5 +458,5 @@ def highscore():
             print(f'Pelaaja: {rivi[0]} Pisteet: {rivi[1]}')
     return
 
-
+print()
 highscore()
