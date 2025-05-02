@@ -215,13 +215,14 @@ def peliluuppi2(eih):
     print()
     print(f'Olet saapunut kentälle: {paikka}')
     print()
-    pelattavat_kentät_lista_2.remove(p.sijainti)
+    if p.sijainti in pelattavat_kentät_lista_2:
+        pelattavat_kentät_lista_2.remove(p.sijainti)
     xx = p.kiviarpa()
     xy = eih + xx
-    if xy > 40:
-        print("Kivien kerätty arvo on 40!")
+    if xy > 50:
+        print("Kivien kerätty arvo on 50!")
         print("")
-    if xy <= 40:
+    if xy <= 50:
         print(f'Kivien kerätty arvo: {xy}.')
         print("")
     kivi_väli_lauseet(xy)
