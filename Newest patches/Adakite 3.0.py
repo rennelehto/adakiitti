@@ -10,8 +10,10 @@ yhteys = mysql.connector.connect(
         password='gr0ups',
         autocommit=True)
 
+
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
+pelattavat_kentät_lista_2=[]
 def kenttäkysely():
     mantereet = 'EU', 'AF', 'AS', 'OC', 'SA', 'NA'
     lista_kentistä = []
@@ -39,6 +41,7 @@ class Pelaaja:
         self.sijainti = sijainti
         self.kivet = kivet
 
+
     def koordinaatit(self, icao):
         sql = f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{icao}'"
         # print(sql)
@@ -55,8 +58,8 @@ class Pelaaja:
         tulos_nimi = kursori.fetchall()
         if tulos_nimi:
            for rivi in tulos_nimi:
-               sijainti_nimi.append(rivi[0])
-        return tulos_nimi
+               nimi = rivi[0]
+        return nimi
     def seuraava_kohde(self):
         while True:
             try:
@@ -100,7 +103,7 @@ class Vihollinen(Pelaaja):
                 valinta = random.choice(seuraavat_kentät)
                 if valinta in seuraavat_kentät:
                     self.sijainti = valinta
-                    #print(self.sijainti)
+                    pelattavat_kentät_lista_2.remove(valinta)
                     return
             except ValueError:
                 print("vihollinen ei osaa :(.")
@@ -114,6 +117,7 @@ class Vihollinen(Pelaaja):
         elif tulos_kiviarpa < 3:
             pöö = 0
         return pöö
+
 
 # tämä hakee kentän koordinaatit
 def kentän_etäisyys(py):
@@ -182,13 +186,24 @@ def kivi_väli_lauseet(xy):
     else:
         return
     return
-
+def sijainti_nimeksi(si):
+    sql = f"SELECT name FROM airport WHERE ident = '{si}'"
+    # print(sql)
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    if tulos:
+        for rivi in tulos:
+            sijainti = rivi[0]
+    return sijainti
 def peliluuppi1():
+    paikka = sijainti_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print(f'Olet saapunut kentälle: {paikka}')
     print("")
     print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
+    pelattavat_kentät_lista_2.remove(p.sijainti)
     p.koordinaatit(sijainti_icao1)
     matkustettavat_kentät()
     listaus()
@@ -196,26 +211,29 @@ def peliluuppi1():
     sijainti_nimi.clear()
     return
 def peliluuppi2(eih):
+    paikka = sijainti_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print(f'Olet saapunut kentälle: {paikka}')
     print()
+    if p.sijainti in pelattavat_kentät_lista_2:
+        pelattavat_kentät_lista_2.remove(p.sijainti)
     xx = p.kiviarpa()
     xy = eih + xx
-    if xy > 40:
-        print("Kivien kerätty arvo on 40!")
+    if xy > 50:
+        print("Kivien kerätty arvo on 50!")
         print("")
-    if xy <= 40:
+    if xy <= 50:
         print(f'Kivien kerätty arvo: {xy}.')
         print("")
     kivi_väli_lauseet(xy)
     if xx == 0:
-        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg1)} "
-                    f"\n2. {random.choice(vastausvaihtoehdot_neg2)}"
-                    "\n: ")
+        input(f"1. {random.choice(vastausvaihtoehdot_neg1)} "
+                f"\n2. {random.choice(vastausvaihtoehdot_neg2)}"
+                "\n: ")
     else:
-        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_pos1)} "
-                        f"\n2. {random.choice(vastausvaihtoehdot_pos2)}"
-                        "\n: ")
+        input(f"1. {random.choice(vastausvaihtoehdot_pos1)} "
+                    f"\n2. {random.choice(vastausvaihtoehdot_pos2)}"
+                    "\n: ")
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -266,16 +284,16 @@ def peli_alkaa():
         "\n▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒")
-    väli = input(' Paina mitä vain jatkaaksesi: ')
+    input(' Paina mitä vain jatkaaksesi: ')
     print(f" Hei {pelaajan_nimi}! Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos,"
     "\n ovat kaavailleet suunnitelman tuodakseen lopun konfliktille:"
     "\n Suur-Velho Kaik-Oo-Koolle on annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta"
     "\n voittaakseen velhojen taisto.")
-    väli = input('')
+    input('')
     print(" Uudet lahkot ovat päättäneet pysäyttää heidän aikeensa"
     "\n lähettämällä oman valittunsa keräämään kaikki kivet ensin."
     "\n Toteuttaakseen tämän tehtävän, uudet lahkot valitsivat: sinut!")
-    väli2 = input('')
+    input('')
     print("\n Nyt, sinun kuuluu kerätä niin paljon adakiittitaikakiviä kuin voit,"
     "\n käyttämällä maailman lentokenttiä kiintopisteinä ja"
     "\n pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston! ")
@@ -324,7 +342,7 @@ def loppu():
     return pisteet
 #    PÄÄOHJELMA
 
-pelattavat_kentät_lista_2=[]
+
 
 kenttäkysely()
 
@@ -333,15 +351,15 @@ print("                                                                         
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
 
 
-sijainti_icao1 = str(random.choice(pelattavat_kentät_lista_2))
+sijainti_icao1 = random.choice(pelattavat_kentät_lista_2)
 sijainti_icao2 = random.choice(pelattavat_kentät_lista_2)
 sijainti_nimi = []
 p = Pelaaja(sijainti_icao1, 5)
 v = Vihollinen(sijainti_icao2, 5)
-#pelattavat_kentät_lista_2.remove(sijainti_icao1)
+#
 liikkeet = 4
 kierrokset = 1
-ympäristöpisteet = 10
+ympäristöpisteet = 30
 
 pelikoordinaatit = p.koordinaatit(sijainti_icao1)
 p.sijainnin_nimi(sijainti_icao1)
@@ -353,16 +371,13 @@ peli_alkaa()
 
 while kierrokset < 2:
     peliluuppi1()
-    sijainti_icao1 = p.seuraava_kohde()
+    #sijainti_icao1 = p.seuraava_kohde()
     p.sijainnin_nimi(sijainti_icao1)
-    v.vihollinen_liikkuu()
-    if sijainti_icao1 in pelattavat_kentät_lista_2:
-        pelattavat_kentät_lista_2.remove(sijainti_icao1)
+
     kierrokset = kierrokset + 1
 
 while p.kivet < 50 and v.kivet < 50 and ympäristöpisteet > 0:
-    print(f"\nYmpäristöpisteet: {ympäristöpisteet}")
-    print(f"Pisteesi: {p.kivet}\nVastustaja: {v.kivet}")
+
 
     print("\n1. Lennä seuraavalle kentälle")
     print("2. Jää kentälle (säästät ympäristöä, saat +3 ympäristöpistettä)")
@@ -385,8 +400,13 @@ while p.kivet < 50 and v.kivet < 50 and ympäristöpisteet > 0:
         pelattavat_kentät_lista_2.remove(sijainti_icao1)
     ympäristöpisteet -= 1
 
+    print(f"\nYmpäristöpisteet: {ympäristöpisteet}")
+    print(f"Pisteesi: {p.kivet}\nVastustaja: {v.kivet}")
+
 
 print("\n--- PELI PÄÄTTYY ---")
+
+
 
 if ympäristöpisteet <= 0:
     print("")
@@ -395,14 +415,16 @@ if ympäristöpisteet <= 0:
 elif p.kivet >= 50:
     print("")
     print("Sait kasaan 50 adakiittipistettä!")
+    p.kivet = 50
 elif v.kivet >= 50:
     print("")
     print("Vastustajasi saavutti 50 pistettä!")
+    v.kivet = 50
 
 print(f"\nLopulliset pisteet: {pelaajan_nimi}: {p.kivet}, Vastustaja: {v.kivet}")
 print("Nyt siirrytään loppukohtaamiseen, jossa nopanheitot ratkaisevat kaiken!\n")
 
-pelaajan_heitoista = heita_noppaa(p.kivet)
+pelaajan_heitoista = heita_noppaa(p.kivet+ympäristöpisteet)
 vastustajan_heitoista = heita_noppaa(v.kivet)
 
 print(f"{pelaajan_nimi} heitti yhteensä {pelaajan_heitoista} pistettä.")
@@ -415,33 +437,9 @@ elif pelaajan_heitoista < vastustajan_heitoista:
 else:
     print("\nTasapeli!!")
 
-pisteet = loppu()
+pisteet = pelaajan_heitoista
 
-def hae_id_koodi():
-    sql = f"select id from peli where nimi = ('{pelaajan_nimi}')"
-    # print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    if tulos:
-        for rivi in tulos:
-            koodi = rivi[0]
 
-    return koodi
-highscore_id = hae_id_koodi()
-
-def id_tauluun(id):
-    sql = f"insert into highscore (id) values ('{id}')"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    return
-id_tauluun(highscore_id)
-
-def pisteet_tauluun(id, p):
-    sql = f"update highscore set pisteet = '{p}' where id = (select id from peli where nimi = '{id}')"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    return
-pisteet_tauluun(pelaajan_nimi, pisteet)
 
 print(f"Sait {pisteet} pistettä!")
+
