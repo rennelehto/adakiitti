@@ -60,6 +60,18 @@ function remove_from_map(name) {
   }
 }
 
+async function fetchData (){
+  try {
+    const response = await fetch('http://127.0.0.1:3000/airport/EFHK')
+    const data = await response.json()
+    console.log(data)
+  } catch(error) {
+    console.log("Error")
+  }
+}
+
+fetchData()
+
 // näin lisätään kenttiä!
 add_to_map(40.7128, -74.0060, 'New York JFK airport');
 add_to_map(60.192059, 24.945831, 'Helsinki-Vantaa airport');
