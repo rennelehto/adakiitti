@@ -7,10 +7,6 @@ CREATE TABLE peli
 nimi varchar(40),
 PRIMARY KEY (ID));
 
-INSERT INTO peli (nimi) VALUES ("Pelaaja");
-
-INSERT INTO peli (nimi) VALUES ("Vastustaja");
-
 CREATE TABLE highscore
 (nro int NOT NULL auto_increment,
 ID varchar(40), 
