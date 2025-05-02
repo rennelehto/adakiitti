@@ -10,6 +10,7 @@ yhteys = mysql.connector.connect(
         password='1232',
         autocommit=True)
 
+
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
 def kenttäkysely():
@@ -101,6 +102,7 @@ class Vihollinen(Pelaaja):
                 if valinta in seuraavat_kentät:
                     self.sijainti = valinta
                     #print(self.sijainti)
+                    pelattavat_kentät_lista_2.remove(valinta)
                     return
             except ValueError:
                 print("vihollinen ei osaa :(.")
@@ -114,6 +116,7 @@ class Vihollinen(Pelaaja):
         elif tulos_kiviarpa < 3:
             pöö = 0
         return pöö
+
 
 # tämä hakee kentän koordinaatit
 def kentän_etäisyys(py):
@@ -190,6 +193,7 @@ def peliluuppi1():
     print("")
     print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
+    pelattavat_kentät_lista_2.remove(p.sijainti)
     p.koordinaatit(sijainti_icao1)
     matkustettavat_kentät()
     listaus()
@@ -201,6 +205,7 @@ def peliluuppi2(eih):
     print()
     print(f'Olet saapunut kentälle: {paikka}')
     print()
+    pelattavat_kentät_lista_2.remove(p.sijainti)
     xx = p.kiviarpa()
     xy = eih + xx
     if xy > 40:
@@ -211,13 +216,13 @@ def peliluuppi2(eih):
         print("")
     kivi_väli_lauseet(xy)
     if xx == 0:
-        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_neg1)} "
-                    f"\n2. {random.choice(vastausvaihtoehdot_neg2)}"
-                    "\n: ")
+        input(f"1. {random.choice(vastausvaihtoehdot_neg1)} "
+                f"\n2. {random.choice(vastausvaihtoehdot_neg2)}"
+                "\n: ")
     else:
-        vastaus = input(f"1. {random.choice(vastausvaihtoehdot_pos1)} "
-                        f"\n2. {random.choice(vastausvaihtoehdot_pos2)}"
-                        "\n: ")
+        input(f"1. {random.choice(vastausvaihtoehdot_pos1)} "
+                    f"\n2. {random.choice(vastausvaihtoehdot_pos2)}"
+                    "\n: ")
     sijainti_nimi.clear()
     seuraavat_kentät.clear()
     seuraavien_kenttien_nimet.clear()
@@ -364,8 +369,6 @@ while kierrokset < 2:
     sijainti_icao1 = p.seuraava_kohde()
     p.sijainnin_nimi(sijainti_icao1)
     v.vihollinen_liikkuu()
-    if sijainti_icao1 in pelattavat_kentät_lista_2:
-        pelattavat_kentät_lista_2.remove(sijainti_icao1)
     kierrokset = kierrokset + 1
 
 while p.kivet < 50 and v.kivet < 50 and ympäristöpisteet > 0:
@@ -445,8 +448,8 @@ def id_tauluun(id):
     return
 id_tauluun(highscore_id)
 
-def pisteet_tauluun(id, p):
-    sql = f"update highscore set pisteet = '{p}' where id = (select id from peli where nimi = '{id}')"
+def pisteet_tauluun(nimi, p):
+    sql = f"update highscore set pisteet = '{p}' where id = (select id from peli where nimi = '{nimi}')"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     return
