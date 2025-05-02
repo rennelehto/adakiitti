@@ -8,6 +8,9 @@ from flask import Flask, Response
 import json
 from flask_cors import CORS
 
+
+
+#Esimerkki siitä miten lisätään tietoa sinne sivulle!
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -65,6 +68,10 @@ yhteys = mysql.connector.connect(
         user='eliell2',
         password='gr0ups',
         autocommit=True)
+
+
+
+
 
 seuraavat_kentät = []
 seuraavien_kenttien_nimet = []
