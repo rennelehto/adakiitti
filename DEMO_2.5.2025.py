@@ -6,8 +6,8 @@ yhteys = mysql.connector.connect(
       #  host='127.0.0.1',
       #  port=3306,
         database='flight_game',
-        user='pythonuser',
-        password='salasana',
+        user='python',
+        password='1232',
         autocommit=True)
 
 seuraavat_kentät = []
@@ -184,8 +184,9 @@ def kivi_väli_lauseet(xy):
     return
 
 def peliluuppi1():
+    paikka = koodi_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print(f'Olet saapunut kentälle: {paikka}')
     print("")
     print("Löysit täältä adakiitin jonka arvo on 5! ")
     print()
@@ -196,8 +197,9 @@ def peliluuppi1():
     sijainti_nimi.clear()
     return
 def peliluuppi2(eih):
+    paikka = koodi_nimeksi(p.sijainti)
     print()
-    print(f'Olet saapunut kentälle: {sijainti_nimi[0]}')
+    print(f'Olet saapunut kentälle: {paikka}')
     print()
     xx = p.kiviarpa()
     xy = eih + xx
@@ -266,16 +268,16 @@ def peli_alkaa():
         "\n▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
         "\n█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒")
-    väli = input(' Paina mitä vain jatkaaksesi: ')
+    input(' Paina mitä vain jatkaaksesi: ')
     print(f" Hei {pelaajan_nimi}! Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos,"
     "\n ovat kaavailleet suunnitelman tuodakseen lopun konfliktille:"
     "\n Suur-Velho Kaik-Oo-Koolle on annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta"
     "\n voittaakseen velhojen taisto.")
-    väli = input('')
+    input('')
     print(" Uudet lahkot ovat päättäneet pysäyttää heidän aikeensa"
     "\n lähettämällä oman valittunsa keräämään kaikki kivet ensin."
     "\n Toteuttaakseen tämän tehtävän, uudet lahkot valitsivat: sinut!")
-    väli2 = input('')
+    input('')
     print("\n Nyt, sinun kuuluu kerätä niin paljon adakiittitaikakiviä kuin voit,"
     "\n käyttämällä maailman lentokenttiä kiintopisteinä ja"
     "\n pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston! ")
@@ -331,9 +333,15 @@ kenttäkysely()
 print(" ")
 print("                                                                                         Adakite--Adakiitti")
 pelaajan_nimi = input("Ole hyvä ja syötä nimesi: ").capitalize()
+def pelaajat():
+    sql = f"insert into peli (nimi) values ('{pelaajan_nimi}')"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    return
 
+pelaajat()
 
-sijainti_icao1 = str(random.choice(pelattavat_kentät_lista_2))
+sijainti_icao1 = random.choice(pelattavat_kentät_lista_2)
 sijainti_icao2 = random.choice(pelattavat_kentät_lista_2)
 sijainti_nimi = []
 p = Pelaaja(sijainti_icao1, 5)
@@ -341,7 +349,7 @@ v = Vihollinen(sijainti_icao2, 5)
 #pelattavat_kentät_lista_2.remove(sijainti_icao1)
 liikkeet = 4
 kierrokset = 1
-ympäristöpisteet = 10
+ympäristöpisteet = 30
 
 pelikoordinaatit = p.koordinaatit(sijainti_icao1)
 p.sijainnin_nimi(sijainti_icao1)
