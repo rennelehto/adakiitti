@@ -37,6 +37,7 @@ leftpane.appendChild(kivipisteet);
 
 dflex.appendChild(leftpane);
 
+
 //middlepane
 const middlepane = document.createElement('div');
 middlepane.className = 'middlepane';
