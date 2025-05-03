@@ -64,8 +64,8 @@ let all_airports = {}
 
 function add_player_to_map(x, y, name) {
   var playerIcon = L.icon({
-    iconUrl: 'wizard_PNG.png',
-    shadowUrl: 'wizard_PNG.png',
+    iconUrl: 'https://users.metropolia.fi/~aatulaa/wizard_PNG.png',
+    shadowUrl: 'https://users.metropolia.fi/~aatulaa/wizard_PNG.png',
 
     iconSize: [46, 70],
     shadowSize: [60, 48],
