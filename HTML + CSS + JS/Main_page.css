@@ -20,8 +20,8 @@
 .rightpane li {
      margin-left:10px;
      text-align: match-parent;
-     font-size: x-large;
-     padding: 10px;
+     font-size: medium;
+     padding: 5.2px;
 }
 #stat_names {
      margin-left:10px;
@@ -60,7 +60,7 @@ body {
 #map {
     flex: 1;
     height: 75vh;
-    width: 98.2%;
+    width: 97.8%;
     border: 15px solid burlywood;
     background-color: #A4CFDD;
 }

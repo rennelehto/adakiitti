@@ -63,6 +63,14 @@ function remove_from_map(name) {
 let all_airports = {
 
 }
+function getRandomAirports(arr, num) {
+  let randomAirports = [];
+  for (let i = 0; i < num; i++) {
+    const randomIndex = Math.floor(Math.random() * arr.length);  // Random index from 0 to arr.length-1
+    randomAirports.push(arr[randomIndex]);
+  }
+  return randomAirports;
+}
 async function fetchData () {
   try {
     const response = await fetch('http://127.0.0.1:3000/airport/');
@@ -71,14 +79,17 @@ async function fetchData () {
     console.log("Fetched airport data:", data);
 
     all_airports = data;
+    const randomAirports = getRandomAirports(data, 20);
 
-    data.forEach(airport => {
-      if (airport.lat && airport.long) {
-        add_to_map(airport.lat, airport.long, `${airport.Name} (${airport.ICAO})`);
-      }
-    });
+randomAirports.forEach((airport) => {
+  const { lat, long, Name } = airport;
+  if (lat && long) {
+    add_to_map(lat, long, Name);
+    all_airports[Name] = airport;
+  }
+});
 
-  } catch (error) {
+    } catch (error) {
     console.error("Error fetching data", error);
   }
 }

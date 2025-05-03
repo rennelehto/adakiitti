@@ -31,3 +31,29 @@ h1 {
     text-align: center;
     padding:1rem;
 }
+#Name {
+   font-size: 2rem;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 100px;
+    width: 100px;
+    height: 30px;
+}
+.Namebox p {
+    font-size: 2rem;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 40px;
+    background-color: blanchedalmond;
+    width: 20vw;
+}
+.Namebox {
+    font-size: 2rem;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    padding-top: 20px;
+    border-top: 40px;
+}
