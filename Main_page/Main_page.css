@@ -1,0 +1,94 @@
+
+.leftpane {
+    width: 15%;
+    height: 100vh;
+    background-image: url("https://i.pinimg.com/736x/48/6c/c0/486cc02eba94124e6c1cb599fa284b3c.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+#stats {
+    margin-left:20px;
+    text-align: center;
+    font-size: xxx-large;
+}
+#right_title {
+     margin-left:10px;
+     margin-bottom: 0;
+     text-align: center;
+     font-size: xxx-large;
+}
+.rightpane li {
+     margin-left:10px;
+     text-align: match-parent;
+     font-size: x-large;
+     padding: 10px;
+}
+#stat_names {
+     margin-left:10px;
+     text-align: center;
+     font-size: xx-large;
+     padding: 10px;
+
+}
+
+
+.rightpane {
+    width: 15%;
+    height: 100vh;
+    background-image: url("https://i.pinimg.com/736x/48/6c/c0/486cc02eba94124e6c1cb599fa284b3c.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+body {
+    margin: 0 !important;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.middlepane {
+    width: 70%;
+    height: 100vh;
+    background-color: #A4CFDD;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+}
+
+#map {
+    flex: 1;
+    height: 75vh;
+    width: 98.2%;
+    border: 15px solid burlywood;
+    background-color: #A4CFDD;
+}
+#map {
+    overflow: hidden;
+
+}
+
+.textbox {
+    height: 25vh;
+    background-color: burlywood;
+    width: 100%;
+    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
+    background-size: 98% 99%;
+    background-repeat: no-repeat;
+    border: 15px solid burlywood;
+    font-size: 30px;
+    color: white;
+    text-align: justify;
+}
+
+.textbox p {
+    margin:20px;
+}
+#test {
+    margin-left:20px;
+}
+#test1 {
+
+    margin-left: 20px;
+}
