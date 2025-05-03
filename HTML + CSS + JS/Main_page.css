@@ -91,30 +91,33 @@ body {
 #next1 {
     position: absolute;
     bottom: 30px;
-    height: 40px;
+    height: 60px;
     width: 140px;
     margin-left: 20px;
     text-align: center;
     align-content: center;
+    font-size: medium;
 
 }
 #next2 {
     position: absolute;
     bottom: 30px;
-    height: 40px;
+    height: 60px;
     width: 140px;
     margin-left: 20px;
     text-align: center;
     align-content: center;
-    right: 40% ;
+    right: 45% ;
+    font-size: medium;
 }
 #next3 {
     position: absolute;
     bottom: 30px;
-    height: 40px;
+    height: 60px;
     width: 140px;
-    margin-left: 20px;
+    margin-left: 10px;
     text-align: center;
     align-content: center;
-    right: 30% ;
+    right: 52% ;
+    font-size: medium;
 }

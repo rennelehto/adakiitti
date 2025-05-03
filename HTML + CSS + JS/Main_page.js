@@ -133,10 +133,10 @@ document.getElementById("next1").addEventListener("click", function() {
 
 function createNewButtons() {
     const container = document.getElementById("button-container");
-
+    const button1 = document.getElementById("next1")
     const button2 = document.createElement("button");
     button2.textContent = "Matkusta kentälle";
-    button2.id = "next"
+    button2.id = "next2"
     button2.addEventListener("click", function() {
 
     });
@@ -147,6 +147,7 @@ function createNewButtons() {
     button3.addEventListener("click", function() {
 
     });
+    container.removeChild(button1)
     container.appendChild(button2);
     container.appendChild(button3);
 }})
