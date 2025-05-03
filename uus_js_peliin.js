@@ -4,6 +4,26 @@
 const dflex = document.querySelector('.d-flex');
 const ilmastopisteet1 = 0;
 const pisteet1 = 0;
+
+const kuvat =[
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda1.jpg',
+	alt: 'Puiden istutus on kivaa.'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda2.jpg',
+	alt: 'Koulujen rakentaminen pitää yhteisöistä huolta pitkällä tähtäimellä.'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda3.jpg',
+	alt: 'Puhtaan juomaveden saanti pitää yhteisön terveenä'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda4.jpg',
+	alt: 'Omavarainen yhteisö pitää pintansa myös vaikeampina aikoina.'
+}
+]
+
 //leftpane
 const leftpane = document.createElement("div");
 leftpane.className ='leftpane';
@@ -75,5 +95,17 @@ rightpane.appendChild(kenttälista);
 rightpane.appendChild(kenttälista);
 dflex.appendChild(rightpane);
 
+
+async function skippaavuoro(){
+	const nro = Math.floor(Math.random() * 4);
+	const skippauskuva = document.createElement('img');
+	skippauskuva.src = kuvat[nro]['kuva']
+	skippauskuva.alt = kuvat[nro]['alt']
+	mapp.appendChild(skippauskuva)
+  const skippausteksti = document.createTextNode(`${kuvat[nro]['alt']}`);
+  middlep.appendChild(skippausteksti)
+}
+
+skippaavuoro();
 
 

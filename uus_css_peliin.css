@@ -19,6 +19,7 @@ body {
     padding: 1%;
 }
 
+
 .rightpane {
     width: 13%;
     height: 100vh;
@@ -44,27 +45,34 @@ body {
 #map {
     flex: 1;
     height: 75vh;
-    width: 98%;
+    width: auto;
     background-color: #A4CFDD;
-
     padding: 1%;
+
 }
 #map {
     overflow: hidden;
+
+}
+#map img{
+    height: auto;
+    width: 100%;
+    display: block;
+    margin: auto;
 
 }
 
 .textbox {
     height: 24vh;
     background-color: burlywood;
-    width: 98%;
+    width: auto;
     background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
     background-size: 100% 99%;
     background-repeat: no-repeat;
 
     font-size: 30px;
     color: white;
-    text-align: justify;
+    text-align: center;
     margin-top: 1vh;
     padding: 1%;
 }
