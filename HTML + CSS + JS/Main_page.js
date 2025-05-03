@@ -66,7 +66,7 @@ let all_airports = {
 function getRandomAirports(arr, num) {
   let randomAirports = [];
   for (let i = 0; i < num; i++) {
-    const randomIndex = Math.floor(Math.random() * arr.length);  // Random index from 0 to arr.length-1
+    const randomIndex = Math.floor(Math.random() * arr.length);  
     randomAirports.push(arr[randomIndex]);
   }
   return randomAirports;

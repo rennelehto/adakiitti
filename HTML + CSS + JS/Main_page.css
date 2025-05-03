@@ -20,7 +20,7 @@
 .rightpane li {
      margin-left:10px;
      text-align: match-parent;
-     font-size: medium;
+     font-size: large;
      padding: 5.2px;
 }
 #stat_names {
@@ -50,7 +50,7 @@ body {
 
 .middlepane {
     width: 70%;
-    height: 100vh;
+    height: auto;
     background-color: #A4CFDD;
     display: flex;
     flex-direction: column;
@@ -60,7 +60,7 @@ body {
 #map {
     flex: 1;
     height: 75vh;
-    width: 97.8%;
+    width: auto;
     border: 15px solid burlywood;
     background-color: #A4CFDD;
 }
@@ -72,9 +72,9 @@ body {
 .textbox {
     height: 25vh;
     background-color: burlywood;
-    width: 100%;
+    width: auto;
     background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
-    background-size: 98% 99%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     border: 15px solid burlywood;
     font-size: 30px;
