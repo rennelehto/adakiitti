@@ -1,7 +1,8 @@
 'use strict';
 let button = document.querySelector('button');
+let playerLocation = null;
 
-var map = L.map('map', {
+const map = L.map('map', {
   center: [40, 0],
   zoom: 2,
   minZoom: 2,
@@ -25,7 +26,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 const markers = {};  // Antaa nimet pisteille kartalla
-let all_airports = {}
+let all_airports = {};
 
 function add_to_map(x, y, name) {
   const marker = L.marker([x, y]).addTo(map).bindPopup(`${name}`);
@@ -68,13 +69,12 @@ function remove_from_list(name) {
     delete markers[name];
 
     all_airports.forEach((airport) => {
-      const { lat, long, Name } = airport;
+      const {lat, long, Name} = airport;
       if (lat && long) {
         all_airports[Name] = airport;
-        all_airports.remove(airport)
+        all_airports.remove(airport);
       }
     });
-
 
     const ul = document.getElementById('airport_names');
     const items = ul.getElementsByTagName('li');
@@ -96,11 +96,11 @@ function add_player_to_map(x, y, name) {
     shadowSize: [60, 48],
     iconAnchor: [23, 69],
     shadowAnchor: [5, 47],
-    popupAnchor: [-3, -76]
-  })
+    popupAnchor: [-3, -76],
+  });
   const marker = L.marker([x, y], {icon: playerIcon}).
       addTo(map).
-      bindPopup(`${name}`)
+      bindPopup(`${name}`);
 
   marker.on('mouseover', function(ev) {
     marker.openPopup();
@@ -109,7 +109,6 @@ function add_player_to_map(x, y, name) {
     marker.closePopup();
   });
 }
-
 
 function getRandomAirports(arr, num) {
   let randomAirports = [];
@@ -120,98 +119,102 @@ function getRandomAirports(arr, num) {
   return randomAirports;
 }
 
-
-async function fetchData () {
+async function fetchData() {
   try {
     const response = await fetch('http://127.0.0.1:3000/airport/');
     const data = await response.json();
 
-    console.log("Fetched airport data:", data);
+    console.log('Fetched airport data:', data);
 
     all_airports = data;
     const randomAirports = getRandomAirports(data, 20);
-    let playerLocation = getRandomAirports(data, 1)
-    console.log(playerLocation)
+    playerLocation = getRandomAirports(data, 1)[0];
+    console.log(playerLocation);
 
     randomAirports.forEach((airport) => {
-      const { lat, long, Name } = airport;
+      const {lat, long, Name} = airport;
       if (lat && long) {
         add_to_map(lat, long, Name);
         all_airports[Name] = airport;
       }
     });
 
-    playerLocation.forEach((airport) => {
-      const { lat, long, Name } = airport;
-      if (lat && long) {
-        add_player_to_map(lat, long, Name);
-        all_airports[Name] = airport;
-        remove_from_list(airport)
-      }
-
-    })}catch (error) {
-    console.error("Error fetching data", error);
+    const {lat, long, Name} = playerLocation;
+    if (lat && long) {
+      add_player_to_map(lat, long, Name);
+      all_airports[Name] = playerLocation;
+      remove_from_list(Name); // Use the name instead of whole object
+    } return playerLocation;
+  } catch (error) {
+    console.error('Error fetching data', error);
   }
 }
-fetchData()
 
 function createNewButton() {
-    const container = document.getElementById("button-container");
+  const container = document.getElementById('button-container');
 
-    const button1 = document.createElement("button");
-    button1.textContent = "Continue";
-    button1.id = "next1"
-    container.appendChild(button1);
+  const button1 = document.createElement('button');
+  button1.textContent = 'Continue';
+  button1.id = 'next1';
+  container.appendChild(button1);
 
 }
-createNewButton()
 
+createNewButton();
 
 let name_of_del = document.getElementById('test');
 
-let textBox = document.getElementById("text")
+let textBox = document.getElementById('text');
 
 let clickCount = 0;
 
-textBox.textContent = "Hei Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos, " +
-    "ovat kaavailleet suunnitelman tuodakseen lopun konfliktille: Suur-Velho Kaik-Oo-Koolle on" +
-    " annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta voittaakseen velhojen taisto. "
+textBox.textContent = 'Hei Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos, ' +
+    'ovat kaavailleet suunnitelman tuodakseen lopun konfliktille: Suur-Velho Kaik-Oo-Koolle on' +
+    ' annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta voittaakseen velhojen taisto. ';
 
-document.getElementById("next1").addEventListener("click", function() {
-    clickCount++;
+document.getElementById('next1').addEventListener('click', function() {
+  clickCount++;
 
-
-    if (clickCount === 1) {
-        textBox.textContent = "Uudet lahkot ovat päättäneet pysäyttää heidän aikeensa lähettämällä oman valittunsa keräämään kaikki kivet ensin." +
-      " Toteuttaakseen tämän tehtävän, uudet lahkot valitsivat: sinut!";
-    } else if (clickCount === 2) {
-        textBox.textContent = "Nyt, sinun kuuluu kerätä niin paljon adakiittitaikakiviä kuin voit, käyttämällä maailman lentokenttiä kiintopisteinä ja " +
-      "pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston!";
-    } else if (clickCount === 3) {
-        textBox.textContent = ""
-        createNewButtons();
+  if (clickCount === 1) {
+    textBox.textContent = 'Uudet lahkot ovat päättäneet pysäyttää heidän aikeensa lähettämällä oman valittunsa keräämään kaikki kivet ensin.' +
+        ' Toteuttaakseen tämän tehtävän, uudet lahkot valitsivat: sinut!';
+  } else if (clickCount === 2) {
+    textBox.textContent = 'Nyt, sinun kuuluu kerätä niin paljon adakiittitaikakiviä kuin voit, käyttämällä maailman lentokenttiä kiintopisteinä ja ' +
+        'pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston!';
+  } else if (clickCount === 3) {
+  fetchData().then((location) => {
+    if (location) {
+      playerLocation = location;
+      textBox.textContent = "Olet saapunut kentälle: " + location.Name;
+    } else {
+      textBox.textContent = "Kenttää ei voitu ladata.";
     }
 
-function createNewButtons() {
-    const container = document.getElementById("button-container");
-    const button1 = document.getElementById("next1")
-    const button2 = document.createElement("button");
-    button2.textContent = "Matkusta kentälle";
-    button2.id = "next2"
-    button2.addEventListener("click", function() {
+    createNewButtons();
+  });
+}
+
+  function createNewButtons() {
+    const container = document.getElementById('button-container');
+    const button1 = document.getElementById('next1');
+    const button2 = document.createElement('button');
+    button2.textContent = 'Matkusta kentälle';
+    button2.id = 'next2';
+    button2.addEventListener('click', function() {
 
     });
 
-    const button3 = document.createElement("button");
-    button3.textContent = "Jää tälle kentälle";
-    button3.id = "next3"
-    button3.addEventListener("click", function() {
+    const button3 = document.createElement('button');
+    button3.textContent = 'Jää tälle kentälle';
+    button3.id = 'next3';
+    button3.addEventListener('click', function() {
 
     });
-    container.removeChild(button1)
+    container.removeChild(button1);
     container.appendChild(button2);
     container.appendChild(button3);
-}})
+  }
+});
 
 
 
