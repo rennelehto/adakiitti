@@ -30,7 +30,14 @@
      padding: 10px;
 
 }
-
+#map-container {
+  position: relative;
+  height: 69vh;
+    width: auto;
+  border: 15px solid burlywood;
+  background-color: #A4CFDD;
+  overflow: hidden;
+}
 
 .rightpane {
     width: 15%;
@@ -60,22 +67,38 @@ body {
 }
 
 #map {
-    flex: 1;
-    height: 75vh;
-    width: auto;
+    height: 70vh;
+    width: 100%;
     border: 15px solid burlywood;
     background-color: #A4CFDD;
-}
-#map {
+    z-index: 1;
+    position: relative;
     overflow: hidden;
-
 }
+
+
 .hidden {
   display: none;
 }
+#image-temp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+#image-temp img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
 
 .textbox {
-    height: 25vh;
+    height: 25.5vh;
     background-color: burlywood;
     width: auto;
     background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
@@ -85,6 +108,7 @@ body {
     font-size: 30px;
     color: white;
     text-align: justify;
+    position: relative;
 }
 
 .textbox p {
@@ -112,7 +136,7 @@ body {
     margin-left: 20px;
     text-align: center;
     align-content: center;
-    right: 44% ;
+    right: 42% ;
     font-size: medium;
 }
 #next3 {
@@ -123,6 +147,6 @@ body {
     margin-left: 10px;
     text-align: center;
     align-content: center;
-    right: 52% ;
+    right: 54% ;
     font-size: medium;
 }

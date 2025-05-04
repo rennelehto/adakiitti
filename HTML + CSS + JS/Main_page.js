@@ -255,6 +255,7 @@ function createContinueButton(callback) {
 
   continueBtn.addEventListener('click', () => {
     continueBtn.remove();
+    textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
     if (typeof callback === 'function') {
       callback();
     }
@@ -298,21 +299,24 @@ function gameLoop(button) {
     kuvanpaikka.classList.add('hidden');
 
     const mapContainer = document.getElementById('map-container');
-
 const imageContainer = document.createElement('div');
 imageContainer.id = 'image-temp';
-imageContainer.appendChild(skippauskuva);
 
+const img = document.createElement('img');
+img.src = kuvat[nro].kuva;
+img.alt = kuvat[nro].alt;
+
+imageContainer.appendChild(img);
 mapContainer.appendChild(imageContainer);
 
     textBox.textContent = kuvat[nro].alt;
 
     createContinueButton(() => {
       const imageTemp = document.getElementById('image-temp');
-      if (imageTemp) imageTemp.remove();
+    if (imageTemp) imageTemp.remove();
 
       kuvanpaikka.classList.remove('hidden');
-      textBox.textContent = '';
+      textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
       createNewButtons();
     });
   }
