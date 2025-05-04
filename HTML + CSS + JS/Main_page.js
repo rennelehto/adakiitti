@@ -272,6 +272,8 @@ function gameLoop(button) {
     });
 
  } else if (button === 3) {
+    enviromentalPoints += 2;
+    enviroment.textContent = enviromentalPoints;
   const nro = Math.floor(Math.random() * kuvat.length);
   const skippauskuva = document.createElement('img');
   let kuvanpaikka = document.querySelector('#map');
