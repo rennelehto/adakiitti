@@ -38,6 +38,8 @@
     background-image: url("https://i.pinimg.com/736x/48/6c/c0/486cc02eba94124e6c1cb599fa284b3c.jpg");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 body {

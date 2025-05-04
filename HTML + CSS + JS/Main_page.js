@@ -90,12 +90,8 @@ function remove_from_list(name) {
 function add_player_to_map(x, y, name) {
   let playerIcon = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/rennelehto/adakiitti/refs/heads/A/jsjdjsa/wizard_PNG.png',
-    shadowUrl: 'https://raw.githubusercontent.com/rennelehto/adakiitti/refs/heads/A/jsjdjsa/wizard_PNG.png',
-
     iconSize: [46, 70],
-    shadowSize: [60, 48],
     iconAnchor: [23, 69],
-    shadowAnchor: [5, 47],
     popupAnchor: [-3, -76],
   });
   const marker = L.marker([x, y], {icon: playerIcon}).
@@ -143,8 +139,9 @@ async function fetchData() {
     if (lat && long) {
       add_player_to_map(lat, long, Name);
       all_airports[Name] = playerLocation;
-      remove_from_list(Name); // Use the name instead of whole object
-    } return playerLocation;
+      remove_from_list(Name);
+    }
+    return playerLocation;
   } catch (error) {
     console.error('Error fetching data', error);
   }
@@ -182,17 +179,17 @@ document.getElementById('next1').addEventListener('click', function() {
     textBox.textContent = 'Nyt, sinun kuuluu kerätä niin paljon adakiittitaikakiviä kuin voit, käyttämällä maailman lentokenttiä kiintopisteinä ja ' +
         'pysäyttää Kaik-Oo-Koo ennen kuin hän ehtii tuhota ilmaston!';
   } else if (clickCount === 3) {
-  fetchData().then((location) => {
-    if (location) {
-      playerLocation = location;
-      textBox.textContent = "Olet saapunut kentälle: " + location.Name;
-    } else {
-      textBox.textContent = "Kenttää ei voitu ladata.";
-    }
+    fetchData().then((location) => {
+      if (location) {
+        playerLocation = location;
+        textBox.textContent = 'Olet saapunut kentälle: ' + location.Name;
+      } else {
+        textBox.textContent = 'Kenttää ei voitu ladata.';
+      }
 
-    createNewButtons();
-  });
-}
+      createNewButtons();
+    });
+  }
 
   function createNewButtons() {
     const container = document.getElementById('button-container');
@@ -201,24 +198,36 @@ document.getElementById('next1').addEventListener('click', function() {
     button2.textContent = 'Matkusta kentälle';
     button2.id = 'next2';
     button2.addEventListener('click', function() {
-
+      gameLoop(2);
     });
 
     const button3 = document.createElement('button');
     button3.textContent = 'Jää tälle kentälle';
     button3.id = 'next3';
     button3.addEventListener('click', function() {
-
+      gameLoop(3);
     });
+
     container.removeChild(button1);
     container.appendChild(button2);
     container.appendChild(button3);
+
   }
 });
 
+function gameLoop(button) {
+  const button2 = document.getElementById('next2');
+  const button3 = document.getElementById('next3');
+  const enviroment = document.getElementById('ilm_pist')
+  enviroment.value = parseInt(enviroment.textContent)
+  if (button === 2) {
 
+  } else if (button === 3) {
+    button3.addEventListener('click', function() {
 
-
+    });
+  }
+}
 
 
 
