@@ -222,8 +222,6 @@ function gameLoop(button) {
   const button3 = document.getElementById('next3');
   const enviroment = document.getElementById('ilm_pist')
 
-
-
   if (button === 2) {
     score = score -= 2;
     enviroment.textContent = score;
