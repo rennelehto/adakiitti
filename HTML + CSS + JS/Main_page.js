@@ -41,6 +41,7 @@ function add_to_map(x, y, name) {
   markers[name] = marker;  // Tallentaa pisteen
   let li = document.createElement('li');
   li.innerHTML = name;
+  li.style.fontSize = 'x-large';
   document.getElementById('airport_names').appendChild(li);
 }
 
@@ -131,7 +132,6 @@ async function fetchData() {
       const {lat, long, Name} = airport;
       if (lat && long) {
         add_to_map(lat, long, Name);
-        all_airports[Name] = airport;
       }
     });
 
@@ -139,7 +139,7 @@ async function fetchData() {
     if (lat && long) {
       add_player_to_map(lat, long, Name);
       all_airports[Name] = playerLocation;
-      remove_from_list(Name);
+      //remove_from_list(Name);
     }
     return playerLocation;
   } catch (error) {
@@ -197,6 +197,7 @@ function removeButtons(...ids) {
   });
 }
 
+
 function createNewButtons() {
   const container = document.getElementById('button-container');
   container.innerHTML = '';
@@ -222,15 +223,22 @@ function createNewButtons() {
 const stones = document.getElementById('kiv_pist')
 let enviromentalPoints = 30;
 let score = 5;
+let evilScore = 5
 
-function diceRoll() {
+function diceRoll(player) {
   return fetch('http://127.0.0.1:3000/airport/kivi')
     .then(response => response.json())
     .then(data => {
       const textBox = document.getElementById('text');
-      textBox.textContent = `${data.message} (Arvo: ${data.value})`;
+      if (player === 1 ) {
+        textBox.textContent = `${data.message} (Arvo: ${data.value})`;
       score = score + data.value
       stones.textContent = score
+      } else if (player === 2) {
+        evilScore = evilScore + data.value
+        console.log(evilScore)
+      }
+
     });
 }
 
@@ -265,8 +273,8 @@ function gameLoop(button) {
     enviromentalPoints -= 2;
     enviroment.textContent = enviromentalPoints;
 
-    diceRoll();
-
+    diceRoll(1);
+    diceRoll(2)
     createContinueButton(() => {
       createNewButtons();
     });
@@ -274,6 +282,7 @@ function gameLoop(button) {
  } else if (button === 3) {
     enviromentalPoints += 2;
     enviroment.textContent = enviromentalPoints;
+    diceRoll(2)
   const nro = Math.floor(Math.random() * kuvat.length);
   const skippauskuva = document.createElement('img');
   let kuvanpaikka = document.querySelector('#map');
