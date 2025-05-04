@@ -190,6 +190,12 @@ document.getElementById('next1').addEventListener('click', function() {
       createNewButtons();
     });
   }})
+function removeButtons(...ids) {
+  ids.forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.remove();
+  });
+}
 
 function createNewButtons() {
   const container = document.getElementById('button-container');
@@ -216,61 +222,105 @@ function createNewButtons() {
 const stones = document.getElementById('kiv_pist')
 let enviromentalPoints = 30;
 let score = 5;
+
 function diceRoll() {
-    fetch('http://127.0.0.1:3000/airport/kivi')
+  return fetch('http://127.0.0.1:3000/airport/kivi')
     .then(response => response.json())
     .then(data => {
-    const textBox = document.getElementById('text');
-    textBox.textContent = `${data.message} (Arvo: ${data.value})`;
-    score = score + data.value
+      const textBox = document.getElementById('text');
+      textBox.textContent = `${data.message} (Arvo: ${data.value})`;
+      score = score + data.value
       stones.textContent = score
+    });
+}
 
-
-  })}
-
-function createContinueButton() {
+function createContinueButton(callback) {
   const container = document.getElementById('button-container');
+
+
+  if (document.getElementById('next1')) return;
 
   const continueBtn = document.createElement('button');
   continueBtn.textContent = 'Continue';
   continueBtn.id = 'next1';
 
   continueBtn.addEventListener('click', () => {
-    container.removeChild(continueBtn);
-    createNewButtons();
+    continueBtn.remove();
+    if (typeof callback === 'function') {
+      callback();
+    }
   });
 
   container.appendChild(continueBtn);
 }
 
-
 function gameLoop(button) {
-  const button2 = document.getElementById('next2');
-  const button3 = document.getElementById('next3');
-  const container = document.getElementById('button-container');
   const enviroment = document.getElementById('ilm_pist');
+  const kuvanpaikka = document.getElementById('map');
 
+
+  removeButtons('next2', 'next3');
 
   if (button === 2) {
     enviromentalPoints -= 2;
     enviroment.textContent = enviromentalPoints;
 
     diceRoll();
-    container.removeChild(button2);
-    container.removeChild(button3);
 
-    createContinueButton();
-  } else if (button === 3) {
-    container.removeChild(button2);
-    container.removeChild(button3);
+    createContinueButton(() => {
+      createNewButtons();
+    });
 
-    createContinueButton();
-  }
+ } else if (button === 3) {
+  const nro = Math.floor(Math.random() * kuvat.length);
+  const skippauskuva = document.createElement('img');
+  skippauskuva.src = kuvat[nro].kuva;
+  skippauskuva.alt = kuvat[nro].alt;
+  skippauskuva.style.maxWidth = '70%';
+  
+
+
+  kuvanpaikka.classList.add('hidden');
+
+  const imageContainer = document.createElement('div');
+  imageContainer.id = 'image-temp';
+  imageContainer.appendChild(skippauskuva);
+  document.body.appendChild(imageContainer);
+
+  textBox.textContent = kuvat[nro].alt;
+
+  createContinueButton(() => {
+
+    const imageTemp = document.getElementById('image-temp');
+    if (imageTemp) imageTemp.remove();
+
+    kuvanpaikka.classList.remove('hidden');
+
+    textBox.textContent = '';
+    createNewButtons();
+  });
+}}
+
+
+
+const kuvat =[
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda1.jpg',
+	alt: 'Puiden istutus on kivaa.'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda2.jpg',
+	alt: 'Koulujen rakentaminen pitää yhteisöistä huolta pitkällä tähtäimellä.'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda3.jpg',
+	alt: 'Puhtaan juomaveden saanti pitää yhteisön terveenä.'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda4.jpg',
+	alt: 'Omavarainen yhteisö pitää pintansa myös vaikeampina aikoina.'
 }
-
-
-
-
+]
 
 
 

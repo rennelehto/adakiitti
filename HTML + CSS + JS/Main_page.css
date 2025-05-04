@@ -70,6 +70,9 @@ body {
     overflow: hidden;
 
 }
+.hidden {
+  display: none;
+}
 
 .textbox {
     height: 25vh;
