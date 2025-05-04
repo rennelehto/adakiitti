@@ -189,47 +189,82 @@ document.getElementById('next1').addEventListener('click', function() {
 
       createNewButtons();
     });
-  }
+  }})
 
-  function createNewButtons() {
-    const container = document.getElementById('button-container');
-    const button1 = document.getElementById('next1');
-    const button2 = document.createElement('button');
-    button2.textContent = 'Matkusta kentälle';
-    button2.id = 'next2';
-    button2.addEventListener('click', function() {
-      gameLoop(2);
-    });
+function createNewButtons() {
+  const container = document.getElementById('button-container');
+  container.innerHTML = '';
 
-    const button3 = document.createElement('button');
-    button3.textContent = 'Jää tälle kentälle';
-    button3.id = 'next3';
-    button3.addEventListener('click', function() {
-      gameLoop(3);
-    });
+  const button2 = document.createElement('button');
+  button2.textContent = 'Matkusta kentälle';
+  button2.id = 'next2';
+  button2.addEventListener('click', function () {
+    gameLoop(2);
+  });
 
-    container.removeChild(button1);
-    container.appendChild(button2);
-    container.appendChild(button3);
+  const button3 = document.createElement('button');
+  button3.textContent = 'Jää tälle kentälle';
+  button3.id = 'next3';
+  button3.addEventListener('click', function () {
+    gameLoop(3);
+  });
 
-  }
-});
+  container.appendChild(button2);
+  container.appendChild(button3);
+}
 
-let score = 30;
+const stones = document.getElementById('kiv_pist')
+let enviromentalPoints = 30;
+let score = 5;
+function diceRoll() {
+    fetch('http://127.0.0.1:3000/airport/kivi')
+    .then(response => response.json())
+    .then(data => {
+    const textBox = document.getElementById('text');
+    textBox.textContent = `${data.message} (Arvo: ${data.value})`;
+    score = score + data.value
+      stones.textContent = score
+
+
+  })}
+
+function createContinueButton() {
+  const container = document.getElementById('button-container');
+
+  const continueBtn = document.createElement('button');
+  continueBtn.textContent = 'Continue';
+  continueBtn.id = 'next1';
+
+  continueBtn.addEventListener('click', () => {
+    container.removeChild(continueBtn);
+    createNewButtons();
+  });
+
+  container.appendChild(continueBtn);
+}
+
 
 function gameLoop(button) {
   const button2 = document.getElementById('next2');
   const button3 = document.getElementById('next3');
-  const enviroment = document.getElementById('ilm_pist')
+  const container = document.getElementById('button-container');
+  const enviroment = document.getElementById('ilm_pist');
+
 
   if (button === 2) {
-    score = score -= 2;
-    enviroment.textContent = score;
+    enviromentalPoints -= 2;
+    enviroment.textContent = enviromentalPoints;
 
+    diceRoll();
+    container.removeChild(button2);
+    container.removeChild(button3);
+
+    createContinueButton();
   } else if (button === 3) {
-    button3.addEventListener('click', function() {
+    container.removeChild(button2);
+    container.removeChild(button3);
 
-    });
+    createContinueButton();
   }
 }
 

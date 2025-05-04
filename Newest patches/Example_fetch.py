@@ -1,20 +1,18 @@
 import logging
 import random
-
 import mysql.connector
-
-from flask import Flask, Response
-import json
+from flask import Flask, Response, jsonify
 from flask_cors import CORS
+import json
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.logger.setLevel(logging.INFO)
 
 
 @app.route('/airport/')
-def airport_name():
+def get_airports():
     yhteys = mysql.connector.connect(
         database='flight_game',
         user='eliell2',
@@ -56,4 +54,25 @@ def airport_name():
     )
 
 
-if __name__ == '__main__': app.run(use_reloader=True, host='127.0.0.1', port=3000)
+@app.route('/airport/kivi')
+def get_stone():
+    tulos_kiviarpa = random.randint(1, 6)
+
+    if tulos_kiviarpa == 6:
+        pöö = random.randint(1, 6) * 2
+        message = "Löysit suuren adakiitin!"
+    elif tulos_kiviarpa in range(3, 6):
+        pöö = random.randint(1, 6)
+        message = "Löysit adakiitin!"
+    else:
+        pöö = 0
+        message = "Kentällä ei ole adakiittiä."
+
+    return jsonify({
+        "value": pöö,
+        "message": message
+    })
+
+
+if __name__ == '__main__':
+    app.run(use_reloader=True, host='127.0.0.1', port=3000)
