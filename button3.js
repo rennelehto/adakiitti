@@ -26,3 +26,25 @@ const button3 = document.createElement("button");
         container.appendChild(button2);
         container.appendChild(button3);
       })})
+
+
+// kuva-array
+
+const kuvat =[
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda1.jpg',
+	alt: 'Puiden istutus on kivaa.'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda2.jpg',
+	alt: 'Koulujen rakentaminen pitää yhteisöistä huolta pitkällä tähtäimellä.'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda3.jpg',
+	alt: 'Puhtaan juomaveden saanti pitää yhteisön terveenä.'
+},
+{
+	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda4.jpg',
+	alt: 'Omavarainen yhteisö pitää pintansa myös vaikeampina aikoina.'
+}
+];
