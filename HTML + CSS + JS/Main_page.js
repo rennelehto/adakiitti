@@ -274,6 +274,7 @@ function gameLoop(button) {
  } else if (button === 3) {
   const nro = Math.floor(Math.random() * kuvat.length);
   const skippauskuva = document.createElement('img');
+  let kuvanpaikka = document.querySelector('#map');
   skippauskuva.src = kuvat[nro].kuva;
   skippauskuva.alt = kuvat[nro].alt;
   skippauskuva.style.maxWidth = '70%';
