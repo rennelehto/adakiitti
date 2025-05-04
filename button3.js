@@ -48,3 +48,11 @@ const kuvat =[
 	alt: 'Omavarainen yhteisö pitää pintansa myös vaikeampina aikoina.'
 }
 ];
+
+   // #map img {
+   // height: auto;
+   // width: 100%;
+   // display: block;
+   // margin: auto;
+
+//}
