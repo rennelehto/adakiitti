@@ -98,6 +98,8 @@ function add_player_to_map(x, y, name) {
   const marker = L.marker([x, y], {icon: playerIcon}).
       addTo(map).
       bindPopup(`${name}`);
+      remove_from_list(x,y,name);
+      remove_from_map(name)
 
   marker.on('mouseover', function(ev) {
     marker.openPopup();
@@ -139,7 +141,6 @@ async function fetchData() {
     if (lat && long) {
       add_player_to_map(lat, long, Name);
       all_airports[Name] = playerLocation;
-      //remove_from_list(Name);
     }
     return playerLocation;
   } catch (error) {
@@ -265,7 +266,7 @@ function createContinueButton(callback) {
 function gameLoop(button) {
   const enviroment = document.getElementById('ilm_pist');
   const kuvanpaikka = document.getElementById('map');
-
+  const mapContainer = kuvanpaikka.parentElement;
 
   removeButtons('next2', 'next3');
 
@@ -274,46 +275,48 @@ function gameLoop(button) {
     enviroment.textContent = enviromentalPoints;
 
     diceRoll(1);
-    diceRoll(2)
+    diceRoll(2);
+
     createContinueButton(() => {
       createNewButtons();
     });
 
- } else if (button === 3) {
+  } else if (button === 3) {
     enviromentalPoints += 2;
     enviroment.textContent = enviromentalPoints;
-    diceRoll(2)
-  const nro = Math.floor(Math.random() * kuvat.length);
-  const skippauskuva = document.createElement('img');
-  let kuvanpaikka = document.querySelector('#map');
-  skippauskuva.src = kuvat[nro].kuva;
-  skippauskuva.alt = kuvat[nro].alt;
-  skippauskuva.style.maxWidth = '70%';
-  
 
+    diceRoll(2);
 
-  kuvanpaikka.classList.add('hidden');
+    const nro = Math.floor(Math.random() * kuvat.length);
+    const skippauskuva = document.createElement('img');
+    skippauskuva.src = kuvat[nro].kuva;
+    skippauskuva.alt = kuvat[nro].alt;
+    skippauskuva.style.maxWidth = '70%';
+    skippauskuva.style.display = 'block';
+    skippauskuva.style.margin = '0 auto';
 
-  const imageContainer = document.createElement('div');
-  imageContainer.id = 'image-temp';
-  imageContainer.appendChild(skippauskuva);
-  document.body.appendChild(imageContainer);
+    kuvanpaikka.classList.add('hidden');
 
-  textBox.textContent = kuvat[nro].alt;
+    const mapContainer = document.getElementById('map-container');
 
-  createContinueButton(() => {
+const imageContainer = document.createElement('div');
+imageContainer.id = 'image-temp';
+imageContainer.appendChild(skippauskuva);
 
-    const imageTemp = document.getElementById('image-temp');
-    if (imageTemp) imageTemp.remove();
+mapContainer.appendChild(imageContainer);
 
-    kuvanpaikka.classList.remove('hidden');
+    textBox.textContent = kuvat[nro].alt;
 
-    textBox.textContent = '';
-    createNewButtons();
-  });
-}}
+    createContinueButton(() => {
+      const imageTemp = document.getElementById('image-temp');
+      if (imageTemp) imageTemp.remove();
 
-
+      kuvanpaikka.classList.remove('hidden');
+      textBox.textContent = '';
+      createNewButtons();
+    });
+  }
+}
 
 const kuvat =[
 {
