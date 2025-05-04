@@ -215,12 +215,18 @@ document.getElementById('next1').addEventListener('click', function() {
   }
 });
 
+let score = 30;
+
 function gameLoop(button) {
   const button2 = document.getElementById('next2');
   const button3 = document.getElementById('next3');
   const enviroment = document.getElementById('ilm_pist')
-  enviroment.value = parseInt(enviroment.textContent)
+
+
+
   if (button === 2) {
+    score = score -= 2;
+    enviroment.textContent = score;
 
   } else if (button === 3) {
     button3.addEventListener('click', function() {
