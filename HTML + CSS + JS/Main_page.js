@@ -173,6 +173,8 @@ function airportsFromDistance(amount = 19) {
   return airportsOnMap;
 }
 
+
+// DOESN'T WORK FULLY
 function refreshAirports() {
   for (const name in markers) {
     remove_from_map(name);
@@ -325,6 +327,8 @@ function endOfTheWorld() {
   mapContainer.appendChild(imageContainer);
 }
 
+
+//DOESN'T WORK PROPERLY
 function createEndButton(num) {
   const container = document.getElementById('button-container');
 
