@@ -1,6 +1,7 @@
 'use strict';
 let button = document.querySelector('button');
 let playerLocation = null;
+let playerMarker = null;
 
 const map = L.map('map', {
   center: [40, 0],
@@ -43,42 +44,22 @@ function add_to_map(x, y, name) {
   li.innerHTML = name;
   li.style.fontSize = 'x-large';
   document.getElementById('airport_names').appendChild(li);
+
+  marker.on('click', function () {
+    playerLocation = { lat: x, long: y, Name: name };
+    add_player_to_map(x, y, name);
+  });
 }
 
 function remove_from_map(name) {
   const marker = markers[name];
   if (marker) {
     map.removeLayer(marker);
-    delete markers[name];  // Poistaa pisteen
-
-    const ul = document.getElementById('airport_names');
-    const items = ul.getElementsByTagName('li');
-
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].innerHTML === name) {
-        ul.removeChild(items[i]);
-        break;
-      }
-    }
-  }
-}
-
-function remove_from_list(name) {
-  const marker = markers[name];
-  if (marker) {
-    map.removeLayer(marker);
     delete markers[name];
 
-    all_airports.forEach((airport) => {
-      const {lat, long, Name} = airport;
-      if (lat && long) {
-        all_airports[Name] = airport;
-        all_airports.remove(airport);
-      }
-    });
-
     const ul = document.getElementById('airport_names');
     const items = ul.getElementsByTagName('li');
+
     for (let i = 0; i < items.length; i++) {
       if (items[i].innerHTML === name) {
         ul.removeChild(items[i]);
@@ -87,6 +68,7 @@ function remove_from_list(name) {
     }
   }
 }
+
 
 function add_player_to_map(x, y, name) {
   let playerIcon = L.icon({
@@ -95,18 +77,23 @@ function add_player_to_map(x, y, name) {
     iconAnchor: [23, 69],
     popupAnchor: [-3, -76],
   });
-  const marker = L.marker([x, y], {icon: playerIcon}).
-      addTo(map).
-      bindPopup(`${name}`);
-      remove_from_list(x,y,name);
-      remove_from_map(name)
 
-  marker.on('mouseover', function(ev) {
-    marker.openPopup();
-  });
-  marker.on('mouseout', function(ev) {
-    marker.closePopup();
-  });
+  if (playerMarker) {
+    map.removeLayer(playerMarker);
+  }
+
+  playerMarker = L.marker([x, y], { icon: playerIcon })
+    .addTo(map)
+    .bindPopup(`${name}`);
+
+  playerMarker.on('mouseover', () => playerMarker.openPopup());
+  playerMarker.on('mouseout', () => playerMarker.closePopup());
+
+
+  playerLocation = { lat: x, long: y, Name: name };
+
+  remove_from_map(name);
+  delete all_airports[name];
 }
 
 function getRandomAirports(arr, num) {
@@ -184,11 +171,13 @@ document.getElementById('next1').addEventListener('click', function() {
       if (location) {
         playerLocation = location;
         textBox.textContent = 'Olet saapunut kentälle: ' + location.Name;
+        document.getElementById('next1').addEventListener('click', function() {
+          textBox.textContent = "Tässä kentät joihin voit matkustaa. Mitä seuraavaksi?"
+          createNewButtons()        })
+
       } else {
         textBox.textContent = 'Kenttää ei voitu ladata.';
       }
-
-      createNewButtons();
     });
   }})
 function removeButtons(...ids) {
@@ -305,6 +294,8 @@ function gameLoop(button) {
   removeButtons('next2', 'next3');
 
   if (button === 2) {
+    textBox.textContent = "Valitse lentokenttä johon haluat matkustaa painamalla sitä kartalta."
+
     enviromentalPoints -= 2;
     enviroment.textContent = enviromentalPoints;
 
