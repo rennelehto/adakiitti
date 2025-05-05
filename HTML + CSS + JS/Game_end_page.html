@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>Adakiitti – Lopputaistelu</title>
+    <link href="Game_end_page.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="game-container">
+    <div class="d-flex">
+
+        <div class="leftpane">
+            <h1>Game stats</h1>
+            <ul style="list-style-type:none;">
+                <li>Pelaajan kerätyt kivet: <p id="pelaajan-kivet">0</p></li>
+                <li>Vastustajan kerätyt kivet: <p id="vastustajan-kivet">0</p></li>
+                <li>Pelaajan pisteet: <p id="pelaajan-pisteet">0</p></li>
+                <li>Vastustajan pisteet: <p id="vastustajan-pisteet">0</p></li>
+            </ul>
+        </div>
+
+        <div class="middlepane">
+            <div class="textbox" id="final-battle">
+                <p>Lopputaistelu alkaa! Oletko valmis?</p>
+                <button id="fightbutton">Taistele</button>
+                <div id="roll-results"></div>
+            </div>
+        </div>
+
+        <div class="rightpane">
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<script src="lopputaisto.js"></script>
+</body>
+</html>

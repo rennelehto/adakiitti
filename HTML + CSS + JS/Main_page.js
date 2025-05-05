@@ -226,6 +226,31 @@ let enviromentalPoints = 30;
 let score = 5;
 let evilScore = 5
 
+function createEndButton(num){
+  const container = document.getElementById('button-container');
+
+  const continueBtn = document.createElement('button');
+  continueBtn.textContent = 'Continue';
+  continueBtn.id = 'next1';
+  removeButtons('next2', 'next3');
+  container.appendChild(continueBtn);
+  if (num === 1) {
+      textBox.textContent = 'Olet löytänyt tarpeeksi Adakiittejä! Paina nappia jatkaaksesi loppu taisteluun.';
+    } else if (num === 2){
+      textBox.textContent = 'Vihollinen löysi tarvitsemansa Adakiitit.. Paina nappia jatkaaksesi loppu taisteluun.';
+    }
+  continueBtn.addEventListener('click', () => {
+    location.href = "Game_end_page.html"
+})}
+
+function gameEnd(id){
+  if (id === 1){
+  createEndButton(1)
+  } else if (id === 2){
+    createEndButton(2)
+  }
+}
+
 function diceRoll(player) {
   return fetch('http://127.0.0.1:3000/airport/kivi')
     .then(response => response.json())
@@ -234,9 +259,17 @@ function diceRoll(player) {
       if (player === 1 ) {
         textBox.textContent = `${data.message} (Arvo: ${data.value})`;
       score = score + data.value
+        if (score >= 50){
+          score = 50
+          gameEnd(1)
+        }
       stones.textContent = score
       } else if (player === 2) {
         evilScore = evilScore + data.value
+        if (evilScore >= 50){
+          evilScore = 50
+          gameEnd(2)
+        }
         console.log(evilScore)
       }
 
@@ -283,6 +316,7 @@ function gameLoop(button) {
     });
 
   } else if (button === 3) {
+
     enviromentalPoints += 2;
     enviroment.textContent = enviromentalPoints;
 
