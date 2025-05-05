@@ -1,0 +1,75 @@
+.fleur-de-leah-regular {
+  font-family: "Fleur De Leah", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.windsong-medium {
+  font-family: "WindSong", cursive;
+  font-weight: 500;
+  font-style: normal;
+}
+html{
+    font-family: Verdana, Arial, sans-serif;
+}
+body {
+    width: 100vh;
+    height: 100vh;
+    background-color: darkslateblue;
+    background-image: url('https://users.metropolia.fi/~rennel/kuvia_peliin/luka-mivsek-luka-mivsek-island-01.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#taulukko{
+    background-image: url("https://i.pinimg.com/736x/48/6c/c0/486cc02eba94124e6c1cb599fa284b3c.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 45%;
+    height: 70%;
+    display: block;
+    background-color: gray;
+    margin-left: 30%;
+    margin-top: 15%;
+    margin-bottom: 15%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#listat{
+    display: flex;
+}
+
+#pisteotsikko {
+    height: 15%;
+    font-size: clamp(5vb, 1rem, 6vb);
+    color: #1c1b1b;
+    text-align: center;
+    font-family: "Fleur De Leah", cursive;
+    padding-top: 12%;
+    text-shadow: 2px 2px 5px #ff4d00;
+}
+ul{
+
+    list-style-type: none;
+    margin: 5.5%;
+    padding: 0;
+
+}
+#nimilista{
+    text-align: right;
+    height: 80%;
+    width: 44%;
+}
+#pistelista{
+    height: 80%;
+    width: 44%;
+}
+li{
+    font-family: "WindSong", cursive;
+    font-size: clamp(3vb, 1rem, 6vb);
+    height: 10%;
+    margin: 0;
+    color: #302121;
+    text-shadow: 2px 2px 5px #ff4d00;
+}
