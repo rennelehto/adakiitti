@@ -49,8 +49,16 @@ const otsikkoteksti = document.createTextNode(`Huippupisteet`);
 otsikko.appendChild(otsikkoteksti);
 listat.appendChild(nimilista);
 listat.appendChild(pistelista);
+let nappi = document.createElement("button");
+nappi.id = 'nappi';
+const nappiteksti = document.createTextNode(`Etusivulle`);
+nappi.addEventListener("click", (event)=> {
+  location.href = "Game_start_page.html";
+})
+nappi.appendChild(nappiteksti);
 taulukko.appendChild(otsikko);
 taulukko.appendChild(listat);
+taulukko.appendChild(nappi);
 body.appendChild(taulukko);
 
 
