@@ -251,9 +251,37 @@ function createNewButtons() {
 }
 
 const stones = document.getElementById('kiv_pist');
-let enviromentalPoints = 30;
+let enviromentalPoints = 6;
 let score = 5;
 let evilScore = 5;
+
+
+function endOfTheWorld() {
+  const map = document.getElementById('map');
+  const mapContainer = document.getElementById('map-container');
+
+  map.classList.add('hidden');
+
+  const imageContainer = document.createElement('div');
+  imageContainer.id = 'image-temp';
+  imageContainer.style.width = '100%';
+  imageContainer.style.height = '100%';
+  imageContainer.style.position = 'relative';
+  imageContainer.style.overflow = 'hidden';
+  imageContainer.style.background = 'black';
+
+  const img = document.createElement('img');
+  img.src = loppukuva[0].kuva;
+  img.style.width = '100%';
+  img.style.height = '100%';
+  img.style.objectFit = 'cover';
+  img.style.position = 'absolute';
+  img.style.alignContent = 'center';
+
+
+  imageContainer.appendChild(img);
+  mapContainer.appendChild(imageContainer);
+}
 
 function createEndButton(num) {
   const container = document.getElementById('button-container');
@@ -267,6 +295,11 @@ function createEndButton(num) {
     textBox.textContent = 'Olet löytänyt tarpeeksi Adakiittejä! Paina nappia jatkaaksesi loppu taisteluun.';
   } else if (num === 2) {
     textBox.textContent = 'Vihollinen löysi tarvitsemansa Adakiitit.. Paina nappia jatkaaksesi loppu taisteluun.';
+  } else if (num ===3){
+    textBox.textContent = 'Ympäristöpisteet loppuivat :( Hävisit pelin, ja maailmanloppu on saapunut. '
+    container.removeChild(continueBtn)
+    endOfTheWorld()
+
   }
   continueBtn.addEventListener('click', () => {
     location.href =  './Game_end_page.html';
@@ -278,6 +311,8 @@ function gameEnd(id) {
     createEndButton(1);
   } else if (id === 2) {
     createEndButton(2);
+  } else if (id === 3){
+    createEndButton(3)
   }
 }
 
@@ -335,19 +370,21 @@ function gameLoop(button) {
   removeButtons('next2', 'next3');
 
   if (button === 2) {
-    if (button === 2) {
-      textBox.textContent = 'Valitse lentokenttä johon haluat matkustaa painamalla sitä kartalta.';
+    textBox.textContent = 'Valitse lentokenttä johon haluat matkustaa painamalla sitä kartalta.';
 
-      enviromentalPoints -= 2;
-      enviroment.textContent = enviromentalPoints;
-
-      isChoosingDestination = true;
+    enviromentalPoints -= 2;
+    enviroment.textContent = enviromentalPoints;
+    if (enviromentalPoints <= 0) {
+      enviromentalPoints = 0;
+      gameEnd(3);
+      return
     }
 
-    createContinueButton(() => {
-      createNewButtons();
-    });
+    isChoosingDestination = true;
 
+  createContinueButton(() => {
+    createNewButtons();
+  });
   } else if (button === 3) {
 
     enviromentalPoints += 2;
@@ -385,8 +422,7 @@ function gameLoop(button) {
       textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
       createNewButtons();
     });
-  }
-}
+  }}
 
 const kuvat = [
   {
@@ -406,6 +442,11 @@ const kuvat = [
     alt: 'Omavarainen yhteisö pitää pintansa myös vaikeampina aikoina.',
   },
 ];
+const loppukuva = [
+    {
+    kuva:'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.freepik.com%2Fpremium-photo%2Fconcept-apocalyptic-nuclear-war-nuclear-bomb-explosion-metropolis-atomic-warfare-destroyed-city-darkly-illuminated-artistic-embellishment-selective-attention_410516-1613.jpg&f=1&nofb=1&ipt=9bd9be92c634ab5bd6ce6f0272f364eaa148a5d887dd6cbfa848bcd5d65e9194'
+  }
+]
 
 
 
