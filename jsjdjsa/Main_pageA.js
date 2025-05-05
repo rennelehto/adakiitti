@@ -69,13 +69,12 @@ function remove_from_list(name) {
     map.removeLayer(marker);
     delete markers[name];
 
-    all_airports.forEach((airport) => {
-      const {lat, long, Name} = airport;
-      if (lat && long) {
-        all_airports[Name] = airport;
-        all_airports.remove(airport);
-      }
-    });
+    for (let airport of all_airports) {
+        if (airport[1] == name){
+          all_airports.remove(airport)
+          console.log('Removed from data: ', all_airports)
+        }
+      };
 
     const ul = document.getElementById('airport_names');
     const items = ul.getElementsByTagName('li');
@@ -107,7 +106,7 @@ function add_player_to_map(x, y, name) {
   });
 }
 
-function getRandomAirports(arr, num) {
+function 1getRandomAirports(arr, num) {
   let randomAirports = [];
   for (let i = 0; i < num; i++) {
     const randomIndex = Math.floor(Math.random() * arr.length);
@@ -137,37 +136,36 @@ async function fetchData() {
     const response = await fetch('http://127.0.0.1:3000/airport/');
     const data = await response.json();
 
-    console.log('Fetched airport data:', data);
-
     all_airports = data;
 
-    playerLocation = getRandomAirports(data, 1)[0];
+    console.log('Fetched airport data:', all_airports);
+
+    playerLocation = getRandomAirports(all_airports, 1)[0];
 
     const {lat, long, Name} = playerLocation;
     const p_lat = lat
     const p_long = long
     if (lat && long) {
       add_player_to_map(lat, long, Name);
-      all_airports[Name] = playerLocation;
       remove_from_list(Name);
     }
 
-    const randomAirports = getRandomAirports(data, 50);
+    const randomAirports = getRandomAirports(all_airports, 20);
     let amount = 0
     while (amount < 20) {
-      randomAirports.forEach((airport) => {
+      for (let airport of randomAirports) {
         const {lat, long, Name} = airport;
         let distance = +getDistance(lat, long, p_lat, p_long)
         if (0 < distance < (stones * 500)) {
            if (lat && long) {
             add_to_map(lat, long, Name);
-            all_airports[Name] = airport;
             amount += 1
+            console.log(amount)
           }
         } else{
           console.log('Airport too far.')
         }
-      });
+      }
     }
     return playerLocation;
   } catch (error) {
@@ -264,7 +262,38 @@ function gameLoop(button) {
   }
 }
 
+function schmooving(){
 
+  const {lat, long, Name} = playerLocation;
+  remove_from_map(Name)
+  playerLocation = getRandomAirports(all_airports, 1)[0];
+
+  const {lat, long, Name} = playerLocation;
+  const p_lat = lat
+  const p_long = long
+  if (lat && long) {
+    add_player_to_map(lat, long, Name);
+    remove_from_list(Name);
+  }
+  const randomAirports = getRandomAirports(all_airports, 20);
+  let amount = 0
+  while (amount < 20) {
+    for (let airport of randomAirports) {
+      const {lat, long, Name} = airport;
+      remove_from_map(Name)
+      let distance = +getDistance(lat, long, p_lat, p_long)
+      if (0 < distance < (stones * 500)) {
+         if (lat && long) {
+          add_to_map(lat, long, Name);
+          amount += 1
+          console.log(amount)
+        }
+      } else{
+        console.log('Airport too far.')
+      }
+    }
+  }
+}
 
 
 
