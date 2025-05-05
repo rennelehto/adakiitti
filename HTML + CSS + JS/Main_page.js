@@ -2,6 +2,10 @@
 let button = document.querySelector('button');
 let playerLocation = null;
 let playerMarker = null;
+let isChoosingDestination = false;
+const visitedAirports = new Set();
+let available_airports = {};
+let all_airports = {};
 
 const map = L.map('map', {
   center: [40, 0],
@@ -27,7 +31,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 const markers = {};  // Antaa nimet pisteille kartalla
-let all_airports = {};
+
 
 function add_to_map(x, y, name) {
   const marker = L.marker([x, y]).addTo(map).bindPopup(`${name}`);
@@ -45,9 +49,26 @@ function add_to_map(x, y, name) {
   li.style.fontSize = 'x-large';
   document.getElementById('airport_names').appendChild(li);
 
-  marker.on('click', function () {
-    playerLocation = { lat: x, long: y, Name: name };
+  marker.on('click', function() {
+    if (!isChoosingDestination) return;
+
+    isChoosingDestination = false;
+
+    const destination = {lat: x, long: y, Name: name};
+
     add_player_to_map(x, y, name);
+
+    textBox.textContent = `Olet saapunut kentälle: ${name}`;
+
+    diceRoll(1).then(() => {
+      return diceRoll(2);
+    }).then(() => {
+      createContinueButton(() => {
+        refreshAirports();
+        textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
+        createNewButtons();
+      });
+    });
   });
 }
 
@@ -69,7 +90,6 @@ function remove_from_map(name) {
   }
 }
 
-
 function add_player_to_map(x, y, name) {
   let playerIcon = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/rennelehto/adakiitti/refs/heads/A/jsjdjsa/wizard_PNG.png',
@@ -82,18 +102,17 @@ function add_player_to_map(x, y, name) {
     map.removeLayer(playerMarker);
   }
 
-  playerMarker = L.marker([x, y], { icon: playerIcon })
-    .addTo(map)
-    .bindPopup(`${name}`);
+  playerMarker = L.marker([x, y], {icon: playerIcon}).
+      addTo(map).
+      bindPopup(`${name}`);
 
   playerMarker.on('mouseover', () => playerMarker.openPopup());
   playerMarker.on('mouseout', () => playerMarker.closePopup());
 
-
-  playerLocation = { lat: x, long: y, Name: name };
+  playerLocation = {lat: x, long: y, Name: name};
+  visitedAirports.add(name);
 
   remove_from_map(name);
-  delete all_airports[name];
 }
 
 function getRandomAirports(arr, num) {
@@ -105,30 +124,48 @@ function getRandomAirports(arr, num) {
   return randomAirports;
 }
 
+
+function refreshAirports() {
+  for (const name in markers) {
+    remove_from_map(name);
+  }
+
+  document.getElementById('airport_names').innerHTML = '';
+
+  if (playerLocation && available_airports[playerLocation.Name]) {
+    delete available_airports[playerLocation.Name];
+  }
+
+  const newAirports = getRandomAirports(Object.values(available_airports), 20);
+  newAirports.forEach(({ lat, long, Name }) => {
+    if (lat && long) {
+      add_to_map(lat, long, Name);
+    }
+  });
+}
+
 async function fetchData() {
   try {
     const response = await fetch('http://127.0.0.1:3000/airport/');
     const data = await response.json();
 
-    console.log('Fetched airport data:', data);
-
     all_airports = data;
-    const randomAirports = getRandomAirports(data, 20);
-    playerLocation = getRandomAirports(data, 1)[0];
-    console.log(playerLocation);
 
-    randomAirports.forEach((airport) => {
-      const {lat, long, Name} = airport;
-      if (lat && long) {
-        add_to_map(lat, long, Name);
-      }
+    available_airports = structuredClone(data);
+
+    const randomAirports = getRandomAirports(Object.values(available_airports), 20);
+    playerLocation = getRandomAirports(Object.values(available_airports), 1)[0];
+
+    randomAirports.forEach(({ lat, long, Name }) => {
+      if (lat && long) add_to_map(lat, long, Name);
     });
 
-    const {lat, long, Name} = playerLocation;
+    const { lat, long, Name } = playerLocation;
     if (lat && long) {
       add_player_to_map(lat, long, Name);
-      all_airports[Name] = playerLocation;
+      delete available_airports[Name];
     }
+
     return playerLocation;
   } catch (error) {
     console.error('Error fetching data', error);
@@ -171,22 +208,25 @@ document.getElementById('next1').addEventListener('click', function() {
       if (location) {
         playerLocation = location;
         textBox.textContent = 'Olet saapunut kentälle: ' + location.Name;
-        document.getElementById('next1').addEventListener('click', function() {
-          textBox.textContent = "Tässä kentät joihin voit matkustaa. Mitä seuraavaksi?"
-          createNewButtons()        })
+        document.getElementById('next1').
+            addEventListener('click', function() {
+              textBox.textContent = 'Tässä kentät joihin voit matkustaa. Mitä seuraavaksi?';
+              createNewButtons();
+            });
 
       } else {
         textBox.textContent = 'Kenttää ei voitu ladata.';
       }
     });
-  }})
+  }
+});
+
 function removeButtons(...ids) {
   ids.forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.remove();
   });
 }
-
 
 function createNewButtons() {
   const container = document.getElementById('button-container');
@@ -195,14 +235,14 @@ function createNewButtons() {
   const button2 = document.createElement('button');
   button2.textContent = 'Matkusta kentälle';
   button2.id = 'next2';
-  button2.addEventListener('click', function () {
+  button2.addEventListener('click', function() {
     gameLoop(2);
   });
 
   const button3 = document.createElement('button');
   button3.textContent = 'Jää tälle kentälle';
   button3.id = 'next3';
-  button3.addEventListener('click', function () {
+  button3.addEventListener('click', function() {
     gameLoop(3);
   });
 
@@ -210,12 +250,12 @@ function createNewButtons() {
   container.appendChild(button3);
 }
 
-const stones = document.getElementById('kiv_pist')
+const stones = document.getElementById('kiv_pist');
 let enviromentalPoints = 30;
 let score = 5;
-let evilScore = 5
+let evilScore = 5;
 
-function createEndButton(num){
+function createEndButton(num) {
   const container = document.getElementById('button-container');
 
   const continueBtn = document.createElement('button');
@@ -224,52 +264,53 @@ function createEndButton(num){
   removeButtons('next2', 'next3');
   container.appendChild(continueBtn);
   if (num === 1) {
-      textBox.textContent = 'Olet löytänyt tarpeeksi Adakiittejä! Paina nappia jatkaaksesi loppu taisteluun.';
-    } else if (num === 2){
-      textBox.textContent = 'Vihollinen löysi tarvitsemansa Adakiitit.. Paina nappia jatkaaksesi loppu taisteluun.';
-    }
+    textBox.textContent = 'Olet löytänyt tarpeeksi Adakiittejä! Paina nappia jatkaaksesi loppu taisteluun.';
+  } else if (num === 2) {
+    textBox.textContent = 'Vihollinen löysi tarvitsemansa Adakiitit.. Paina nappia jatkaaksesi loppu taisteluun.';
+  }
   continueBtn.addEventListener('click', () => {
-    location.href = "Game_end_page.html"
-})}
+    location.href =  './Game_end_page.html';
+  });
+}
 
-function gameEnd(id){
-  if (id === 1){
-  createEndButton(1)
-  } else if (id === 2){
-    createEndButton(2)
+function gameEnd(id) {
+  if (id === 1) {
+    createEndButton(1);
+  } else if (id === 2) {
+    createEndButton(2);
   }
 }
 
 function diceRoll(player) {
-  return fetch('http://127.0.0.1:3000/airport/kivi')
-    .then(response => response.json())
-    .then(data => {
-      const textBox = document.getElementById('text');
-      if (player === 1 ) {
-        textBox.textContent = `${data.message} (Arvo: ${data.value})`;
-      score = score + data.value
-        if (score >= 50){
-          score = 50
-          gameEnd(1)
+  return fetch('http://127.0.0.1:3000/airport/kivi').
+      then(response => response.json()).
+      then(data => {
+        const textBox = document.getElementById('text');
+        if (player === 1) {
+          textBox.textContent = `${data.message} (Arvo: ${data.value})`;
+          score = score + data.value;
+          if (score >= 50) {
+            score = 50;
+            gameEnd(1);
+          }
+          stones.textContent = score;
+        } else if (player === 2) {
+          evilScore = evilScore + data.value;
+          if (evilScore >= 50) {
+            evilScore = 50;
+            gameEnd(2);
+          }
+          console.log(evilScore);
         }
-      stones.textContent = score
-      } else if (player === 2) {
-        evilScore = evilScore + data.value
-        if (evilScore >= 50){
-          evilScore = 50
-          gameEnd(2)
-        }
-        console.log(evilScore)
-      }
 
-    });
+      });
 }
 
 function createContinueButton(callback) {
   const container = document.getElementById('button-container');
 
-
-  if (document.getElementById('next1')) return;
+  const existing = document.getElementById('next1');
+  if (existing) existing.remove();
 
   const continueBtn = document.createElement('button');
   continueBtn.textContent = 'Continue';
@@ -294,13 +335,14 @@ function gameLoop(button) {
   removeButtons('next2', 'next3');
 
   if (button === 2) {
-    textBox.textContent = "Valitse lentokenttä johon haluat matkustaa painamalla sitä kartalta."
+    if (button === 2) {
+      textBox.textContent = 'Valitse lentokenttä johon haluat matkustaa painamalla sitä kartalta.';
 
-    enviromentalPoints -= 2;
-    enviroment.textContent = enviromentalPoints;
+      enviromentalPoints -= 2;
+      enviroment.textContent = enviromentalPoints;
 
-    diceRoll(1);
-    diceRoll(2);
+      isChoosingDestination = true;
+    }
 
     createContinueButton(() => {
       createNewButtons();
@@ -310,8 +352,7 @@ function gameLoop(button) {
 
     enviromentalPoints += 2;
     enviroment.textContent = enviromentalPoints;
-
-    diceRoll(2);
+    diceRoll(2)
 
     const nro = Math.floor(Math.random() * kuvat.length);
     const skippauskuva = document.createElement('img');
@@ -324,21 +365,21 @@ function gameLoop(button) {
     kuvanpaikka.classList.add('hidden');
 
     const mapContainer = document.getElementById('map-container');
-const imageContainer = document.createElement('div');
-imageContainer.id = 'image-temp';
+    const imageContainer = document.createElement('div');
+    imageContainer.id = 'image-temp';
 
-const img = document.createElement('img');
-img.src = kuvat[nro].kuva;
-img.alt = kuvat[nro].alt;
+    const img = document.createElement('img');
+    img.src = kuvat[nro].kuva;
+    img.alt = kuvat[nro].alt;
 
-imageContainer.appendChild(img);
-mapContainer.appendChild(imageContainer);
+    imageContainer.appendChild(img);
+    mapContainer.appendChild(imageContainer);
 
     textBox.textContent = kuvat[nro].alt;
 
     createContinueButton(() => {
       const imageTemp = document.getElementById('image-temp');
-    if (imageTemp) imageTemp.remove();
+      if (imageTemp) imageTemp.remove();
 
       kuvanpaikka.classList.remove('hidden');
       textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
@@ -347,24 +388,24 @@ mapContainer.appendChild(imageContainer);
   }
 }
 
-const kuvat =[
-{
-	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda1.jpg',
-	alt: 'Puiden istutus on kivaa.'
-},
-{
-	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda2.jpg',
-	alt: 'Koulujen rakentaminen pitää yhteisöistä huolta pitkällä tähtäimellä.'
-},
-{
-	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda3.jpg',
-	alt: 'Puhtaan juomaveden saanti pitää yhteisön terveenä.'
-},
-{
-	kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda4.jpg',
-	alt: 'Omavarainen yhteisö pitää pintansa myös vaikeampina aikoina.'
-}
-]
+const kuvat = [
+  {
+    kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda1.jpg',
+    alt: 'Puiden istutus on kivaa.',
+  },
+  {
+    kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda2.jpg',
+    alt: 'Koulujen rakentaminen pitää yhteisöistä huolta pitkällä tähtäimellä.',
+  },
+  {
+    kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda3.jpg',
+    alt: 'Puhtaan juomaveden saanti pitää yhteisön terveenä.',
+  },
+  {
+    kuva: 'https://users.metropolia.fi/~rennel/kuvia_peliin/propaganda4.jpg',
+    alt: 'Omavarainen yhteisö pitää pintansa myös vaikeampina aikoina.',
+  },
+];
 
 
 
