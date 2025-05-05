@@ -6,6 +6,7 @@ let isChoosingDestination = false;
 const visitedAirports = new Set();
 let available_airports = {};
 let all_airports = {};
+let airportsOnMap = []
 
 const map = L.map('map', {
   center: [40, 0],
@@ -115,15 +116,49 @@ function add_player_to_map(x, y, name) {
   remove_from_map(name);
 }
 
-function getRandomAirports(arr, num) {
-  let randomAirports = [];
-  for (let i = 0; i < num; i++) {
-    const randomIndex = Math.floor(Math.random() * arr.length);
-    randomAirports.push(arr[randomIndex]);
-  }
-  return randomAirports;
+function toRadian(degree){
+  return degree*Math.PI/180
 }
 
+function getDistance(originLat, originLon, destinationLat, destinationLon) {
+  let lon1 = toRadian(originLon)
+  let lat1 = toRadian(originLat)
+  let lon2 = toRadian(destinationLon)
+  let lat2 = toRadian(destinationLat)
+  let deltaLat = lat2 - lat1
+  let deltaLon = lon2 - lon1
+  console.log(deltaLon)
+  console.log(deltaLat)
+  let a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) *
+      Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2)
+  let c = 2 * Math.asin(Math.sqrt(a))
+  const EARTH_RADIUS = 6371
+  return c * EARTH_RADIUS
+}
+function getRandomAirports(arr, num) {
+    let randomAirports = [];
+    for (let i = 0; i < num; i++) {
+      const randomIndex = Math.floor(Math.random() * arr.length);
+      randomAirports.push(arr[randomIndex]);
+    }
+    return randomAirports;
+}
+
+function airportsFromDistance(amount) {
+  airportsOnMap = [];
+  let p_lat = playerLocation.lat
+  let p_long = playerLocation.long
+  Object.values(available_airports).forEach(({ lat, long, Name }) => {
+    console.log(lat)
+    let distance = +getDistance(lat, long, p_lat, p_long)
+    if (distance > 0 && distance < (score * 500)) {
+      if (lat && long) {
+        airportsOnMap.push({ lat, long, Name });
+      }
+    }
+  }); airportsOnMap = airportsOnMap.slice(0, amount);
+  return airportsOnMap
+}
 
 function refreshAirports() {
   for (const name in markers) {
@@ -136,7 +171,7 @@ function refreshAirports() {
     delete available_airports[playerLocation.Name];
   }
 
-  const newAirports = getRandomAirports(Object.values(available_airports), 20);
+  const newAirports = airportsFromDistance(19);
   newAirports.forEach(({ lat, long, Name }) => {
     if (lat && long) {
       add_to_map(lat, long, Name);
@@ -153,19 +188,21 @@ async function fetchData() {
 
     available_airports = structuredClone(data);
 
-    //const randomAirports = getRandomAirports(Object.values(available_airports), 20);
     playerLocation = getRandomAirports(Object.values(available_airports), 1)[0];
+    airportsFromDistance(19);
 
-
-    //randomAirports.forEach(({ lat, long, Name }) => {
-      //if (lat && long) add_to_map(lat, long, Name);
-    //});
+    airportsOnMap.forEach(({ lat, long, Name }) => {
+      if (lat && long) add_to_map(lat, long, Name);
+    });
 
     const { lat, long, Name } = playerLocation;
     if (lat && long) {
       add_player_to_map(lat, long, Name);
       delete available_airports[Name];
     }
+    airportsFromDistance()
+
+
     return playerLocation;
   } catch (error) {
     console.error('Error fetching data', error);
@@ -251,7 +288,7 @@ function createNewButtons() {
 }
 
 const stones = document.getElementById('kiv_pist');
-let enviromentalPoints = 6;
+let enviromentalPoints = 30;
 let score = 5;
 let evilScore = 5;
 
@@ -447,6 +484,5 @@ const loppukuva = [
     kuva:'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.freepik.com%2Fpremium-photo%2Fconcept-apocalyptic-nuclear-war-nuclear-bomb-explosion-metropolis-atomic-warfare-destroyed-city-darkly-illuminated-artistic-embellishment-selective-attention_410516-1613.jpg&f=1&nofb=1&ipt=9bd9be92c634ab5bd6ce6f0272f364eaa148a5d887dd6cbfa848bcd5d65e9194'
   }
 ]
-
 
 
