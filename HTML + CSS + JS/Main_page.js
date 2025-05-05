@@ -156,6 +156,7 @@ async function fetchData() {
     //const randomAirports = getRandomAirports(Object.values(available_airports), 20);
     playerLocation = getRandomAirports(Object.values(available_airports), 1)[0];
 
+
     //randomAirports.forEach(({ lat, long, Name }) => {
       //if (lat && long) add_to_map(lat, long, Name);
     //});
@@ -165,7 +166,6 @@ async function fetchData() {
       add_player_to_map(lat, long, Name);
       delete available_airports[Name];
     }
-
     return playerLocation;
   } catch (error) {
     console.error('Error fetching data', error);
