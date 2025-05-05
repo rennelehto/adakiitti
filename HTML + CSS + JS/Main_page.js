@@ -153,12 +153,12 @@ async function fetchData() {
 
     available_airports = structuredClone(data);
 
-    const randomAirports = getRandomAirports(Object.values(available_airports), 20);
+    //const randomAirports = getRandomAirports(Object.values(available_airports), 20);
     playerLocation = getRandomAirports(Object.values(available_airports), 1)[0];
 
-    randomAirports.forEach(({ lat, long, Name }) => {
-      if (lat && long) add_to_map(lat, long, Name);
-    });
+    //randomAirports.forEach(({ lat, long, Name }) => {
+      //if (lat && long) add_to_map(lat, long, Name);
+    //});
 
     const { lat, long, Name } = playerLocation;
     if (lat && long) {
