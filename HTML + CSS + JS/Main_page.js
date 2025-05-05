@@ -72,6 +72,12 @@ function add_to_map(x, y, name) {
     });
   });
 }
+function remove_all_from_map() {
+  for (let { Name } of airportsOnMap) {
+    remove_from_map(Name);
+  }
+  airportsOnMap = [];
+}
 
 function remove_from_map(name) {
   const marker = markers[name];
@@ -92,6 +98,7 @@ function remove_from_map(name) {
 }
 
 function add_player_to_map(x, y, name) {
+  remove_all_from_map();
   let playerIcon = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/rennelehto/adakiitti/refs/heads/A/jsjdjsa/wizard_PNG.png',
     iconSize: [46, 70],
@@ -112,8 +119,10 @@ function add_player_to_map(x, y, name) {
 
   playerLocation = {lat: x, long: y, Name: name};
   visitedAirports.add(name);
-
+  delete available_airports[name];
   remove_from_map(name);
+  airportsOnMap = airportsFromDistance(20);
+  refreshAirports();
 }
 
 function toRadian(degree){
@@ -144,20 +153,24 @@ function getRandomAirports(arr, num) {
     return randomAirports;
 }
 
-function airportsFromDistance(amount) {
+function airportsFromDistance(amount = 19) {
   airportsOnMap = [];
-  let p_lat = playerLocation.lat
-  let p_long = playerLocation.long
+  let p_lat = playerLocation.lat;
+  let p_long = playerLocation.long;
+
   Object.values(available_airports).forEach(({ lat, long, Name }) => {
-    console.log(lat)
-    let distance = +getDistance(lat, long, p_lat, p_long)
+    if (visitedAirports.has(Name)) return;
+
+    let distance = getDistance(lat, long, p_lat, p_long);
     if (distance > 0 && distance < (score * 500)) {
       if (lat && long) {
         airportsOnMap.push({ lat, long, Name });
       }
     }
-  }); airportsOnMap = airportsOnMap.slice(0, amount);
-  return airportsOnMap
+  });
+
+  airportsOnMap = airportsOnMap.slice(0, amount);
+  return airportsOnMap;
 }
 
 function refreshAirports() {
@@ -169,10 +182,11 @@ function refreshAirports() {
 
   if (playerLocation && available_airports[playerLocation.Name]) {
     delete available_airports[playerLocation.Name];
+
   }
 
-  const newAirports = airportsFromDistance(19);
-  newAirports.forEach(({ lat, long, Name }) => {
+
+  airportsOnMap.forEach(({ lat, long, Name }) => {
     if (lat && long) {
       add_to_map(lat, long, Name);
     }
@@ -185,23 +199,14 @@ async function fetchData() {
     const data = await response.json();
 
     all_airports = data;
-
     available_airports = structuredClone(data);
 
     playerLocation = getRandomAirports(Object.values(available_airports), 1)[0];
-    airportsFromDistance(19);
-
-    airportsOnMap.forEach(({ lat, long, Name }) => {
-      if (lat && long) add_to_map(lat, long, Name);
-    });
-
     const { lat, long, Name } = playerLocation;
+
     if (lat && long) {
       add_player_to_map(lat, long, Name);
-      delete available_airports[Name];
     }
-    airportsFromDistance()
-
 
     return playerLocation;
   } catch (error) {
@@ -389,6 +394,7 @@ function createContinueButton(callback) {
   continueBtn.id = 'next1';
 
   continueBtn.addEventListener('click', () => {
+    refreshAirports()
     continueBtn.remove();
     textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
     if (typeof callback === 'function') {
