@@ -24,16 +24,16 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.logger.setLevel(logging.INFO)
 
-'''
+
 @app.route('/')
 
 def nimihaku():
-    return render_template('Game_start_page.html')
-'''
-@app.route("/pelaaja/")
+    return render_template('Game_start_page2.html')
+
+@app.route("/pelaaja", methods=["POST"])
 def nimimerkki():
-    f_name = request.form["fname"]
-    nimi_tauluun(f_name)
+    nimi = request.form["nimi"]
+    nimi_tauluun(nimi)
     return
 
 
