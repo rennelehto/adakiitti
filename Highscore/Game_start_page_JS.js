@@ -11,6 +11,5 @@ let button2 = document.querySelector("#hsbutton")
 button2.style.fontSize = "xx-large"
 button2.addEventListener("click", (event) =>{
   location.href="highscore.html"
-
 })
 
