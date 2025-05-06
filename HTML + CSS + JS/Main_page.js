@@ -441,7 +441,7 @@ function gameLoop(button) {
   enviroment.textContent = enviromentalPoints;
 
   diceRoll(2).then(enemyWon => {
-    if (enemyWon) return; // Stop here if enemy won
+    if (enemyWon) return;
 
     const nro = Math.floor(Math.random() * kuvat.length);
     const kuvanpaikka = document.getElementById('map');
