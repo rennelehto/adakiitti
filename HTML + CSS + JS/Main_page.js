@@ -7,6 +7,7 @@ const visitedAirports = new Set();
 let available_airports = {};
 let all_airports = {};
 let airportsOnMap = []
+let gameIsOver = false;
 
 const map = L.map('map', {
   center: [40, 0],
@@ -65,7 +66,6 @@ function add_to_map(x, y, name) {
       return diceRoll(2);
     }).then(() => {
       createContinueButton(() => {
-        refreshAirports();
         textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
         createNewButtons();
       });
@@ -76,7 +76,6 @@ function remove_all_from_map() {
   for (let { Name } of airportsOnMap) {
     remove_from_map(Name);
   }
-  airportsOnMap = [];
 }
 
 function remove_from_map(name) {
@@ -122,7 +121,6 @@ function add_player_to_map(x, y, name) {
   delete available_airports[name];
   remove_from_map(name);
   airportsOnMap = airportsFromDistance(20);
-  refreshAirports();
 }
 
 function toRadian(degree){
@@ -153,29 +151,32 @@ function getRandomAirports(arr, num) {
     return randomAirports;
 }
 
-function airportsFromDistance(amount = 19) {
-  airportsOnMap = [];
-  let p_lat = playerLocation.lat;
-  let p_long = playerLocation.long;
+function airportsFromDistance(amount = 20) {
+  const inRangeAirports = [];
 
-  Object.values(available_airports).forEach(({ lat, long, Name }) => {
-    if (visitedAirports.has(Name)) return;
+  const p_lat = playerLocation.lat;
+  const p_long = playerLocation.long;
 
-    let distance = getDistance(lat, long, p_lat, p_long);
+  for (let { lat, long, Name } of Object.values(available_airports)) {
+    if (visitedAirports.has(Name)) continue;
+
+    const distance = getDistance(lat, long, p_lat, p_long);
     if (distance > 0 && distance < (score * 500)) {
-      if (lat && long) {
-        airportsOnMap.push({ lat, long, Name });
-      }
+      inRangeAirports.push({ lat, long, Name });
     }
-  });
+  }
 
-  airportsOnMap = airportsOnMap.slice(0, amount);
+  for (let i = inRangeAirports.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [inRangeAirports[i], inRangeAirports[j]] = [inRangeAirports[j], inRangeAirports[i]];
+  }
+  airportsOnMap = inRangeAirports.slice(0, amount);
   return airportsOnMap;
 }
 
 
-// DOESN'T WORK FULLY
 function refreshAirports() {
+  airportsFromDistance(19)
   for (const name in markers) {
     remove_from_map(name);
   }
@@ -228,8 +229,6 @@ function createNewButton() {
 
 createNewButton();
 
-let name_of_del = document.getElementById('test');
-
 let textBox = document.getElementById('text');
 
 let clickCount = 0;
@@ -250,6 +249,7 @@ document.getElementById('next1').addEventListener('click', function() {
   } else if (clickCount === 3) {
     fetchData().then((location) => {
       if (location) {
+        refreshAirports()
         playerLocation = location;
         textBox.textContent = 'Olet saapunut kentälle: ' + location.Name;
         document.getElementById('next1').
@@ -328,28 +328,28 @@ function endOfTheWorld() {
 }
 
 
-//DOESN'T WORK PROPERLY
 function createEndButton(num) {
+  gameIsOver = true;
+  removeButtons('next1','next2', 'next3');
   const container = document.getElementById('button-container');
 
-  const continueBtn = document.createElement('button');
-  continueBtn.textContent = 'Continue';
-  continueBtn.id = 'next1';
-  removeButtons('next2', 'next3');
-  container.appendChild(continueBtn);
+  const endBtn = document.createElement('button');
+  endBtn.textContent = 'Continue';
+  endBtn.id = 'endbtn';
+  container.appendChild(endBtn);
   if (num === 1) {
+    stones.textContent = score;
     textBox.textContent = 'Olet löytänyt tarpeeksi Adakiittejä! Paina nappia jatkaaksesi loppu taisteluun.';
   } else if (num === 2) {
     textBox.textContent = 'Vihollinen löysi tarvitsemansa Adakiitit.. Paina nappia jatkaaksesi loppu taisteluun.';
   } else if (num ===3){
     textBox.textContent = 'Ympäristöpisteet loppuivat :( Hävisit pelin, ja maailmanloppu on saapunut. '
-    container.removeChild(continueBtn)
+    endBtn.disabled = true;
     endOfTheWorld()
-
   }
-  continueBtn.addEventListener('click', () => {
+  endBtn.addEventListener('click', () => {
     location.href =  './Game_end_page.html';
-  });
+});
 }
 
 function gameEnd(id) {
@@ -363,31 +363,34 @@ function gameEnd(id) {
 }
 
 function diceRoll(player) {
-  return fetch('http://127.0.0.1:3000/airport/kivi').
-      then(response => response.json()).
-      then(data => {
-        const textBox = document.getElementById('text');
-        if (player === 1) {
-          textBox.textContent = `${data.message} (Arvo: ${data.value})`;
-          score = score + data.value;
-          if (score >= 50) {
-            score = 50;
-            gameEnd(1);
-          }
-          stones.textContent = score;
-        } else if (player === 2) {
-          evilScore = evilScore + data.value;
-          if (evilScore >= 50) {
-            evilScore = 50;
-            gameEnd(2);
-          }
-          console.log(evilScore);
+  return fetch('http://127.0.0.1:3000/airport/kivi')
+    .then(response => response.json())
+    .then(data => {
+      const textBox = document.getElementById('text');
+      if (player === 1) {
+        textBox.textContent = `${data.message} (Arvo: ${data.value})`;
+        score += data.value;
+        if (score >= 50) {
+          score = 50;
+          gameEnd(1);
+          return true;
         }
-
-      });
+        stones.textContent = score;
+      } else if (player === 2) {
+        evilScore += data.value;
+        if (evilScore >= 50) {
+          evilScore = 50;
+          gameEnd(2);
+          return true;
+        }
+        console.log(evilScore);
+      }
+      return false;
+    });
 }
 
 function createContinueButton(callback) {
+  if (gameIsOver) return;
   const container = document.getElementById('button-container');
 
   const existing = document.getElementById('next1');
@@ -410,6 +413,7 @@ function createContinueButton(callback) {
 }
 
 function gameLoop(button) {
+  if (gameIsOver) return;
   const enviroment = document.getElementById('ilm_pist');
   const kuvanpaikka = document.getElementById('map');
   const mapContainer = kuvanpaikka.parentElement;
@@ -429,36 +433,34 @@ function gameLoop(button) {
 
     isChoosingDestination = true;
 
-  createContinueButton(() => {
-    createNewButtons();
-  });
+   if (!isChoosingDestination) {
+     createNewButtons();
+   }
   } else if (button === 3) {
+  enviromentalPoints += 2;
+  enviroment.textContent = enviromentalPoints;
 
-    enviromentalPoints += 2;
-    enviroment.textContent = enviromentalPoints;
-    diceRoll(2)
+  diceRoll(2).then(enemyWon => {
+    if (enemyWon) return; // Stop here if enemy won
 
     const nro = Math.floor(Math.random() * kuvat.length);
-    const skippauskuva = document.createElement('img');
-    skippauskuva.src = kuvat[nro].kuva;
-    skippauskuva.alt = kuvat[nro].alt;
-    skippauskuva.style.maxWidth = '70%';
-    skippauskuva.style.display = 'block';
-    skippauskuva.style.margin = '0 auto';
-
-    kuvanpaikka.classList.add('hidden');
-
+    const kuvanpaikka = document.getElementById('map');
     const mapContainer = document.getElementById('map-container');
+
     const imageContainer = document.createElement('div');
     imageContainer.id = 'image-temp';
 
     const img = document.createElement('img');
     img.src = kuvat[nro].kuva;
     img.alt = kuvat[nro].alt;
+    img.style.maxWidth = '70%';
+    img.style.display = 'block';
+    img.style.margin = '0 auto';
 
     imageContainer.appendChild(img);
     mapContainer.appendChild(imageContainer);
 
+    kuvanpaikka.classList.add('hidden');
     textBox.textContent = kuvat[nro].alt;
 
     createContinueButton(() => {
@@ -469,7 +471,8 @@ function gameLoop(button) {
       textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
       createNewButtons();
     });
-  }}
+  });
+}}
 
 const kuvat = [
   {

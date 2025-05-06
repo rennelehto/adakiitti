@@ -150,3 +150,13 @@ body {
     right: 54% ;
     font-size: medium;
 }
+#endbtn {
+    position: absolute;
+    bottom: 30px;
+    height: 60px;
+    width: 140px;
+    margin-left: 20px;
+    text-align: center;
+    align-content: center;
+    font-size: medium;
+}
