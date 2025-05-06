@@ -2,8 +2,7 @@
 
 let button = document.querySelector("#button")
 button.style.fontSize = "xx-large"
-let h1 = document.getElementById("h1")
-button.addEventListener("click", function(evt){
+button.addEventListener("click", (event) =>{
   location.href="Main_page.html"
 
 })

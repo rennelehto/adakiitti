@@ -2,7 +2,7 @@
 
 let highscores = {};
 
-async function fetchData() {
+async function fetchHighscoreData() {
   try {
     const response = await fetch('http://127.0.0.1:3000/highscore/');
     const data = await response.json();
@@ -26,7 +26,7 @@ async function fetchData() {
   }
 }
 
-fetchData();
+fetchHighscoreData();
 
 
 //sivun elementit
