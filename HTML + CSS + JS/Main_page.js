@@ -231,10 +231,11 @@ function createNewButton() {
 createNewButton();
 
 let textBox = document.getElementById('text');
+let name = localStorage.getItem("name");
 
 let clickCount = 0;
 
-textBox.textContent = 'Hei Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos, ' +
+textBox.textContent = 'Hei, ' + `${name}` + '! Muinaiset tietäjälahkot ovat sodassa! Vanhat lahkot, joiden tavoite on ilmastonmuutos, ' +
     'ovat kaavailleet suunnitelman tuodakseen lopun konfliktille: Suur-Velho Kaik-Oo-Koolle on' +
     ' annettu tehtäväksi kerätä kaikki adakiittikivet maailmasta voittaakseen velhojen taisto. ';
 
