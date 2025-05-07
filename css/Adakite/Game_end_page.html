@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Adakiitti – Lopputaistelu</title>
-    <link href="lopputaisto.css" rel="stylesheet">
+    <link href="Game_end_page.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -12,16 +12,17 @@
     <div class="d-flex">
 
         <div class="leftpane">
-            <h1>Game stats</h1>
-            <ul style="list-style-type:none;">
-                <li>Pelaajan kerätyt kivet: <p id="pelaajan-kivet">0</p></li>
-                <li>Vastustajan kerätyt kivet: <p id="vastustajan-kivet">0</p></li>
-                <li>Pelaajan pisteet: <p id="pelaajan-pisteet">0</p></li>
-                <li>Vastustajan pisteet: <p id="vastustajan-pisteet">0</p></li>
+            <h1 id="stats">Game stats</h1>
+            <ul style="list-style-type:none;" id="stat_names">
+                <li>Pelaajan Pisteet: <p id="pelaajan-kivet">0</p></li>
+                <li>Vastustajan Pisteet: <p id="vastustajan-kivet">0</p></li>
+                <li>Osuit vastustajaan: <p id="pelaajan-pisteet">0</p></li>
+                <li>Sinuun osuttiin: <p id="vastustajan-pisteet">0</p></li>
             </ul>
         </div>
 
         <div class="middlepane">
+            <img src="https://i.pinimg.com/736x/3a/57/15/3a57155e489de234f932a45efd1d21b8.jpg" alt="end_img">
             <div class="textbox" id="final-battle">
                 <p>Lopputaistelu alkaa! Oletko valmis?</p>
                 <button id="fightbutton">Taistele</button>
@@ -36,6 +37,6 @@
     </div>
 </div>
 
-<script src="lopputaisto.js"></script>
+<script src="Game_end_page.js"></script>
 </body>
 </html>

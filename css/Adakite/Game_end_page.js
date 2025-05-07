@@ -1,12 +1,16 @@
 
-let pelaajanKivet = 10;
-let vastustajanKivet = 8;
-let ilmastopisteet = 5;
+
+const score = parseInt(localStorage.getItem("score")) || 0;
+const evilScore = parseInt(localStorage.getItem("evilScore")) || 0;
+const ilmasto = parseInt(localStorage.getItem("environmentalPoints")) || 0;
+
+let pelaajanKivet = score + ilmasto
+let vastustajanKivet = evilScore
 
 let pelaajanPisteet = 0;
 let vastustajanPisteet = 0;
 
-let pelaajanJaljellaHeitot = pelaajanKivet + ilmastopisteet;
+let pelaajanJaljellaHeitot = pelaajanKivet;
 let vastustajanJaljellaHeitot = vastustajanKivet;
 
 const fightButton = document.getElementById("fightbutton");
@@ -25,28 +29,43 @@ vastustajanPisteetElement.innerText = vastustajanPisteet;
 fightButton.addEventListener("click", () => {
     let heittotulosHTML = "";
 
-    if (pelaajanJaljellaHeitot > 0) {
+if (pelaajanJaljellaHeitot > 0) {
+    const heittojenMaara = Math.min(10, pelaajanJaljellaHeitot);
+    let heittojenSumma = 0;
+    heittotulosHTML = "";
+
+    for (let i = 0; i < heittojenMaara; i++) {
         const heitto = Math.floor(Math.random() * 6) + 1;
         pelaajanPisteet += heitto;
         pelaajanJaljellaHeitot--;
-        heittotulosHTML += `<p>Pelaajan heitto: ${heitto}</p>`;
+        heittojenSumma += heitto;
     }
 
-    if (vastustajanJaljellaHeitot > 0) {
+    heittotulosHTML = `<p>Pisteesi = ${heittojenSumma}</p>`;
+    rollResultsElement.innerHTML = heittotulosHTML;
+}
+
+if (vastustajanJaljellaHeitot > 0) {
+    const heittojenMaara = Math.min(10, vastustajanJaljellaHeitot);
+    let heittojenSumma = 0;
+
+    for (let i = 0; i < heittojenMaara; i++) {
         const heitto = Math.floor(Math.random() * 6) + 1;
         vastustajanPisteet += heitto;
         vastustajanJaljellaHeitot--;
-        heittotulosHTML += `<p>Vastustajan heitto: ${heitto}</p>`;
+        heittojenSumma += heitto;
     }
 
+    heittotulosHTML += `<p>Vastustajan pisteet = ${heittojenSumma}</p>`;
     rollResultsElement.innerHTML = heittotulosHTML;
+}
 
     pelaajanPisteetElement.innerText = pelaajanPisteet;
     vastustajanPisteetElement.innerText = vastustajanPisteet;
     pelaajanKivetElement.innerText = pelaajanKivet;
     vastustajanKivetElement.innerText = vastustajanKivet;
 
-    if (pelaajanJaljellaHeitot === 0 && vastustajanJaljellaHeitot === 0) {
+    if (pelaajanJaljellaHeitot <= 0 && vastustajanJaljellaHeitot <= 0) {
         fightButton.disabled = true;
         naytaLopputulos();
     }
@@ -54,7 +73,7 @@ fightButton.addEventListener("click", () => {
 
 function naytaLopputulos() {
     let lopputeksti = `<h3>Lopputulos:</h3>
-        <p>Pelaajan pisteet: ${pelaajanPisteet}</p>
+        <p>Pisteesi: ${pelaajanPisteet}</p>
         <p>Vastustajan pisteet: ${vastustajanPisteet}</p>`;
 
     if (pelaajanPisteet > vastustajanPisteet) {
