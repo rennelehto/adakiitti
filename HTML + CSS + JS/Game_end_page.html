@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="fi" xmlns:https="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Adakiitti – Lopputaistelu</title>
     <link href="Game_end_page.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="Game_end_page.js" defer></script>
 </head>
 <body>
 
 <div id="game-container">
     <div class="d-flex">
-
-        <div class="leftpane">
-            <h1>Game stats</h1>
-            <ul style="list-style-type:none;">
+        <div class="leftpane"><h1 id="stats"> Game stats </h1>
+            <ul id="stat_names" style="list-style-type:none;">
                 <li>Pelaajan kerätyt kivet: <p id="pelaajan-kivet">0</p></li>
                 <li>Vastustajan kerätyt kivet: <p id="vastustajan-kivet">0</p></li>
                 <li>Pelaajan pisteet: <p id="pelaajan-pisteet">0</p></li>
@@ -22,20 +21,16 @@
         </div>
 
         <div class="middlepane">
+            <img src="https://i.pinimg.com/736x/3a/57/15/3a57155e489de234f932a45efd1d21b8.jpg">
+            </div>
             <div class="textbox" id="final-battle">
                 <p>Lopputaistelu alkaa! Oletko valmis?</p>
                 <button id="fightbutton">Taistele</button>
                 <div id="roll-results"></div>
             </div>
-        </div>
-
         <div class="rightpane">
-            </ul>
-        </div>
 
-    </div>
-</div>
-
-<script src="Game_end_page.js"></script>
+ </div>
+        
 </body>
 </html>
