@@ -1,0 +1,126 @@
+.leftpane {
+    width: 15%;
+    height: 100vh;
+    background-image: url("https://i.pinimg.com/736x/48/6c/c0/486cc02eba94124e6c1cb599fa284b3c.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+#stats {
+    margin-left:20px;
+    text-align: center;
+    font-size: xxx-large;
+}
+#right_title {
+     margin-left:10px;
+     margin-bottom: 0;
+     text-align: center;
+     font-size: xxx-large;
+}
+.rightpane li {
+     margin-left:10px;
+     text-align: match-parent;
+     font-size: large;
+     padding: 5.2px;
+}
+
+#stat_names {
+     margin-left:10px;
+     text-align: center;
+     font-size: xx-large;
+     padding: 10px;
+
+}
+#map-container {
+  position: relative;
+  height: 69vh;
+    width: auto;
+  border: 15px solid burlywood;
+  background-color: #A4CFDD;
+  overflow: hidden;
+}
+
+.rightpane {
+    width: 15%;
+    height: 100vh;
+    background-image: url("https://i.pinimg.com/736x/48/6c/c0/486cc02eba94124e6c1cb599fa284b3c.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+body {
+    margin: 0 !important;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.middlepane {
+    width: 70%;
+    height: 100vh;
+    background-color: #A4CFDD;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    background-size: cover;
+    background-position: bottom center;
+    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
+}
+
+#map {
+    height: 70vh;
+    width: 100%;
+    border: 15px solid burlywood;
+    background-color: #A4CFDD;
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.hidden {
+  display: none;
+}
+img {
+    max-width: 90%;
+    height: min-content;
+    object-fit: contain;
+    margin: auto;
+}
+
+.textbox {
+    min-height: 20rem;
+    width: auto;
+    background: inherit;
+    border: 15px solid burlywood;
+    font-size: 20px;
+    color: white;
+    text-align: justify;
+    box-sizing: border-box;
+}
+
+
+.textbox p {
+    margin:20px;
+}
+
+.textbox h3 {
+    margin:20px;
+}
+
+#test {
+    margin-left:20px;
+}
+
+#fightbutton {
+    margin-left: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
