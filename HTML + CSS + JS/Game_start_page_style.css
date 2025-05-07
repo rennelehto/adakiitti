@@ -30,6 +30,7 @@ h1 {
     justify-content: center;
     text-align: center;
     padding:1rem;
+    text-shadow: 0 0 3px #FF0000, 0 0 5px #ff4d00;
 }
 #Name {
    font-size: 2rem;
@@ -46,8 +47,9 @@ h1 {
     justify-content: center;
     text-align: center;
     padding: 10px 40px;
-    background-color: blanchedalmond;
+    background-color: rgba(255, 235, 205, 0.7);
     width: 20vw;
+    text-shadow: 0 0 3px rgba(255, 77, 0, 0.65), 0 0 5px rgba(202, 202, 202, 0.45);
 }
 .Namebox {
     font-size: 2rem;
@@ -56,4 +58,8 @@ h1 {
     text-align: center;
     padding-top: 20px;
     border-top: 40px;
+}
+
+#body {
+    display: flex;
 }

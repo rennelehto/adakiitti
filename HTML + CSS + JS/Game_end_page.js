@@ -1,12 +1,16 @@
 
-let pelaajanKivet = 10;
-let vastustajanKivet = 8;
-let ilmastopisteet = 5;
+const score = parseInt(localStorage.getItem("score")) || 0;
+const evilScore = parseInt(localStorage.getItem("evilScore")) || 0;
+const ilmasto = parseInt(localStorage.getItem("environmentalPoints")) || 0;
+let pelaajanKivet = score + ilmasto
+
+let vastustajanKivet = evilScore
+let ilmastopisteet = ilmasto;
 
 let pelaajanPisteet = 0;
 let vastustajanPisteet = 0;
 
-let pelaajanJaljellaHeitot = pelaajanKivet + ilmastopisteet;
+let pelaajanJaljellaHeitot = pelaajanKivet;
 let vastustajanJaljellaHeitot = vastustajanKivet;
 
 const fightButton = document.getElementById("fightbutton");
@@ -46,7 +50,7 @@ fightButton.addEventListener("click", () => {
     pelaajanKivetElement.innerText = pelaajanKivet;
     vastustajanKivetElement.innerText = vastustajanKivet;
 
-    if (pelaajanJaljellaHeitot === 0 && vastustajanJaljellaHeitot === 0) {
+    if (pelaajanJaljellaHeitot <= 0 && vastustajanJaljellaHeitot <= 0) {
         fightButton.disabled = true;
         naytaLopputulos();
     }

@@ -64,44 +64,58 @@ body {
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
-    background-size: contain;
-    background-position: center;
-    overflow: hidden;
-    border: burlywood;
+    background-size: cover;
+    background-position: bottom center;
+    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
 }
-.img {
+
+#map {
+    height: 70vh;
     width: 100%;
-  height: 60rem;
-  object-fit: contain;
+    border: 15px solid burlywood;
+    background-color: #A4CFDD;
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
 }
+
+
 .hidden {
   display: none;
 }
+img {
+    max-width: 90%;
+    height: min-content;
+    object-fit: contain;
+    margin: auto;
+}
 
 .textbox {
-    height: 35vh;
-    background-color: burlywood;
-    width: 70vw;
-    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    min-height: 20rem;
+    width: auto;
+    background: inherit;
     border: 15px solid burlywood;
     font-size: 20px;
     color: white;
     text-align: justify;
-    position: relative;
     box-sizing: border-box;
 }
+
 
 .textbox p {
     margin:20px;
 }
+
+.textbox h3 {
+    margin:20px;
+}
+
 #test {
     margin-left:20px;
 }
 
 #fightbutton {
-    margin: 10px;
+    margin-left: 20px;
     padding: 10px 20px;
     font-size: 20px;
     background-color: crimson;

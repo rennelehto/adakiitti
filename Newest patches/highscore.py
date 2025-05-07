@@ -1,14 +1,16 @@
 import logging
-import random
 import mysql.connector
 from flask import Flask, Response, jsonify
 from flask_cors import CORS
 import json
+import random
 
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.logger.setLevel(logging.INFO)
+
+
 @app.route('/highscore/')
 
 def highscores():
@@ -19,7 +21,7 @@ def highscores():
         autocommit=True)
 
     huipputulokset = []
-    sql = f'select peli.nimi, highscore.score from peli, highscore where peli.id = highscore.id order by highscore.score desc, score asc limit 10'
+    sql = f'select peli.nimi, highscore.pisteet from peli, highscore where peli.id = highscore.id order by highscore.pisteet desc, pisteet asc limit 10'
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
@@ -42,7 +44,7 @@ def get_airports():
     yhteys = mysql.connector.connect(
         database='flight_game',
         user='eliell2',
-        password='gr0ups',
+        password='1232',
         autocommit=True
     )
 
@@ -51,13 +53,7 @@ def get_airports():
     kursori = yhteys.cursor()
 
     for m in mantereet:
-        sql = f"""
-            SELECT ident, airport.name, municipality, latitude_deg, longitude_deg
-            FROM airport
-            JOIN country ON airport.iso_country = country.iso_country
-            WHERE country.continent = '{m}'
-              AND airport.type = 'large_airport'
-        """
+        sql = f"SELECT ident, airport.name, municipality, latitude_deg, longitude_deg FROM airport JOIN country ON airport.iso_country = country.iso_country WHERE country.continent = '{m}' AND airport.type = 'large_airport'"
         kursori.execute(sql)
         tulos = kursori.fetchall()
         kenttädata = [{
@@ -98,7 +94,6 @@ def get_stone():
         "value": pöö,
         "message": message
     })
-
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)
