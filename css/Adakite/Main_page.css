@@ -1,3 +1,4 @@
+
 .leftpane {
     width: 15%;
     height: 100vh;
@@ -22,7 +23,6 @@
      font-size: large;
      padding: 5.2px;
 }
-
 #stat_names {
      margin-left:10px;
      text-align: center;
@@ -58,15 +58,12 @@ body {
 }
 
 .middlepane {
-    background-image: url("https://i.pinimg.com/736x/3a/57/15/3a57155e489de234f932a45efd1d21b8.jpg");
     width: 70%;
     height: auto;
     background-color: #A4CFDD;
     display: flex;
-    justify-content: flex-end;
     flex-direction: column;
     background-size: cover;
-    background-position: bottom center;
 }
 
 #map {
@@ -101,18 +98,17 @@ body {
 }
 
 .textbox {
-    height: 35vh;
+    height: 25.5vh;
     background-color: burlywood;
     width: auto;
     background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapers.com%2Fimages%2Fhd%2Fblack-texture-pictures-0uiakau8ctnnq8ke.jpg&f=1&nofb=1&ipt=e66128c0e75fe03cd7dc6aa5c85d321d011c2db56ae91b79aa58bea497ba92cc");
     background-size: 100% 100%;
     background-repeat: no-repeat;
     border: 15px solid burlywood;
-    font-size: 20px;
+    font-size: 30px;
     color: white;
     text-align: justify;
     position: relative;
-    box-sizing: border-box;
 }
 
 .textbox p {
@@ -153,15 +149,4 @@ body {
     align-content: center;
     right: 54% ;
     font-size: medium;
-}
-
-#fightbutton {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 20px;
-    background-color: crimson;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
 }
