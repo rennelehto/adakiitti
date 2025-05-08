@@ -107,4 +107,3 @@ function naytaLopputulos() {
     removeButtons("fightbutton")
     createNewButtons()
 }
-
