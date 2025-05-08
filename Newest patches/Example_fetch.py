@@ -19,7 +19,7 @@ def highscores():
         autocommit=True)
 
     huipputulokset = []
-    sql = f'select peli.nimi, highscore.score from peli, highscore where peli.id = highscore.id order by highscore.score desc, score asc limit 10'
+    sql = f'select peli.nimi, highscore.pisteet from peli, highscore where peli.id = highscore.id order by highscore.pisteet desc, pisteet asc limit 10'
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()

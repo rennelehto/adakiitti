@@ -124,3 +124,19 @@ img {
     border-radius: 10px;
     cursor: pointer;
 }
+#loppunappi {
+    display: flex;
+}
+#hsbutton {
+    font-size: 2rem;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    bottom: 20%;
+    height: 60px;
+    width: auto;
+    align-content: center;
+    right: 20% ;
+
+}
