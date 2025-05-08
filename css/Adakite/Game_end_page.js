@@ -1,5 +1,3 @@
-
-
 const score = parseInt(localStorage.getItem("score")) || 0;
 const evilScore = parseInt(localStorage.getItem("evilScore")) || 0;
 const ilmasto = parseInt(localStorage.getItem("environmentalPoints")) || 0;
@@ -71,6 +69,27 @@ if (vastustajanJaljellaHeitot > 0) {
     }
 });
 
+function removeButtons(...ids) {
+  ids.forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.remove();
+  });
+}
+
+function createNewButtons() {
+  const container = document.getElementById('loppunappi');
+
+  const button2 = document.createElement('button');
+  button2.textContent = 'Huipputulokset';
+  button2.id = 'hsbutton';
+  button2.addEventListener('click', function() {
+    location.href="highscore.html"
+  });
+
+  container.appendChild(button2);
+}
+
+
 function naytaLopputulos() {
     let lopputeksti = `<h3>Lopputulos:</h3>
         <p>Pisteesi: ${pelaajanPisteet}</p>
@@ -85,4 +104,6 @@ function naytaLopputulos() {
     }
 
     rollResultsElement.innerHTML = lopputeksti;
+    removeButtons("fightbutton")
+    createNewButtons()
 }
