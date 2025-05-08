@@ -13,7 +13,7 @@ const map = L.map('map', {
   center: [40, 0],
   zoom: 2,
   minZoom: 2,
-  maxZoom: 8,
+  maxZoom: 20,
   zoomControl: true,
   scrollWheelZoom: true,
   doubleClickZoom: false,
@@ -28,7 +28,7 @@ const map = L.map('map', {
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 2,
-  maxZoom: 8,
+  maxZoom: 20,
   noWrap: true,               // << Estää kartan looppaamista
 }).addTo(map);
 
@@ -54,10 +54,13 @@ function add_to_map(x, y, name) {
     if (!isChoosingDestination) return;
 
     isChoosingDestination = false;
+    map.flyTo([x, y], 4);
 
     const destination = {lat: x, long: y, Name: name};
 
     add_player_to_map(x, y, name);
+
+
 
     textBox.textContent = `Olet saapunut kentälle: ${name}`;
 
@@ -406,6 +409,7 @@ function createContinueButton(callback) {
   continueBtn.id = 'next1';
 
   continueBtn.addEventListener('click', () => {
+      map.flyTo([20, 0], 2);
     refreshAirports();
     continueBtn.remove();
     textBox.textContent = 'Tässä seuraavat kentät joille voit matkustaa! Mitä seuraavaksi?';
