@@ -15,6 +15,9 @@ PRIMARY KEY (nro),
 FOREIGN KEY (ID) REFERENCES peli (ID));
 
 INSERT INTO peli (nimi) values ("Mörkö2");
+
 INSERT INTO peli (nimi) values ("Haisuli");
+
 INSERT INTO highscore (id, pisteet) VALUES ((SELECT id FROM peli WHERE nimi = "Mörkö2"), 666);
+
 INSERT INTO highscore (id, pisteet) VALUES ((SELECT id FROM peli WHERE nimi = "Haisuli"), 616);
